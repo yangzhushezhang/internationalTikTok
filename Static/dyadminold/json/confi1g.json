@@ -1,0 +1,26 @@
+{
+	"global_requestAddress": "",
+	"global_requestloginAddress": "/index/Login/login",
+
+	"global_requestDywshUrl": "/index/Dyurl/get_list_for_dy_url",
+	"global_requestDyAddUrl": "/index/Dyurl/add_Dy_url",
+	"global_requestDyDelUrl": "/index/Dyurl/del_dyUrl",
+	"global_requestDyChangeUrl": "/index/Dyurl/change_status_for_Dy_for_admin",
+
+
+
+	"global_requestDyGetVersionUrl": "/index/Login/script_update",
+
+
+	"global_requestDyGetSjlbUrl": "/index/Dyphone/get_users",
+	"global_requestDychannelSjlbUrl": "/index/Dyphone/change__permissions_for_message",
+
+
+
+	"global_requestDyGetfsglbUrl": "/index/Dyfollow/get_follows",
+	"global_requestDydelete_follows": "/index/Dyfollow/delete_follows",
+
+	"global_requestDyGetaddchat": "/index/Dycontact/add_chat",
+	"global_requestDygetcontact": "/index/Dycontact/get_contact",
+	"global_requestDycontactdel": "/index/Dycontact/contact_del"
+}

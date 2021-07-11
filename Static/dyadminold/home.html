@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>首页--管理后台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all" />
+    <script src="layui/layui.all.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/public.css" media="all" />
+    <script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+    <script src="js/jquery.cookie.min.js"></script>
+
+    <script src="js/ipConfig.js"></script>
+
+    <script type="text/javascript" src="./plugins/layui/layui.all.js"></script>
+<!--    <script type="text/javascript" src="./plugins/layui-extend/echarts.js"></script>-->
+
+<!--    引入组件-->
+    <script src="js/echarts.js"></script>
+
+<!--    引入组件主题-->
+    <script src="js/echartthemes.js"></script>
+
+
+<!--    <script type="text/javascript">-->
+<!--        var mybck= $.cookie('tokenMyb');-->
+<!--        //alert(document.cookie);-->
+<!--        // console.log(mybck)-->
+<!--        if(mybck == "" || mybck == null){-->
+<!--            window.location.href="login.html";-->
+
+<!--        }else{-->
+<!--            //console.log("进来");-->
+<!--            window.location.href="home.html";-->
+<!--        }-->
+
+
+<!--    </script>-->
+
+    <style>
+
+        .titleFontClass{
+
+
+
+
+        }
+
+        .citeNumClass{
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 17px;
+        }
+
+    </style>
+
+
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote layui-bg-green">
+    <div id="nowTime"></div>
+</blockquote>
+<div class="layui-row layui-col-space10 panel_box">
+<!--    xs（超小屏幕，如手机）、sm（小屏幕，如平板）、md（桌面中等屏幕）、lg（桌面大型屏幕）-->
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-green">
+                <i class="layui-anim seraph layui-icon layui-icon-user"></i>
+            </div>
+            <div class="panel_word">
+                <span>总粉丝数</span>
+                <cite id="link_not_use" class="citeNumClass" style="color: #1e9fff">0</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-orange">
+                <i class="layui-anim seraph layui-icon layui-icon-star"></i>
+            </div>
+            <div class="panel_word">
+                <span>实际操作粉丝数</span>
+                <cite id="link_use" class="citeNumClass" style="color: #009688">0</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-red">
+                <i class="layui-anim seraph layui-icon layui-icon-chat"></i>
+            </div>
+            <div class="panel_word">
+                <span>私聊数据</span>
+                <cite id="link_already_use" class="citeNumClass" style="color: red">0</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-black">
+                <i class="layui-anim seraph layui-icon layui-icon-diamond"></i>
+            </div>
+            <div class="panel_word">
+                <span>关注百分比</span>
+                <cite id="gzbfb" class="citeNumClass" style="color: red"></cite>
+            </div>
+        </a>
+    </div>
+<!--    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">-->
+<!--        <a href="javascript:;">-->
+<!--            <div class="panel_icon layui-bg-orange">-->
+<!--                <i class="layui-anim seraph icon-icon10" data-icon="icon-icon10"></i>-->
+<!--            </div>-->
+<!--            <div class="panel_word">-->
+<!--                <span>设备未运行</span>-->
+<!--                <cite id="dev_not_use" class="citeNumClass" style="color: #1e9fff">0</cite>-->
+<!--            </div>-->
+<!--        </a>-->
+<!--    </div>-->
+<!--    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">-->
+<!--        <a href="javascript:;">-->
+<!--            <div class="panel_icon layui-bg-cyan">-->
+<!--                <i class="layui-anim layui-icon" data-icon="&#xe857;">&#xe857;</i>-->
+<!--            </div>-->
+<!--            <div class="panel_word">-->
+<!--                <span>设备运行中</span>-->
+<!--                <cite id="dev_use" class="citeNumClass" style="color: #009688">0</cite>-->
+<!--            </div>-->
+<!--        </a>-->
+<!--    </div>-->
+<!--    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">-->
+<!--        <a href="javascript:;">-->
+<!--            <div class="panel_icon layui-bg-blue">-->
+<!--                <i class="layui-anim seraph icon-clock"></i>-->
+<!--            </div>-->
+<!--            <div class="panel_word">-->
+<!--                <span>设备已禁用</span>-->
+<!--&lt;!&ndash;                <span class="loginTime">审查人数</span>&ndash;&gt;-->
+<!--                <cite id="dev_dis_use" class="citeNumClass" style="color: red">0</cite>-->
+<!--            </div>-->
+<!--        </a>-->
+<!--    </div>-->
+
+
+
+
+
+
+</div>
+
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="speedChartMain" style="height: 600px;margin-top: 30px"></div>
+
+<!--<script type="text/javascript" src="layui/layui.js"></script>-->
+
+<script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+<script src="js/jquery.cookie.min.js"></script>
+<script>
+
+    var mybck= $.cookie('tokenMyb');
+    //alert(document.cookie);
+    // console.log(mybck)
+    if(mybck == "" || mybck == null){
+
+        // layer.alert('当前会话已过期，请重新登录！', {
+        //     skin: 'layui-layer-molv',//样式类名
+        //     shadeClose: true,
+        //     shade: 0.8
+        //     ,closeBtn: 0
+        // }, function(){
+        //
+        //     window.top.location.href="login.html";
+        //
+        // });
+
+        window.top.location.href="login.html";
+
+    }else{
+        //console.log("进来");
+        // window.location.href="home.html";
+
+        //获取系统时间
+        var newDate = '';
+        getLangDate();
+        //值小于10时，在前面补0
+        function dateFilter(date){
+            if(date < 10){return "0"+date;}
+            return date;
+        }
+        function getLangDate(){
+            var dateObj = new Date(); //表示当前系统时间的Date对象
+            var year = dateObj.getFullYear(); //当前系统时间的完整年份值
+            var month = dateObj.getMonth()+1; //当前系统时间的月份值
+            var date = dateObj.getDate(); //当前系统时间的月份中的日
+            var day = dateObj.getDay(); //当前系统时间中的星期值
+            var weeks = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+            var week = weeks[day]; //根据星期值，从数组中获取对应的星期字符串
+            var hour = dateObj.getHours(); //当前系统时间的小时值
+            var minute = dateObj.getMinutes(); //当前系统时间的分钟值
+            var second = dateObj.getSeconds(); //当前系统时间的秒钟值
+            var timeValue = "" +((hour >= 12) ? (hour >= 18) ? "晚上" : "下午" : "上午" ); //当前时间属于上午、晚上还是下午
+            newDate = dateFilter(year)+"年"+dateFilter(month)+"月"+dateFilter(date)+"日 "+" "+dateFilter(hour)+":"+dateFilter(minute)+":"+dateFilter(second);
+            document.getElementById("nowTime").innerHTML = "亲爱的admin，"+timeValue+"好！ 欢迎使用管理后台。当前时间为： "+newDate+"　"+week;
+            setTimeout("getLangDate()",1000);
+        }
+
+
+
+        //config的设置是全局的
+        layui.config({
+            base: './plugins/layui/lay/modules/' //假设这是你存放拓展模块的根目录
+        }).extend({ //设定模块别名
+            count: 'count' //
+        });
+
+        layui.use(['form','element','layer','jquery','count'],function(){
+            var form = layui.form,
+                layer = parent.layer === undefined ? layui.layer : top.layer,
+                count = layui.count,
+                element = layui.element;
+
+
+            $ = layui.jquery;
+            //上次登录时间【此处应该从接口获取，实际使用中请自行更换】
+            $(".loginTime").html(newDate.split("日")[0]+"日</br>"+newDate.split("日")[1]);
+            //icon动画
+            $(".panel a").hover(function(){
+                $(this).find(".layui-anim").addClass("layui-anim-scaleSpring");
+            },function(){
+                $(this).find(".layui-anim").removeClass("layui-anim-scaleSpring");
+            })
+            $(".panel a").click(function(){
+                parent.addTab($(this));
+            })
+
+
+
+            var czrsCount = 0
+            var sjrsCount = 0
+            var slsjCount = 0
+            var bfbcount = 0
+
+
+            //操作人数
+            $.ajax({
+                url : js_global_requestDygettotalall,
+                type: "get",
+                dataType: "json",//声明返回类型是json数据
+                success: function (resultData) {
+
+                    // console.log("打印返回值",resultData.count);
+
+                    if(resultData.code == 200){
+
+                        // $('#link_not_use').text(resultData.count)
+
+                        czrsCount = resultData.result.all_following
+                        sjrsCount = resultData.result.all_real_following
+                        slsjCount = resultData.result.all_sixin
+
+                        //百分比
+                        bfbcount = toPercent(czrsCount/sjrsCount)
+
+
+                        // console.log("数据",toPercent(sjrsCount/czrsCount))
+                        // console.log("bfbcount",bfbcount)
+
+                        count.up("link_not_use", {
+                            time: 4000,
+                            num: parseInt(czrsCount),
+                            // bit: 2,//两位小数点
+                            regulator: 50
+                        })
+
+                        count.up("link_use", {
+                            time: 4000,
+                            num: parseInt(sjrsCount),
+                            // bit: 2,//两位小数点
+                            regulator: 50
+                        })
+
+                        count.up("link_already_use", {
+                            time: 4000,
+                            num: parseInt(slsjCount),
+                            // bit: 2,//两位小数点
+                            regulator: 50
+                        })
+
+                        $('#gzbfb').text(bfbcount);
+                        // count.up("gzbfb", {
+                        //     time: 4000,
+                        //     num: bfbcount,
+                        //     // bit: 2,//两位小数点
+                        //     regulator: 50
+                        // })
+
+
+                    }else{
+
+
+
+                    }
+
+                },
+
+
+            });
+
+
+
+            // //小数点转百分比
+            function toPercent(point){
+            	var str=Number(point*100).toFixed(1);
+            	str+="%";
+            	return str;
+            }
+
+
+
+            // //链接未使用
+            // $.ajax({
+            //     url : js_global_requestDywshUrl+"?status=0",
+            //     type: "get",
+            //     dataType: "json",//声明返回类型是json数据
+            //     success: function (resultData) {
+            //
+            //         // console.log("打印返回值",resultData.count);
+            //
+            //         if(resultData.code == 0){
+            //
+            //             // $('#link_not_use').text(resultData.count)
+            //
+            //
+            //             count.up("link_not_use", {
+            //                 time: 4000,
+            //                 num: resultData.count,
+            //                 // bit: 2,//两位小数点
+            //                 regulator: 50
+            //             })
+            //
+            //
+            //         }else{
+            //
+            //
+            //
+            //         }
+            //
+            //     },
+            //
+            //
+            // });
+            //
+            //
+            // //链接使用中
+            // $.ajax({
+            //     url : js_global_requestDywshUrl+"?status=1",
+            //     type: "get",
+            //     dataType: "json",//声明返回类型是json数据
+            //     success: function (resultData) {
+            //
+            //         // console.log("打印返回值",resultData.count);
+            //
+            //         if(resultData.code == 0){
+            //
+            //             // $('#link_use').text(resultData.count)
+            //
+            //
+            //             count.up("link_use", {
+            //                 time: 4000,
+            //                 num: resultData.count,
+            //                 // bit: 2,//两位小数点
+            //                 regulator: 50
+            //             })
+            //
+            //         }else{
+            //
+            //
+            //
+            //         }
+            //
+            //     },
+            //
+            //
+            // });
+            //
+            //
+            //
+            // //链接已使用
+            // $.ajax({
+            //     url : js_global_requestDywshUrl+"?status=2",
+            //     type: "get",
+            //     dataType: "json",//声明返回类型是json数据
+            //     success: function (resultData) {
+            //
+            //         // console.log("打印返回值",resultData.count);
+            //
+            //         if(resultData.code == 0){
+            //
+            //             $('#link_already_use').text(resultData.count)
+            //
+            //
+            //             count.up("link_already_use", {
+            //                 time: 4000,
+            //                 num: resultData.count,
+            //                 // bit: 2,//两位小数点
+            //                 regulator: 50
+            //             })
+            //
+            //         }else{
+            //
+            //
+            //
+            //         }
+            //
+            //     },
+            //
+            //
+            // });
+
+
+            // //设备未运行
+            // $.ajax({
+            //     url : js_global_requestDyGetSjlbUrl+"?status=0",
+            //     type: "get",
+            //     dataType: "json",//声明返回类型是json数据
+            //     success: function (resultData) {
+            //
+            //         // console.log("打印返回值",resultData.count);
+            //
+            //         if(resultData.code == 0){
+            //
+            //             // $('#dev_not_use').text(resultData.count)
+            //
+            //
+            //             count.up("dev_not_use", {
+            //                 time: 4000,
+            //                 num: resultData.count,
+            //                 // bit: 2,//两位小数点
+            //                 regulator: 50
+            //             })
+            //
+            //         }else{
+            //
+            //
+            //
+            //         }
+            //
+            //     },
+            //
+            //
+            // });
+            //
+            //
+            // //设备运行中
+            // $.ajax({
+            //     url : js_global_requestDyGetSjlbUrl+"?status=1",
+            //     type: "get",
+            //     dataType: "json",//声明返回类型是json数据
+            //     success: function (resultData) {
+            //
+            //         // console.log("打印返回值",resultData.count);
+            //
+            //         if(resultData.code == 0){
+            //
+            //             // $('#dev_use').text(resultData.count)
+            //
+            //
+            //             count.up("dev_use", {
+            //                 time: 4000,
+            //                 num: resultData.count,
+            //                 // bit: 2,//两位小数点
+            //                 regulator: 50
+            //             })
+            //
+            //         }else{
+            //
+            //
+            //
+            //         }
+            //
+            //     },
+            //
+            //
+            // });
+            //
+            //
+            // //设备已禁用
+            // $.ajax({
+            //     url : js_global_requestDyGetSjlbUrl+"?status=2",
+            //     type: "get",
+            //     dataType: "json",//声明返回类型是json数据
+            //     success: function (resultData) {
+            //
+            //         // console.log("打印返回值",resultData.count);
+            //
+            //         if(resultData.code == 0){
+            //
+            //             // $('#dev_dis_use').text(resultData.count)
+            //
+            //
+            //             count.up("dev_dis_use", {
+            //                 time: 4000,
+            //                 num: resultData.count,
+            //                 // bit: 2,//两位小数点
+            //                 regulator: 50
+            //             })
+            //
+            //         }else{
+            //
+            //
+            //
+            //         }
+            //
+            //     },
+            //
+            //
+            // });
+
+
+
+
+            //获取粉丝列表
+            var tempAllCount = 0
+            var tempnickname = ''
+            var tempwdgz = ''
+            var tempfss = ''
+            var tempxzgz = ''
+            var tempxzfss = ''
+
+
+            var tempnicknameArry=[];
+            var tempwdgzArry=[];
+            var tempfssArry=[];
+            var tempxzgzArry=[];
+            var tempxzfssArry=[];
+
+
+
+
+
+            //
+
+
+            //昨天的时间
+            var todayDate = new Date();
+            // var onedayDate = 1000 * 60 * 60 * 24;
+            // todayDate.setTime(todayDate.getTime()-onedayDate);
+
+            var day = todayDate.getDay(); //当前系统时间中的星期值
+            var weeks = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+            var week = weeks[day]; //根据星期值，从数组中获取对应的星期字符串
+
+
+            var yesDayDate = formatDateTime(todayDate);
+
+
+
+            // console.log("昨天日期是",formatDateTime(todayDate))
+
+
+
+
+            $.ajax({
+                url : js_global_requestDyGetfsglbUrl+"?date="+yesDayDate+"&nickname=&limit=3000&page=1",
+                type: "get",
+                dataType: "json",//声明返回类型是json数据
+                success: function (resultData) {
+
+                    // console.log("打印返回值",resultData.count);
+
+                    var tempresultData = resultData.data
+
+                    if(resultData.code == 0){
+
+
+                        tempAllCount = resultData.count
+
+
+                        for (var i=0;i<tempAllCount;i++){
+
+                            tempnickname = tempresultData[i].nickname
+
+                            tempwdgz = tempresultData[i].following
+                            tempfss = tempresultData[i].followers
+                            tempxzgz = tempresultData[i].add_following
+                            tempxzfss = tempresultData[i].add_followers
+
+
+
+
+
+
+                            // tempnickname = res.data[i].nickname
+
+
+
+
+                            tempnicknameArry.push(tempnickname)
+
+                            tempwdgzArry.push(tempwdgz)
+                            tempfssArry.push(tempfss)
+                            tempxzgzArry.push(tempxzgz)
+                            tempxzfssArry.push(tempxzfss)
+
+
+
+                        }
+                        const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
+                        // 之前option中legend和 XAxis的data,series 为空，所以现在将数据填充进去
+                        myChart.setOption(
+                            {    //加载数据图表
+                            legend: {
+                                icon:'circle',//这里是导航条的图标显示
+                                data:['我的关注','粉丝数','新增关注','新增粉丝'],
+                                padding: [
+                                    0,  // 上
+                                    200, // 右
+                                    35,  // 下
+                                    200, // 左
+                                ],
+                                y:'32px'
+                            },
+                            title: {
+                                // text: '显示的是昨日各设备粉丝数据!'+"日期: "+yesDayDate,
+                                text: '显示的是当日各设备粉丝数据!'+"日期: "+yesDayDate+"   "+ week,
+                                x:'center'
+                            },
+                            xAxis: {
+                                data: tempnicknameArry
+                            }
+                            ,
+                            series: [
+                                {
+                                    // 根据名字对应到相应的系列
+                                    name: '我的关注',
+                                    type: 'line',
+                                    data: tempwdgzArry,
+                                    markPoint : {
+                                        label:{color:"#fff"},
+                                        data : [{type : 'max', name: '最大值'},{type : 'min', name: '最小值'}]
+                                    },
+                                    markLine : {
+                                        data : [{type : 'average', name: '平均值'}]
+                                    },
+                                    symbolSize: 1,
+                                    symbol: 'circle',
+                                    smooth: true,
+                                    yAxisIndex: 0,
+                                    showSymbol: false,
+                                    lineStyle: {
+                                        width: 8,
+                                        color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                                            offset: 0,
+                                            color: '#9effff'
+                                        },
+                                            {
+                                                offset: 1,
+                                                color: '#9E87FF'
+                                            }
+                                        ]),
+                                        shadowColor: 'rgba(158,135,255, 0.3)',
+                                        shadowBlur: 10,
+                                        shadowOffsetY: 20
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            borderWidth: 15,
+                                            color: colorList[0],
+                                            borderColor: colorList[0]
+                                        }
+                                    }
+                                },
+                                {
+                                    name: '粉丝数',
+                                    type: 'line',
+                                    data: tempfssArry,
+                                    markPoint : {
+                                        label:{color:"#fff"},
+                                        data : [{type : 'max', name: '最大值'},{type : 'min', name: '最小值'}]
+                                    },
+                                    markLine : {
+                                        data : [{type : 'average', name: '平均值'}]
+                                    },
+                                    symbolSize: 1,
+                                    symbol: 'circle',
+                                    smooth: true,
+                                    yAxisIndex: 0,
+                                    showSymbol: false,
+                                    lineStyle: {
+                                        width: 8,
+                                        color: new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+                                            offset: 0,
+                                            color: '#73DD39'
+                                        },
+                                            {
+                                                offset: 1,
+                                                color: '#73DDFF'
+                                            }
+                                        ]),
+                                        shadowColor: 'rgba(115,221,255, 0.3)',
+                                        shadowBlur: 10,
+                                        shadowOffsetY: 20
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            borderWidth: 15,
+                                            color: colorList[1],
+                                            borderColor: colorList[1]
+                                        }
+                                    }
+                                },
+
+                                {
+                                    name: '新增关注',
+                                    type: 'line',
+                                    data: tempxzgzArry,
+                                    markPoint : {
+                                        label:{color:"#fff"},
+                                        data : [{type : 'max', name: '最大值'},{type : 'min', name: '最小值'}]
+                                    },
+                                    markLine : {
+                                        data : [{type : 'average', name: '平均值'}]
+                                    },
+                                    symbolSize: 1,
+                                    symbol: 'circle',
+                                    smooth: true,
+                                    yAxisIndex: 0,
+                                    showSymbol: false,
+                                    lineStyle: {
+                                        width: 8,
+                                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                            offset: 0,
+                                            color: '#fe9a'
+                                        },
+                                            {
+                                                offset: 1,
+                                                color: '#fe9a8b'
+                                            }
+                                        ]),
+                                        shadowColor: 'rgba(254,154,139, 0.3)',
+                                        shadowBlur: 10,
+                                        shadowOffsetY: 20
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            borderWidth: 15,
+                                            color: colorList[2],
+                                            borderColor: colorList[2]
+                                        }
+                                    }
+                                },
+                                {
+                                    // 根据名字对应到相应的系列
+                                    name: '新增粉丝',
+                                    type: 'line',
+                                    data: tempxzfssArry,
+                                    markPoint : {
+                                        label:{color:"#fff"},
+                                        data : [{type : 'max', name: '最大值'},{type : 'min', name: '最小值'}]
+                                    },
+                                    markLine : {
+                                        data : [{type : 'average', name: '平均值'}]
+                                    },
+                                    symbolSize: 1,
+                                    symbol: 'circle',
+                                    smooth: true,
+                                    yAxisIndex: 0,
+                                    showSymbol: false,
+                                    lineStyle: {
+                                        width: 8,
+                                        color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{
+                                            offset: 0,
+                                            color: '#ef0a75'
+                                        },
+                                            {
+                                                offset: 1,
+                                                color: '#fe8bc1'
+                                            }
+                                        ]),
+                                        shadowColor: 'rgba(253,121,128, 0.3)',
+                                        shadowBlur: 10,
+                                        shadowOffsetY: 20
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            borderWidth: 15,
+                                            color: colorList[3],
+                                            borderColor: colorList[3]
+                                        }
+                                    }
+                                }
+
+                            //     {
+                            //     // 根据名字对应到相应的系列
+                            //     name: '我的关注',
+                            //     type:'line',
+                            //     data: tempwdgzArry
+                            // },
+                            //     {
+                            //     // 根据名字对应到相应的系列
+                            //     name: '粉丝数',
+                            //     type:'line',
+                            //     data: tempfssArry,
+                            //     markPoint : {
+                            //         data : [{type : 'max', name: '最大值'},{type : 'min', name: '最小值'}]
+                            //     },
+                            //     markLine : {
+                            //         data : [{type : 'average', name: '平均值'}]
+                            //     }
+                            // },
+                            //
+                            //     {
+                            //     // 根据名字对应到相应的系列
+                            //     name: '新增关注',
+                            //     type:'line',
+                            //     data: tempxzgzArry,
+                            //     markPoint : {
+                            //         data : [{type : 'max', name: '最大值'},{type : 'min', name: '最小值'}]
+                            //     },
+                            //     markLine : {
+                            //         data : [{type : 'average', name: '平均值'}]
+                            //     }
+                            // },
+                            //     {
+                            //     // 根据名字对应到相应的系列
+                            //     name: '新增粉丝',
+                            //     type:'line',
+                            //     data: tempxzfssArry
+                            // }
+                                ]
+                        });
+
+
+
+                    }else{
+
+
+
+                    }
+
+                },
+
+
+            });
+
+
+
+            // getTopAllData()
+
+
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('speedChartMain'),'macarons');
+            option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:[]
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                // toolbox: {
+                //     feature: {
+                //         saveAsImage: {}
+                //     }
+                // },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: []
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+
+
+            //时间戳转日期时间型工具类
+            function formatDateTime(inputTime) {
+                var date = new Date(inputTime);
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                var d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                var h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                var minute = date.getMinutes();
+                var second = date.getSeconds();
+                minute = minute < 10 ? ('0' + minute) : minute;
+                second = second < 10 ? ('0' + second) : second;
+                // return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+
+                return y + '-' + m + '-' + d;
+            }
+
+
+
+
+            // //外部图标
+            // $.get(iconUrl,function(data){
+            //     $(".outIcons span").text(data.split(".icon-").length-1);
+            // })
+
+        })
+
+    }
+
+
+</script>
+
+</body>
+</html>

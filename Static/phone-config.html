@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        xblock {
+            display: block;
+            margin-bottom: 10px;
+            padding: 5px;
+            line-height: 22px;
+            border-radius: 0px 2px 2px 0px;
+            background-color: rgb(242, 242, 242);
+        }
+    </style>
+</head>
+
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <div class="x-body">
+        <div class="layui-row">
+            <form class="layui-form layui-col-md12 x-so">
+                <!--                    <label for="start"></label><input class="layui-input" placeholder="开始日" name="start" id="start" lay-key="1">-->
+                <!--                    <label for="end"></label><input class="layui-input" placeholder="截止日" name="end" id="end" lay-key="2">-->
+                <div class="layui-input-inline">
+                    <label>
+                        <select name="contrller">
+                            <option>运行状态</option>
+                            <option>正在运行</option>
+                            <option>未运行</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="layui-input-inline">
+                    <label>
+                        <select name="contrller2">
+                            <option>手机型号选择</option>
+                            <option>1加手机</option>
+                            <option>华为荣耀</option>
+                            <option>华为P9</option>
+                            <option>雷电模拟器</option>
+                        </select>
+                    </label>
+                </div>
+                <label>
+                    <input type="text" name="username" placeholder="输入手机ID" autocomplete="off" class="layui-input">
+                </label>
+                <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon"></i></button>
+            </form>
+        </div>
+
+
+        <xblock>
+            <button type="button" class="layui-btn layui-btn-warm" id="ConfigAll">
+                <i class="layui-icon layui-icon-set-fill"></i>
+                批量配置
+            </button>
+            <button type="button" class="layui-btn " id="impowerAll">
+                <i class="layui-icon layui-icon-key"></i>
+                批量授权
+            </button>
+            <button type="button" class="layui-btn layui-btn-normal" id="runAll">
+                <i class="layui-icon layui-icon-triangle-r"></i>
+                批量开始
+            </button>
+            <button type="button" class="layui-btn layui-btn-danger" id="stopAll">
+                <i class="layui-icon layui-icon-pause"></i>
+                批量停止
+            </button>
+            <button type="button" class="layui-btn layui-btn-green" id="get_follow">
+                <i class="layui-icon layui-icon-pause"></i>
+                获取粉量
+            </button>
+        </xblock>
+
+
+        <table id="demo" lay-filter="test"></table>
+
+        <script type="text/html" id="barDemo">
+
+            {{# if(d.status === 0 ){ }}
+            <a class="layui-btn layui-btn-primary layui-btn-mini layui-bg-red " lay-event="run1">停止</a>
+            {{# } }}
+            {{# if(d.status === 1 ){ }}
+            <a class="layui-btn layui-btn-primary layui-btn-mini layui-bg-black layui-btn-disabled"
+               lay-event="run2">离线</a>
+            {{# } }}
+            {{# if(d.status === 2 ){ }}
+            <a class="layui-btn layui-btn-primary layui-btn-mini layui-bg-blue " lay-event="run">启动</a>
+            {{# } }}
+
+            {{# if(d.status === 3 ){ }}
+            <a class="layui-btn layui-btn-primary layui-btn-mini layui-bg-blue " lay-event="run">正在运行</a>
+            {{# } }}
+
+
+            <a class="layui-btn layui-btn-mini " lay-event="edit">设置</a>
+            <a class="layui-btn layui-bg-cyan layui-btn-mini" lay-event="impower">授权</a>
+            <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+
+        </script>
+
+
+    </div>
+    <!-- 选择角色的按钮 -->
+    <div class="layui-row" id="popSearchRoleTest" style="display:none;">
+        <div class="layui-col-md11">
+            <form class="layui-form" lay-filter="formTestFilter2121">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="nickname" class="layui-input" style=" width: 300px;"
+                               readonly="readonly">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">百度AK：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="api_key" class="layui-input" style=" width: 300px;">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">百度SK：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="secret_key" class="layui-input" style=" width: 300px;">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关注任务：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="attention_num" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">私聊间隔：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="sendMessage_time" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <!--                        <button type="button" class="layui-btn layui-btn-normal" lay-filter="formDemo">提交</button>-->
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="layui-row" id="popSearchRoleTest2" style="display:none;">
+        <div class="layui-col-md11">
+            <form class="layui-form" lay-filter="formTestFilter2121">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">百度AK：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="api_key" class="layui-input" style=" width: 300px;">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">百度SK：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="secret_key" class="layui-input" style=" width: 300px;">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关注任务：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="attention_num" class="layui-input" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">私聊间隔：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="sendMessage_time" class="layui-input" value="3">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <!--                        <button type="button" class="layui-btn layui-btn-normal" lay-filter="formDemo">提交</button>-->
+                        <button class="layui-btn" lay-submit lay-filter="formDemo2">立即提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+
+    /*用户-停用*/
+    function member_stop(obj, id) {
+        layer.confirm('确认要停用吗？', function (index) {
+
+            if ($(obj).attr('title') == '启用') {
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title', '停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!', {icon: 5, time: 1000});
+
+            } else {
+                $(obj).attr('title', '启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!', {icon: 5, time: 1000});
+            }
+
+        });
+    }
+
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            //发异步删除数据
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!', {icon: 1, time: 1000});
+        });
+    }
+
+
+    function delAll(argument) {
+        var data = tableCheck.getData();
+        layer.confirm('确认要删除吗？' + data, function (index) {
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+    }
+
+
+    layui.use(['table', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , height: 'full-20'
+            , skin: 'line '
+            , url: '/get_users' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {checkbox: true, fixed: true}
+                , {field: 'id', title: 'ID', width: 80, sort: true, align: 'center'}
+                , {field: 'nickname', title: '手机用户名', width: 120, align: 'center', sort: true}
+                , {field: 'type', title: '手机型号', width: 120, sort: true, align: 'center'}
+                , {field: 'api_key', title: '百度AK', width: 280, align: 'center'}
+                , {field: 'secret_key', title: '百度SK', width: 280, align: 'center'}
+                , {field: 'attention_num', title: '关注任务', width: 110, sort: true, align: 'center'}
+                , {field: 'sendMessage_time', title: '私聊间隔', width: 110, sort: true, align: 'center'}
+
+
+                , {
+                    field: 'impower', title: '是否授权', width: 80, align: 'center', templet: function (d) {
+                        if (d.impower == 0) {
+                            return '<a class="layui-btn-sm layui-bg-red" >未授权</a>'
+                        } else {
+                            return '<a class=" layui-btn-sm layui-bg-green" >已授权</a>'
+
+                        }
+
+                    }
+                }
+                , {
+                    field: 'created_at', title: '创建时间', width: 150, sort: true, align: 'center',
+                    templet: function (d) {
+                        return layui.util.toDateString(d.time * 1000, "yyyy-MM-dd HH:mm:ss");
+                    }
+
+                }
+                , {
+                    field: 'right',
+                    title: '操作',
+                    width: 220,
+                    toolbar: "#barDemo",
+                    align: 'center',
+                    templet: function f(d) {
+                        // return '<a class="layui-btn layui-btn-primary layui-btn-mini layui-bg-blue " lay-event="run">运行</a>';
+
+                    }
+                }
+            ]]
+
+        });
+
+        //监听表格复选框选择
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'run') {
+                //开始
+
+                if (data.impower==0){
+                    layer.alert("设备请先授权!");
+                    return false;
+                }
+
+
+                if (data.api_key== null || data.secret_key==null){
+                    layer.alert("请先配置百度账号!!");
+                    return false;
+                }
+
+
+
+
+                $.get('/run_one?id=' + data.id + "&status=" + data.status, {}, function (res) {
+                    var v = JSON.parse(res);
+                    if (v.code == 1) {
+                        layer.alert("脚本启动成功");
+
+                        setTimeout(function () {
+                            location.replace(location.href);
+                        }, 1000)
+                        return true;
+                    } else if (v.code == 2) {
+                        layer.alert("脚本停止成功");
+                        setTimeout(function () {
+                            location.replace(location.href);
+                        }, 1000);
+                        return true;
+
+                    } else {
+                        layer.alert("操作失败");
+                        return true;
+                    }
+
+
+                });
+
+
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                    $.get('/del?id=' + data.id, {}, function (res) {
+                        var v = JSON.parse(res);
+                        if (v.code == 1) {
+                            layer.alert("删除成功!");
+                            setTimeout(function () {
+                                location.replace(location.href);
+                            }, 1000);
+                        } else {
+                            layer.alert("删除失败!");
+                            setTimeout(function () {
+                                location.replace(location.href);
+                            }, 1000);
+                        }
+                    })
+                });
+
+
+
+
+
+
+
+
+            } else if (obj.event === 'edit') {
+                // layer.alert('编辑行：<br>' + JSON.stringify(data))
+                layer.open({
+                    //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                    type: 1,
+                    title: "修改手机信息",
+                    area: ['50%', '50%'],
+                    content: $("#popSearchRoleTest").html(),
+
+                });
+                form.val('formTestFilter2121', {
+                    'nickname': data.nickname,
+                    'api_key': data.secret_key,
+                    'secret_key': data.secret_key,
+                    'attention_num': data.attention_num,
+                    'sendMessage_time': data.sendMessage_time
+
+                });
+
+                form.on('submit(formDemo)', function (data) {
+                    var data = data.field;
+                    $.ajax({
+                        type: 'POST',
+                        url: '/update_data?nickname=' + data.nickname,//发送请求
+                        data: {
+                            'sendMessage_time': data.sendMessage_time,
+                            'api_key': data.api_key,
+                            'secret_key': data.secret_key,
+                            'attention_num': data.attention_num
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            //layer.alert(result.code);
+
+                            if (result.code == 1) {
+                                layer.msg("修改成功!");
+                                location.replace(location.href);
+                                layer.closeAll(); //疯狂模式，关闭所有层
+
+
+                            } else {
+                                layer.msg("修改失败!");
+                            }
+
+                        }
+                    });
+
+
+                    // layer.msg(data.sendMessage_time);
+                    // layer.msg(JSON.stringify(data.field));
+                    return false;
+                });
+
+            } else if (obj.event === 'impower') {
+
+                if (data.impower == 1) {
+                    layer.alert('该设备已经授权了,不用重复授权!');
+                    layer.close(index);
+                }
+
+                $.get('/get_impower?id=' + data.id, {}, function (res) {
+                    if (res.code == 0) {
+                        layer.msg("设备:" + data.nickname + "授权失败");
+                        layer.close(index);
+                    } else {
+                        layer.msg("设备:" + data.nickname + "授权成功");
+                        setTimeout(function () {
+                            location.replace(location.href);
+                        }, 2000);
+                        layer.close(index);
+                    }
+
+                });
+
+                // 全选反选
+
+
+            }
+
+
+        });
+
+
+        //批量配置
+        $("#ConfigAll").on('click', function () {
+            //获取选中状态
+            var checkStatus = table.checkStatus('demo');
+            //获取选中数量
+            var selectCount = checkStatus.data.length;
+            //  var id=checkStatus.data.id;
+
+            if (selectCount == 0) {
+                layer.msg('批量设置至少要选择一个数据啊!', function () {
+                });
+                return false;
+            }
+            var id = "";
+            for (var i = 0; i < selectCount; i++) {
+                //  console.log(checkStatus.data[i].id)
+                id = id + checkStatus.data[i].id + "@";
+
+            }
+            layer.open({
+                //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                type: 1,
+                title: "修改手机信息",
+                area: ['50%', '50%'],
+                content: $("#popSearchRoleTest2").html(),
+            });
+
+
+            form.on('submit(formDemo2)', function (data) {
+                var data = data.field;
+                layer.alert(id);
+                $.ajax({
+                    type: 'POST',
+                    url: '/update_data_All?id=' + id,//发送请求
+                    data: {
+                        'sendMessage_time': data.sendMessage_time,
+                        'api_key': data.api_key,
+                        'secret_key': data.secret_key,
+                        'attention_num': data.attention_num
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        //layer.alert(result.code);
+                        if (result.code == 1) {
+                            layer.msg("修改成功!");
+                            setTimeout(function () {
+                                location.replace(location.href);
+                            }, 2000)
+                            //layer.closeAll(); //疯狂模式，关闭所有层
+                        } else {
+                            layer.msg("修改失败!");
+                        }
+
+                    }
+                });
+
+                // layer.msg(data.sendMessage_time);
+                // layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+
+
+        })
+
+
+        //批量授权
+        $("#impowerAll").on('click', function () {
+            //获取选中状态
+            var checkStatus = table.checkStatus('demo');
+            //获取选中数量
+            var selectCount = checkStatus.data.length;
+            //  var id=checkStatus.data.id;
+
+            if (selectCount == 0) {
+                layer.msg('批量设置至少要选择一个数据啊!', function () {
+                });
+                return false;
+            }
+            var id = "";
+            for (var i = 0; i < selectCount; i++) {
+                //  console.log(checkStatus.data[i].id)
+                id = id + checkStatus.data[i].id + "@";
+
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/impowerAll?id=' + id,//发送请求
+                data: {
+                    // 'sendMessage_time': data.sendMessage_time,
+                    // 'api_key': data.api_key,
+                    // 'secret_key': data.secret_key,
+                    // 'attention_num': data.attention_num
+                },
+                dataType: 'json',
+                success: function (result) {
+                    //layer.alert(result.code);
+                    if (result.code == 1) {
+                        layer.msg("授权成功!");
+
+                        setTimeout(function () {
+                            //layer.close(); //疯狂模式，关闭所有层
+                            location.replace(location.href);
+
+                        }, 2000);
+
+                    } else {
+                        layer.msg("授权失败!");
+                    }
+
+                }
+            });
+
+
+        })
+
+
+        //#批量启动
+        $("#runAll").on('click', function () {
+            //获取选中状态
+            var checkStatus = table.checkStatus('demo');
+            //获取选中数量
+            var selectCount = checkStatus.data.length;
+            //  var id=checkStatus.data.id;
+
+            if (selectCount == 0) {
+                layer.msg('批量设置至少要选择一个数据啊!', function () {
+                });
+                return false;
+            }
+            var id = "";
+            for (var i = 0; i < selectCount; i++) {
+                //  console.log(checkStatus.data[i].id)
+                if (checkStatus.data[i].impower==1){
+                    id = id + checkStatus.data[i].id + "@";
+                }
+
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/runAll?id=' + id,//发送请求
+                data: {
+                    // 'sendMessage_time': data.sendMessage_time,
+                    // 'api_key': data.api_key,
+                    // 'secret_key': data.secret_key,
+                    // 'attention_num': data.attention_num
+                },
+                dataType: 'json',
+                success: function (result) {
+                    //layer.alert(result.code);
+                    if (result.code == 1) {
+                        layer.msg("启动成功!");
+
+                        setTimeout(function () {
+                            //layer.close(); //疯狂模式，关闭所有层
+                            location.replace(location.href);
+                        }, 2000);
+
+                    } else {
+                        layer.msg("启动失败!");
+                    }
+
+                }
+            });
+
+
+        })
+
+
+        //批量暂停
+        $("#stopAll").on('click', function () {
+            //获取选中状态
+            var checkStatus = table.checkStatus('demo');
+            //获取选中数量
+            var selectCount = checkStatus.data.length;
+            //  var id=checkStatus.data.id;
+
+            if (selectCount == 0) {
+                layer.msg('批量设置至少要选择一个数据啊!', function () {
+                });
+                return false;
+            }
+            var id = "";
+            for (var i = 0; i < selectCount; i++) {
+                //  console.log(checkStatus.data[i].id)
+                if (checkStatus.data[i].impower==1){
+                    id = id + checkStatus.data[i].id + "@";
+                }
+
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/stopAll?id=' + id,//发送请求
+                data: {
+                    // 'sendMessage_time': data.sendMessage_time,
+                    // 'api_key': data.api_key,
+                    // 'secret_key': data.secret_key,
+                    // 'attention_num': data.attention_num
+                },
+                dataType: 'json',
+                success: function (result) {
+                    //layer.alert(result.code);
+                    if (result.code == 1) {
+                        layer.msg("停止成功!");
+
+                        setTimeout(function () {
+                            //layer.close(); //疯狂模式，关闭所有层
+                            location.replace(location.href);
+                        }, 2000);
+
+                    } else {
+                        layer.msg("停止失败!");
+                    }
+
+                }
+            });
+
+
+        })
+
+
+        //批量获取分量 get_follow
+        $("#get_follow").on('click', function () {
+            //获取选中状态
+            var checkStatus = table.checkStatus('demo');
+            //获取选中数量
+            var selectCount = checkStatus.data.length;
+            //  var id=checkStatus.data.id;
+
+            if (selectCount == 0) {
+                layer.msg('批量设置至少要选择一个数据啊!', function () {
+                });
+                return false;
+            }
+            var id = "";
+            for (var i = 0; i < selectCount; i++) {
+                //  console.log(checkStatus.data[i].id)
+                if (checkStatus.data[i].impower==1){
+                    id = id + checkStatus.data[i].id + "@";
+                }
+
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: '/update_follow?id=' + id,//发送请求
+                data: {
+                    // 'sendMessage_time': data.sendMessage_time,
+                    // 'api_key': data.api_key,
+                    // 'secret_key': data.secret_key,
+                    // 'attention_num': data.attention_num
+                },
+                dataType: 'json',
+                success: function (result) {
+                    //layer.alert(result.code);
+                    if (result.code == 1) {
+                        layer.msg("执行成功!");
+                        setTimeout(function () {
+                            //layer.close(); //疯狂模式，关闭所有层
+                            location.replace(location.href);
+                        }, 2000);
+
+                    } else {
+                        layer.msg("执行失败!");
+                    }
+
+                }
+            });
+
+
+        })
+
+    });
+
+
+</script>
+
+</body>
+
+</html>

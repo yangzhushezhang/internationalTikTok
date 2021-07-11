@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>微信管理数据页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/public.css" media="all" />
+    <script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+    <script src="js/jquery.cookie.min.js"></script>
+
+
+    <link rel="stylesheet" href="css/bootstrap.css" media="all" />
+    <link rel="stylesheet" href="css/message.css" media="all" />
+    <script src="js/message.js"></script>
+
+</head>
+<body class="childrenBody">
+<div class="layui-fluid" >
+    <blockquote class="layui-elem-quote"><p class="layui-green" style="font-size: 14px;">温馨提醒:当前访问的是正在使用数据</p></blockquote>
+    <form class="layui-form" action="">
+        <!--<br/>-->
+        <div class="layui-form-item layui-form-pane">
+
+
+            <div class="layui-inline" style="margin-top:20px;">
+                <label class="layui-form-label" style="width: 105px;">昵称:</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" id="nickname_input" name="nickname_input" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+<!--            <div class="layui-inline" style="margin-top:20px;">-->
+<!--                <label class="layui-form-label" style="width: 95px;">时间:</label>-->
+<!--                <div class="layui-input-inline" style="width: 185px;">-->
+<!--                    <input type="text" class="layui-input" name="start_time" id="test5">-->
+<!--                </div>-->
+<!--                <div class="layui-form-mid">-</div>-->
+<!--                <div class="layui-input-inline" style="width: 185px;">-->
+<!--                    <input type="text" class="layui-input" name="end_time" id="test6">-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="layui-inline" style="margin-top:20px;">-->
+<!--                <label class="layui-form-label" style="width: 130px;">粉丝任务状态:</label>-->
+<!--                <div class="layui-input-inline" style="width: 165px;">-->
+<!--                    <select type="text" id="fs_status" name="fs_status" autocomplete="off" class="layui-select">-->
+<!--                        <option value="" selected>请选择</option>-->
+<!--                        <option value="未接任务">未接任务</option>-->
+<!--                        <option value="已接任务">已接任务</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+<!--            <div class="layui-inline" style="margin-top:20px;">-->
+<!--                <label class="layui-form-label" style="width: 130px;">拉群状态:</label>-->
+<!--                <div class="layui-input-inline" style="width: 165px;">-->
+<!--                    <select type="text" id="lq_status" name="lq_status" autocomplete="off" class="layui-select">-->
+<!--                        <option value="" selected>请选择</option>-->
+<!--                        <option value="没有权限">没有权限</option>-->
+<!--                        <option value="未接任务">未接任务</option>-->
+<!--                        <option value="已接任务">已接任务</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+
+            <div class="layui-inline" style="margin-top:20px;">
+                <div class="layui-btn " data-type="reload"><i class="layui-icon" id="selectQuery"></i>查询</div>
+                <div id="reloadtable" class="layui-btn layui-bg-cyan"><i class="layui-icon">ဂ</i>刷新数据</div>
+<!--                <div id="reloadpage" class="layui-btn layui-btn-normal"><i class="layui-icon">ဂ</i>刷新页面</div>-->
+            </div>
+        </div>
+    </form>
+<!--    <div style="padding-bottom: 10px;">-->
+<!--        &lt;!&ndash;        <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>&ndash;&gt;-->
+<!--        <button class="layui-btn layui-btn-lg" data-type="add" lay-submit="" lay-filter="addUrl" id="addUrl">添加链接</button>-->
+<!--    </div>-->
+    <table id="merchantOrderT" lay-filter="logs" ></table>
+
+<!--    <style type="text/css">-->
+<!--        .layui-table-cell{-->
+<!--            text-align:center;-->
+<!--            height: auto;-->
+<!--            white-space: normal;-->
+<!--        }-->
+<!--    </style>-->
+
+</div>
+<!--操作-->
+<script type="text/html" id="orderListBar">
+
+<!--    <input type="checkbox" name="yyy" lay-skin="switch" lay-text="通过|未通过">-->
+<!--    <a class="layui-btn layui-btn-xs " lay-event="edit"><i class="layui-icon">&#xe605;</i>通过</a>-->
+<!--    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look"><i class="layui-icon">&#xe615;</i>详情</a>-->
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete"><i class="layui-icon">&#x1006;</i>删除</a>
+</script>
+
+<script type="text/javascript" src="layui/layui.js"></script>
+
+<script>
+
+    //审核图片地址通过本地json获取
+    // var requestName = "";
+    // var imageName = "";
+    // $.getJSON("configApi.js", function(data) {
+    //
+    //     //本地json
+    //     requestName = data.global_requestWxwshUrl;
+    //     imageName = data.global_imgAddress;
+    //     console.log(requestName);
+    //     console.log(imageName);
+    //
+    // });
+
+    var mybck= $.cookie('tokenMyb');
+    //alert(document.cookie);
+    //console.log(mybck)
+    if(mybck == "" || mybck == null){
+        // window.location.href="login.html";
+
+        layer.alert('当前会话已过期，请重新登录！', {
+            skin: 'layui-layer-molv',//样式类名
+            shadeClose: true,
+            shade: 0.8
+            ,closeBtn: 0
+        }, function(){
+
+            window.top.location.href="login.html";
+
+        });
+
+    }else{
+        // window.location.href="mainWxwsh.html";
+
+
+
+        //所有请求地址通过本地json全局获取
+        var gdImg = "";
+        var gdrequestUrl="";
+        var gdrequestDywsyUrl = "";
+        var gdrequestDychannelSjlbUrl="";
+
+        $.getJSON("json/config.json", function(data) {
+
+            gdrequestDyAddUrl = data.global_requestDyAddUrl;    //
+            gdrequestDyDelUrl = data.global_requestDyDelUrl;  //
+            gdrequestDywsyUrl = data.global_requestDywshUrl  //
+            gdrequestDyChangeUrl = data.global_requestDyChangeUrl  //
+
+            // console.log("未审核微信："+gdrequestWxwshUrl);
+
+        });
+
+
+        // 加载需要用到的模块，如果有使用到自定义模块也在此加载
+        layui.use(['laydate','form','table'], function(){
+            var orderLoadingIndex = layer.load(0); //添加laoding,0-2两种方式
+            // 初始化元素，如果有大量的元素操作可以也引入和初始化element模块
+            var table = layui.table;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            var $ = layui.$;
+
+
+            // 定义时间选择器
+            laydate.render({
+                elem:'#test5',
+                type:'datetime'
+            });
+            laydate.render({
+                elem:'#test6',
+                type:'datetime'
+            });
+
+
+            //订单表
+            var tableIns = table.render({
+                elem: '#merchantOrderT',
+                // url : requestName,
+                url : gdrequestDywsyUrl+"?status=1",
+                // method: 'post',
+                // where:{token: $.cookie('tokenMyb'),status:3,addFans_status:1,add_group_status:0},//3是:当前访问的是未审核的数据
+                cellMinWidth : 95,
+                page :  { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    ,groups: 10 //只显示 1 个连续页码
+                    ,first: "首页" //不显示首页
+                    ,last: "尾页"//不显示尾页
+
+                },
+
+                height : "full-20",
+                limit : 15,
+                limits : [15,30,50,100],
+                id : "systemLog",
+                cols : [[
+                    {type: "checkbox", fixed:"left", width:50},
+                    // {field: 'id', title: '编号', width:60, align:"center"},
+                    // {field: 'xid', title: '编号', width:60, align:"center",templet: '#titleTpl'},
+                    {field: 'id', title: 'ID', minWidth:'130', width:'130',align:"center"},//, style :'display: none'
+                    {field: 'nickname', title: '昵称', width:180, align:'center'},
+                    {field: 'Dy_url', title: '抖音链接', width:280, align:'center'},
+                    {field: 'Dy_id', title: '抖音ID', width:180, align:'center'},
+                    // {field: 'imager_url', title: '审核截图URL', width:360, align:'center'},////默认显示URL地址
+                    // {field: 'status', title: '状态',width:150, align:'center',templet:function(d){
+                    //         return '<button class="layui-btn layui-btn-black layui-btn-xs">'+'使用中'+'</button>'
+                    //         // if(d.status === "4"){//尚未提交
+                    //         //     return '<button class="layui-btn layui-bg-black layui-btn-xs">'+'尚未提交'+'</button>'
+                    //         // }else if(d.status === "2"){//尚未审核
+                    //         //     return '<button class="layui-btn layui-btn-warm layui-btn-xs">'+'尚未审核'+'</button>'
+                    //         // }else if(d.status === "1"){//审核成功
+                    //         //     return '<button class="layui-btn layui-btn-green  layui-btn-xs">'+'审核成功'+'</button>'
+                    //         // }else if(d.status === "3"){//未通过审核
+                    //         //     return '<button class="layui-btn layui-bg-red  layui-btn-xs">'+'未通过审核'+'</button>'
+                    //         // }else{
+                    //         //     return ''
+                    //         // }
+                    // }},
+                    {field: 'status', title: '状态', width: 150, align: 'center', templet: function (d) {
+                            var state = "";
+
+                            // state = "<input type='checkbox' value='" + d.status + "' id='status' lay-filter='status'  name='status'  lay-skin='switch' lay-text='开启|关闭' >";
+
+                            if (d.status == "1") {
+                             state = "<input type='checkbox' value='" + d.status + "' id='status' lay-filter='status' checked='checked' name='status'  lay-skin='switch' lay-text='开启|关闭' >";
+                            } else {
+                             state = "<input type='checkbox' value='" + d.status + "' id='status' lay-filter='status'  name='status'  lay-skin='switch' lay-text='开启|关闭' >";
+
+                            }
+                            return state;
+                        }
+                    },
+                    //用layer自带的转换方法没有效果,暂时用网上JS封装的工具类
+                    {field: 'created_at', title: '创建时间', width: 185, align:'center',templet: function (d) {
+                            var unixTimestamp = new Date(d.created_at * 1000)
+                            return formatDateTime(unixTimestamp)
+                        }},
+                    {field: 'use_time', title: '链接取得时间',width:185, align:'center',templet: function (d) {
+                            var unixTimestamp = new Date(d.updated_at * 1000)
+                            return formatDateTime(unixTimestamp)
+                    }},
+
+                    {field: 'comments', title: '评论数', width:180, align:'center',templet: function (d) {
+                            var tempcomments = d.comments
+
+                            if(tempcomments === null){
+
+                                tempcomments = 0
+
+                            }else{
+
+                                tempcomments = d.comments
+
+                            }
+
+                            return tempcomments
+                    }},
+                    // {field: 'nickname', title: '昵称', width:180, align:'center'},
+                    // {field: 'order_time',title: '订单时间', width:163,align:"center"},
+                    // {field: 'order_time',title: '订单时间', width:118,align:"center",templet:function(d){
+                    //         var to = d.order_time.substr(5,);
+                    //         return to
+                    //     }},
+                    {title: '操作', width:210, templet:'#orderListBar',fixed:"right",align:"center"}
+                ]],
+                done: function(res, curr, count){
+                    // $('.layui-table-cell').css({'height':'auto'});  ////暂时不用显示完整,有个小问题,把高度设置后全选按钮显示不对齐.
+                    layer.close(orderLoadingIndex);    //返回数据关闭loading
+
+
+
+                    hoverOpenImg();//显示大图
+                }
+            });
+
+
+            //监听禁用开关按钮操作
+            form.on('switch(status)', function(obj){
+
+
+                // 获取当前控件
+                var selectIfKey=obj.othis;
+                // 获取当前所在行
+                var parentTr = selectIfKey.parents("tr");
+                // 获取当前所在行的索引
+                // var parentTrIndex = parentTr.attr("data-index");
+
+
+                //通过相对位置找对应行数据
+                // 获取当前行第一和三列的值
+                var currentwx_id = parentTr.find(('td:eq(1)')).text().trim();
+                var currentwx_number = parentTr.find(('td:eq(3)')).text().trim();
+
+                //获取开关私聊按钮对应值
+                var currenwx_checkstatus = obj.elem.checked;
+
+                currenwx_checkstatus = (currenwx_checkstatus) ? 1:0;
+
+                // console.log(currenwx_checkstatus);
+
+                layer.confirm('系统将对当前链接关闭，确认要关闭吗？', {
+                    icon:2,
+                    title:'温馨提示',
+                    skin: 'layui-layer-lan',
+                    btn: ['确认','取消'] //按钮
+                    ,cancel: function(index, layero){
+                        //取消操作，点击右上角的X
+                    }
+                }, function(){//是
+
+
+
+                    //GET方式 permissions_for_message= 1 开启  0为关闭
+                    var getStr =gdrequestDyChangeUrl+"?id="+currentwx_id+"&status="+currenwx_checkstatus;
+
+                    $.ajax({
+                        url:getStr,
+                        type: "get",
+                        success: function (updataresult) {
+
+                            console.log(updataresult);
+                            if(updataresult.code == 0){
+
+                                $.message({
+                                    message:updataresult.msg ,
+                                    type: 'success',
+                                    showClose: true
+                                });
+
+                                tableIns.reload();
+                                layer.close(layer.index);
+
+                            }else{
+
+                                layer.msg(updataresult.msg);
+                            }
+
+                        },
+
+
+                    });
+
+                    return false;
+
+                }, function(){//否
+
+
+                    $.message({
+                        message: "取消操作",
+                        type: 'info',
+                        showClose: true
+                    });
+
+                    var x = obj.elem.checked;
+
+                    obj.elem.checked = !x;
+                    form.render();
+                    layer.close(layer.index);
+
+                    // layer.alert('编辑行：<br>'+ JSON.stringify(newdata))
+                });
+
+
+            });
+
+
+
+            //鼠标移动到图片,预览当前图片
+            function hoverOpenImg(){
+                var img_show = null; // tips提示
+                $('td img').hover(function(){
+                    var kd=$(this).width();
+                    kd1=kd*3;          //图片放大倍数
+                    kd2=kd*3+30;       //图片放大倍数
+                    var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:"+kd1+"px;' />";
+                    img_show = layer.tips(img, this,{
+                        tips:[2, 'rgba(41,41,41,.5)']
+                        ,area: [kd2+'px']
+                    });
+                },function(){
+                    layer.close(img_show);
+                });
+                $('td img').attr('style','max-width:70px;display:block!important');
+            }
+
+
+
+            //时间戳转日期时间型工具类
+            function formatDateTime(inputTime) {
+                var date = new Date(inputTime);
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                var d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                var h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                var minute = date.getMinutes();
+                var second = date.getSeconds();
+                minute = minute < 10 ? ('0' + minute) : minute;
+                second = second < 10 ? ('0' + second) : second;
+                return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+            }
+
+
+            //查看详情函数方法实现
+            // function lookData(looklook){//当前表格的数据显示到页面
+            //
+            //         var index = layui.layer.open({
+            //         area: ['600px', '550px'],
+            //         fixed: false, //不固定
+            //         maxmin: true,
+            //         title : "单个仓库信息详情",
+            //         type : 2,
+            //         content : "searchOrderDec.html",
+            //         success : function(layero, index){
+            //
+            //             var body = layui.layer.getChildFrame('body', index);
+            //
+            //             // var reg = new RegExp("&n","g");//g,表示全部替换。
+            //             //
+            //             // var notifyStrRP= notifyStr.replace(reg, "&ampn");
+            //
+            //             body.find("#merchant_zh").html(looklook.merchant_zh);  //商户号
+            //             body.find("#merchant_zhh").html(looklook.merchant_zhh);  //商户订单号
+            //             body.find("#merchant_name").html(looklook.merchant_name);  //交易[平台]订单号
+            //             body.find("#pay_amount").html(looklook.pay_amount);  //支付金额
+            //             body.find("#pay_zamount").html(looklook.pay_zamount);  //支付银行类型
+            //             body.find("#pay_state").html(looklook.pay_state);  //支付状态
+            //             // if(edit.enable_state === "余位"){
+            //             //     body.find(".developstate").prop("checked", true);//通道状态
+            //             // }else{
+            //             //     body.find(".developstate").prop("checked",false);//通道状态
+            //             // }
+            //             body.find("#add_time").html(looklook.add_time);  //订单时间
+            //             body.find("#update_time").html(looklook.update_time);  //支付时间
+            //             body.find("#chaxun_time").html(looklook.chaxun_time);  //更新时间
+            //             // body.find("#sign_str").html(looklook.merchant_zh);  //签名串
+            //             // body.find("#notify_jsonstr").html(notifyJsonStr);  //回调返回的签名json串
+            //             body.find("#caozuoren_str").html(looklook.caozuoren_str);  //回调返回的签名字符串
+            //             body.find("#realNotifyIp").html(looklook.realNotifyIp);  //接收服务器回调通知的IP
+            //
+            //
+            //             form.render();
+            //
+            //             setTimeout(function(){
+            //                 layui.layer.tips('点击此处返回订单页面', '.layui-layer-setwin .layui-layer-close', {
+            //                     tips: 3
+            //                 });
+            //             },500)
+            //         }
+            //     })
+            //     // layui.layer.full(index);
+            //     window.sessionStorage.setItem("index",index);
+            //     //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            //     $(window).on("resize",function(){
+            //         layui.layer.full(window.sessionStorage.getItem("index"));
+            //     })
+            // }
+
+            //添加点击事件
+            $("#addUrl").click(function() {
+
+
+                //GET方式
+                var getStr =gdrequestDyAddUrl+"?url="+$("#dyurl").val();
+
+                $.get(getStr,function(delresult){
+
+                    if(delresult.code === 1){
+
+                        $("#dyurl").val("");
+
+                        $.message({
+                            message:delresult.msg ,
+                            type: 'success',
+                            showClose: true
+                        });
+
+
+                        tableIns.reload();
+                        layer.close(layer.index);
+
+                    }else{
+
+                        layer.msg(delresult.msg)
+                    }
+
+                    // console.log(delresult);
+                });
+
+
+                return false;
+
+            })
+
+            function lookData(merchant_zhStr,merchant_zhhStr,merchant_nameStr,pay_amountStr,pay_zamountStr,pay_stateStr,pay_ckstateStr,add_timeStr,update_timeStr,chaxun_timeStr,caozuoren_str,notify_Ip_Str){//从数据库加载数据显示到页面
+
+                var index = layui.layer.open({
+                    area: ['600px', '550px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    skin: 'layui-layer-rim',
+                    title : "单个仓库信息详情",
+                    type : 2,
+                    content : "searchOrderDec.html",
+                    success : function(layero, index){
+
+                        var body = layui.layer.getChildFrame('body', index);
+
+                        // var reg = new RegExp("&n","g");//g,表示全部替换。
+                        //
+                        // var notifyStrRP= notifyStr.replace(reg, "&ampn");
+
+                        body.find("#merchant_zh").html(merchant_zhStr);  //商户号
+                        body.find("#merchant_zhh").html(merchant_zhhStr);  //商户订单号
+                        body.find("#merchant_name").html(merchant_nameStr);  //交易[平台]订单号
+                        body.find("#pay_amount").html(pay_amountStr);  //支付金额
+                        body.find("#pay_zamount").html(pay_zamountStr);  //支付银行类型
+                        body.find("#pay_state").html(pay_stateStr);  //支付状态
+                        body.find("#pay_ckstate").html(pay_ckstateStr);  //支付状态
+
+                        // unescape(pay_ckstateStr.replace(/\\u/g, '%u')）
+                        // if(pay_ckstateStr === "余位"){
+                        //     // console.log(pay_ckstateStr);
+                        //     //alert(pay_ckstateStr);
+                        //
+                        //     $("input:radio[name=pay_ckstate]").attr("checked",true) ;
+                        //     // $("#pay_ckstate").attr("checked", 'true');//通道状态
+                        //     // body.find("#pay_ckstate").attr("checked", 'true');//通道状态
+                        //
+                        // }else{
+                        //     $("#pay_ckstate").attr("checked", 'false');//通道状态
+                        //     // body.find("#pay_ckstate").attr("checked",false);//通道状态
+                        // }
+                        body.find("#add_time").html(add_timeStr);  //订单时间
+                        body.find("#update_time").html(update_timeStr);  //支付时间
+                        body.find("#chaxun_time").html(chaxun_timeStr);  //更新时间
+                        // body.find("#sign_str").html(looklook.merchant_zh);  //签名串
+                        // body.find("#notify_jsonstr").html(notifyJsonStr);  //回调返回的签名json串
+                        body.find("#caozuoren_str").html(caozuoren_str);  //回调返回的签名字符串
+                        body.find("#realNotifyIp").html(notify_Ip_Str);  //接收服务器回调通知的IP
+
+
+                        form.render();
+
+                        setTimeout(function(){
+                            layui.layer.tips('点击此处返回订单页面', '.layui-layer-setwin .layui-layer-close', {
+                                tips: 3
+                            });
+                        },500)
+                    }
+                })
+                // layui.layer.full(index);
+                window.sessionStorage.setItem("index",index);
+                //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+                $(window).on("resize",function(){
+                    layui.layer.full(window.sessionStorage.getItem("index"));
+                })
+            }
+            //监听工具条
+            //列表操作
+            table.on('tool(logs)', function(obj){
+                var layEvent = obj.event; //获得 lay-event 对应的值
+                var newdata = obj.data; //获得当前行数据
+                var newtr = obj.tr; //获得当前行tr的DOM对象
+
+                if(layEvent === 'look'){ //查看
+                    // lookData(newdata); //本地数据加载到页面
+                    // // layer.msg(newdata.merchant_order_no);
+                    var payState = newdata.pay_state;
+                    var lookMerchantZh = newdata.merchant_zh;
+                    var lookMerchantZhh = newdata.merchant_zhh;
+                    var lookMerchantName = newdata.merchant_name;
+
+                    var param={};
+                    param['query_type']="lookupQuery";
+                    param['merchant_zh']= lookMerchantZh;
+                    param['merchant_zhh']= lookMerchantZhh;
+                    param['merchant_name']= lookMerchantName;
+
+
+                    $.post("merchantOrderQuery.php", param,
+                        function(lookResult){
+                            // console.log(lookResult);
+                            var lookResultNew =eval('(' + lookResult + ')');
+                            // console.log(lookResultNew);
+                            // console.log(lookResultNew[0].merchant_no);
+                            var merchant_zhStr = lookResultNew[0].merchant_zh;
+                            var merchant_zhhStr= lookResultNew[0].merchant_zhh;
+                            var merchant_nameStr = lookResultNew[0].merchant_name;
+                            var pay_amountStr= lookResultNew[0].pay_amount;
+                            var pay_zamountStr = lookResultNew[0].pay_zamount;
+                            var pay_stateStr= lookResultNew[0].pay_state;
+                            var pay_ckstateStr= lookResultNew[0].pay_ckstate;
+                            var add_timeStr = lookResultNew[0].add_time;
+                            var update_timeStr = lookResultNew[0].update_time;
+                            var chaxun_timeStr= lookResultNew[0].chaxun_time;
+
+                            // var notify_jsonStr = lookResultNew[0].notify_jsonstr;
+                            var caozuoren_str= lookResultNew[0].caozuoren_str;
+                            var notify_Ip_Str= lookResultNew[0].realNotifyIp;
+                            //
+                            //
+                            lookData(merchant_zhStr,merchant_zhhStr,merchant_nameStr,pay_amountStr,pay_zamountStr,pay_stateStr,pay_ckstateStr,add_timeStr,update_timeStr,chaxun_timeStr,caozuoren_str,notify_Ip_Str);
+
+                        });
+
+
+                }else if(layEvent === 'edit'){ //编辑
+
+                    layer.confirm('系统将进行通过操作,确定当前微信号审核通过吗?', {
+                        icon:1,
+                        title:'温馨提示',
+                        skin: 'layui-layer-lan',
+                        btn: ['确认','取消'] //按钮
+                        ,cancel: function(index, layero){
+                            //取消操作，点击右上角的X
+                        }
+                    }, function(){//是
+
+                        var param={};
+                        param['token']= $.cookie('tokenMyb');
+                        param['status']= '1';
+                        param['remark']= "";
+                        param['wx_number']= newdata.wx_number;
+                        param['id']= newdata.id;
+
+
+                        $.post("/centralism/change_wx_status", param,
+                            function(lookResult){
+
+
+                                if(lookResult.code === 200 ){
+
+                                    layer.msg(lookResult.msg);
+
+                                    //do something
+                                    tableIns.reload();
+                                    layer.close(index);
+
+                                }else{
+
+
+                                }
+
+
+                            });
+
+
+
+
+
+
+                    }, function(){//否
+
+                        // layer.alert('编辑行：<br>'+ JSON.stringify(newdata))
+                    });
+
+
+
+                    // var index = layui.layer.open({
+                    //     area: ['300px', '560px'],
+                    //     fixed: false, //不固定
+                    //     maxmin: true,
+                    //     title : "编辑支付通道信息",
+                    //     skin: 'layui-layer-rim',//加上边框
+                    //     type : 2,
+                    //     content : "ListDataEdit.html",
+                    //     success : function(layero, index){
+                    //         var body = layui.layer.getChildFrame('body', index);
+                    //         if(newdata) {
+                    //
+                    //             body.find(".edit_merzh").val(newdata.merchant_zh);  //支付方式
+                    //             body.find(".edit_merzhh").val(newdata.merchant_zhh);  //通道类型
+                    //             body.find(".edit_mername").val(newdata.merchant_name);  //最低限额
+                    //             body.find(".edit_num").val(newdata.pay_amount);
+                    //             body.find(".edit_anum").val(newdata.pay_zamount);  //支付方式
+                    //             $("#pay_state").val(newdata.pay_state);
+                    //             $("select[name='pay_ckstate']").val(newdata.pay_ckstate);//atype是select的id
+                    //
+                    //             // 当前的select的id
+                    //             // $('#pay_ckstate').val('0');
+                    //             //
+                    //             // //更新全部
+                    //             // layui.form.render();
+                    //
+                    //             console.log(newdata.pay_ckstate);
+                    //             // $('#pay_state').find("option[value="+newdata.pay_state+"]").attr("selected",true);
+                    //             // form.render('select');
+                    //             // $('#pay_ckstate').find("option[value="+newdata.pay_ckstate+"]").attr("selected",true);
+                    //             // form.render('select');
+                    //
+                    //             // body.find(".enable_state").prop("checked", edit.enable_state);//通道状态
+                    //             // layui.form.render('select');
+                    //             // form.render();
+                    //
+                    //             setTimeout(function(){
+                    //                 layui.layer.tips('点击此处返回通道查询查询页面', '.layui-layer-setwin .layui-layer-close', {
+                    //                     tips: 3
+                    //                 });
+                    //             },500)
+                    //         }
+                    //
+                    //     }
+                    // })
+                    // // layui.layer.full(index);
+                    // window.sessionStorage.setItem("index",index);
+                    // //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+                    // $(window).on("resize",function(){
+                    //     layui.layer.full(window.sessionStorage.getItem("index"));
+                    // })
+
+
+                }else if(layEvent === 'delete'){ //删除
+
+
+                    layer.confirm('系统将删除当前数据，确认要删除？', {
+                        icon:2,
+                        title:'温馨提示',
+                        skin: 'layui-layer-lan',
+                        btn: ['确认','取消'] //按钮
+                        ,cancel: function(index, layero){
+                            //取消操作，点击右上角的X
+                        }
+                    }, function(){//是
+
+                        //GET方式
+                        var getStr =gdrequestDyDelUrl+"?id="+newdata.id;
+
+                        $.ajax({
+                            url:getStr,
+                            type: "get",
+                            dataType: "json",
+                            success: function (delresult) {
+
+                                if(delresult.code === 0){
+                                    console.log(delresult);
+                                    $.message({
+                                        message:delresult.msg ,
+                                        type: 'success',
+                                        showClose: true
+                                    });
+
+                                    tableIns.reload();
+                                    layer.close(layer.index);
+
+                                }else{
+
+                                    layer.msg("失败"+delresult.msg)
+                                }
+
+                            },
+
+
+                        });
+
+                        return false;
+
+                    }, function(){//否
+
+                        // layer.alert('编辑行：<br>'+ JSON.stringify(newdata))
+                    });
+                }
+            });
+
+            // 数据表重载，这个是配合上面的表格一起使用的
+            var active = {
+                reload:function(){
+                    var demoReload = $('#demoReload');
+                    //执行重载
+                    table.reload('systemLog', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+                            gettype: "where",
+                            nickname:$("input[name='nickname_input']").val(),
+                            // merzh: $("input[name='mer_zh']").val(),
+                            // merzhh: $("input[name='mer_zhh']").val(),
+                            // merwpname: $("input[name='mer_wpname']").val(),
+                            // ordertype: $("#order_type option:selected").val(),
+                            // orderstartime: $("input[name='start_time']").val(),
+                            // orderendtime: $("input[name='end_time']").val()
+                        }
+                    });
+                }
+            };
+
+
+            // form.render(); // 渲染表单
+
+            // 查找点击时间，这里的事件绑定建议使用on来绑定,因为元素都是后期渲染过的
+            // $("#fuck-btn").click(function(){
+            //     var type = $(this).data('type');
+            //     active[type] ? active[type].call(this) : '';
+            // });
+
+
+            $('.layui-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+            $("#reloadtable").on('click', function(){
+                // active.reload();
+
+                location.reload();
+            });
+
+
+            $("#reloadpage").on('click', function(){
+                location.reload();
+            });
+
+
+        });
+
+
+
+
+
+        //数据表格图片点击按比例缩放方法
+        function showImg(imgData){
+            var img = new Image();
+            // img.src = imgData.attr("src");
+            var ta = $(imgData).find("img");
+            img.src = ta.attr("src");
+            var height = img.height; // 原图片大小
+            var width = img.width; //原图片大小
+
+            var winHeight = $(window).height() - 80;  // 浏览器可视部分高度
+            var winWidth = $(window).width() - 100;  // 浏览器可视部分宽度
+
+            // 如果图片高度或者宽度大于限定的高度或者宽度则进行等比例尺寸压缩
+            if (height > winHeight || width > winWidth) {
+                // 1.原图片宽高比例 大于等于 图片框宽高比例
+                if (winWidth/ winHeight <= width / height) {
+                    width = winWidth;   //以框的宽度为标准
+                    height = winWidth * (height / width);
+                }
+
+                // 2.原图片宽高比例 小于 图片框宽高比例
+                if (winWidth/ winHeight > width / height) {
+                    width = winHeight  * (width / height);
+                    height = winHeight  ;   //以框的高度为标准
+                }
+            }
+
+            var imgHtml = "<img src='" + img.src + "' width='" + width + "px' height='" + height + "px' />";
+            //弹出层
+            layer.open({
+                type: 1,
+                shade:0,//shade值设为0即关闭遮罩功能
+                skin: 'layui-layer-rim', //加上边框
+                // offset: 'auto',
+                // area: [500 + 'px',550+'px'],
+                area: [width + 'px',(height + 50) + 'px'],  //原图显示,高度+50是为了去除掉滚动条
+                shadeClose:true,
+                scrollbar: false,
+                title: "当前审核图片预览", //不显示标题
+                content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                cancel: function () {
+                    //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+                }
+            });
+        }
+
+
+        ////数据表格图标点击放大效果方法
+        // function show_img(t) {
+        //     var ta = $(t).find("img");
+        //
+        //     //页面层
+        //     layer.open({
+        //         type: 1,
+        //         title: '当前审核图片',
+        //         skin: 'layui-layer-rim', //加上边框
+        //         area: ['50%', '50%'], //宽高 t.width() t.height()
+        //         shadeClose: true, //开启遮罩关闭
+        //         end: function (index, layero) {
+        //             return false;
+        //         },
+        //         content: '<div style="text-align:center"><img src="' + $(ta).attr('src') + '" /></div>'
+        //     })
+        // }
+
+
+
+    }
+
+
+
+
+
+</script>
+<script type="text/html" id="titleTpl">
+<!--    <a style="color:gray;"  class="layui-table-link">{{d.LAY_TABLE_INDEX+1}}</a>-->
+</script>
+
+</body>
+</html>
+

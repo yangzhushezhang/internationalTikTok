@@ -1,0 +1,123 @@
+{
+	"code": 200,
+	"token": "taVJM3Ba3lD/YmU19m1VLj9BrBMs8CdS",
+	"msg": null,
+	"data": [
+		{
+			"mid": "home",
+			"title": "主页",
+			"icon": "layui-icon layui-icon-console",
+			"href": "home.html",
+			"children": []
+		},
+		{
+			"title": "脚本管理",
+			"icon" : "layui-icon layui-icon-fonts-code",
+			"href": "",
+			"children": [
+				{
+					"mid": "UserManagement",
+					"title": "脚本更新",
+					"icon" : "&#xe62f;",
+					"href": "mainScriptUp.html",
+					"children": []
+				},
+				{
+					"mid": "PermissionSettings",
+					"title": "脚本更新记录",
+					"icon" : "&#xe63c;",
+					"href": "404.html",
+					"children": []
+				}
+			]
+		},
+		{
+			"title": "链接管理",
+			"icon" : "layui-icon layui-icon-unlink",
+			"href": "",
+			"children": [
+				{
+					"title": "未使用",
+					"icon" : "&#xe67b;",
+					"href": "mainDywsy.html",
+					"children": []
+				},
+				{
+					"title": "已被使用",
+					"icon" : "&#x1006;",
+					"href": "mainDyysy.html",
+					"children": []
+				},
+				{
+					"title": "正在使用",
+					"icon" : "&#x1005;",
+					"href": "mainDysyz.html",
+					"children": []
+				}
+			]
+		},
+		{
+			"title": "粉丝管理",
+			"icon": "layui-icon layui-icon-user",
+			"href": "",
+			"children": [
+				{
+					"title": "粉丝查看",
+					"icon": "&#xe66e;",
+					"href": "mainDyfsgl.html",
+					"children": []
+				},
+				{
+					"title": "粉丝统计",
+					"icon": "&#xe62c;",
+					"href": "mainDyfstj.html",
+					"children": []
+				}
+			]
+		},
+		{
+			"title": "手机管理",
+			"icon" : "layui-icon layui-icon-cellphone",
+			"href": "",
+			"children": [
+				{
+					"title": "未运行",
+					"icon": "&#xe651;",
+					"href": "mainDywyx.html",
+					"children": []
+				},
+				{
+					"title": "运行中",
+					"icon": "&#xe651;",
+					"href": "mainDysjlb.html",
+					"children": []
+				},
+				{
+					"title": "已禁用",
+					"icon": "&#xe651;",
+					"href": "mainDysjlbbf.html",
+					"children": []
+				}
+			]
+		},
+		{
+			"title": "私聊管理",
+			"icon" : "layui-icon layui-icon-dialogue",
+			"href": "",
+			"children": [
+				{
+					"title": "联系地址",
+					"icon" : "&#xe715;",
+					"href": "mainDysldz.html",
+					"children": []
+				},
+				{
+					"title": "私聊数据显示",
+					"icon" : "&#xe606;",
+					"href": "404.html",
+					"children": []
+				}
+			]
+		}
+	]
+}

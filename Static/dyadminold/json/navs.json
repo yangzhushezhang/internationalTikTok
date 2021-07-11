@@ -1,0 +1,108 @@
+{
+	"contentManagement": [
+		{
+			"title" : "首页",
+			"icon" : "&#xe656;",
+			"href" : "home.html",
+			"spread" : false
+		},
+		{
+			"title" : "库存管理",
+			"icon" : "&#xe638;",
+			"spread" : false,
+			"children" : [
+				{
+					"title" : "微信库存查看",
+					"icon" : "&#xe62d;",
+					"href" : "mainWxkc.html",
+					"spread" : false
+				},
+				{
+					"title" : "微信库存上传",
+					"icon" : "&#xe681;",
+					"href" : "upload.html",
+					"spread" : false
+				}
+			]
+		},
+		{
+			"title" : "微信管理",
+			"icon" : "icon-wechat",
+			"spread" : false,
+			"children" : [
+				{
+					"title" : "未审核微信",
+					"icon" : "&#xe658;",
+					"href" : "mainWxwsh.html",
+					"spread" : false
+				},
+				{
+					"title" : "已通过微信",
+					"icon" : "&#x1005;",
+					"href" : "mainWxsh.html",
+					"spread" : false
+				},
+				{
+					"title" : "未通过微信",
+					"icon" : "&#x1007;",
+					"href" : "mainWxesh.html",
+					"spread" : false
+				},
+				{
+					"title" : "已禁用微信",
+					"icon" : "&#xe617;",
+					"href" : "mainWxyjy.html",
+					"spread" : false
+				}
+			]
+		},
+		{
+			"title" : "任务管理",
+			"icon" : "icon-wechat",
+			"spread" : false,
+			"children" : [
+				{
+					"title" : "拉群管理",
+					"icon" : "&#xe658;",
+					"href" : "page/404.html",
+					"spread" : false
+				},
+				{
+					"title" : "拉粉管理",
+					"icon" : "&#x1005;",
+					"href" : "mainlfgl.html",
+					"spread" : false
+				},
+				{
+					"title" : "任务审核",
+					"icon" : "&#x1007;",
+					"children" : [
+						{
+							"title" : "拉群审核",
+							"icon" : "&#xe658;",
+							"href" : "page/404.html"
+						},
+						{
+							"title" : "拉粉审核",
+							"icon" : "&#x1005;",
+							"href" : "page/404.html"
+						}
+					]
+				}
+			]
+		},
+		{
+			"title" : "配置",
+			"icon" : "&#xe655;",
+			"spread" : false,
+			"children" : [
+				{
+					"title" : "App配置",
+					"icon" : "&#xe620;",
+					"href" : "mainAppconf.html",
+					"spread" : false
+				}
+			]
+		}
+	]
+}

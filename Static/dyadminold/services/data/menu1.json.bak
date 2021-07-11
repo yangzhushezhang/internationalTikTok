@@ -1,0 +1,131 @@
+{
+	"code": 200,
+	"token": "taVJM3Ba3lD/YmU19m1VLj9BrBMs8CdS",
+	"msg": null,
+	"data": [
+		{
+			"mid": "home",
+			"title": "主页",
+			"icon": "&#xe68e;",
+			"href": "home.html",
+			"children": []
+		},
+		{
+			"title": "库存管理",
+			"icon" : "&#xe638;",
+			"href": "",
+			"children": [
+				{
+					"mid": "UserManagement",
+					"title": "微信库存查看",
+					"icon" : "&#xe62d;",
+					"href": "mainWxkc.html",
+					"children": []
+				},
+				{
+					"mid": "PermissionSettings",
+					"title": "微信库存上传",
+					"icon" : "&#xe681;",
+					"href": "upload.html",
+					"children": []
+				}
+			]
+		},
+		{
+			"title": "微信管理",
+			"icon" : "&#xe677;",
+			"href": "",
+			"children": [
+				{
+					"title": "未审核微信",
+					"icon" : "&#xe658;",
+					"href": "mainWxwsh.html",
+					"children": []
+				},
+				{
+					"title": "已通过微信",
+					"icon" : "&#x1005;",
+					"href": "mainWxsh.html",
+					"children": []
+				},
+				{
+					"title": "未通过微信",
+					"icon" : "&#x1007;",
+					"href": "mainWxesh.html",
+					"children": []
+				},
+				{
+					"title": "已禁用微信",
+					"icon" : "&#xe617;",
+					"href": "mainWxyjy.html",
+					"children": []
+				}
+			]
+		},
+		{
+			"title": "任务管理",
+			"icon": "&#xe7ae;",
+			"href": "",
+			"children": [
+				{
+					"mid": "ContentManagement",
+					"title": "拉群管理",
+					"icon": "&#xe638;",
+					"href": "mainlqgl.html",
+					"children": []
+				},
+				{
+					"mid": "AdvertisingManagement",
+					"title": "拉粉管理",
+					"icon": "layui-icon-survey",
+					"href": "mainlfgl.html",
+					"children": []
+				},
+				{
+					"title": "任务审核",
+					"icon": "&#xe7ae;",
+					"href": "pages/webAdmin/advertisement.html",
+					"children": [
+						{
+							"title": "拉群审核",
+							"icon": "&#xe65e;",
+							"href": "404.html",
+							"children": []
+						},
+						{
+							"title": "拉粉审核",
+							"icon": "&#xe659;",
+							"href": "404.html",
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"title": "配置",
+			"icon" : "&#xe620;",
+			"href": "",
+			"children": [
+				{
+					"title": "App配置",
+					"icon": "&#xe678;",
+					"href": "mainAppconf.html",
+					"children": []
+				},
+				{
+					"title" : "帮助文档",
+					"icon" : "&#xe705;",
+					"href" : "mainHelp.html",
+					"spread" : false
+				},
+				{
+					"title" : "系统消息",
+					"icon" : "&#xe655;",
+					"href" : "mainNotice.html",
+					"spread" : false
+				}
+			]
+		}
+	]
+}

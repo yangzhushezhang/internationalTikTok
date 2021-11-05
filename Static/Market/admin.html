@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>axie小工具-管理端</title>
+  <link href="assets/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="layui/css/layui.css">
+  <script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="js/xm-select.js"></script>
+    <script type="text/javascript" src="js/FileSaver.js"></script>
+  <style>
+
+    .layui-table-cell{
+        height: 70px;
+        line-height: 70px;
+    }
+
+    .abilities_part1{
+        position: relative;
+        display: inline-block;
+        margin: 20px 20px;
+    }
+
+    .abilities_name{
+        position: absolute;
+        top: 30px;
+        left: 120px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .abilities_detail{
+        position: absolute;
+        top: 270px;
+        left: 60px;
+        /*color: #fff;*/
+        white-space: pre-wrap;
+        width: 210px;
+
+        color: rgb(204, 204, 204);
+        font-weight: bold;
+    }
+
+    .abilities_image_small{
+        position: absolute;
+        top: 315px;
+        left: 18px;
+        width: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div style="padding: 20px">
+  <div class="layui-inline">
+    <label class="layui-form-label" style="width: 100px">宠物ID或链接</label>
+    <div class="layui-input-inline" style="width: 420px">
+      <input type="text" name="number" id="number" lay-verify="required|number" autocomplete="off" class="layui-input"  >
+    </div>
+  </div>
+  <div class="layui-inline">
+    <button type="submit" class="layui-btn" lay-submit="" lay-filter="readdata" id="readdata" style="margin: 0 10px"><i class="layui-icon layui-icon-read"></i> 读取数据</button>
+  </div>
+  <div class="layui-inline">
+    <button type="submit" class="layui-btn" lay-submit="" lay-filter="readdata" id="openSelect"><i class="layui-icon layui-icon-website"></i> 打开匹配成功页面</button>
+  </div>
+  <button type="button" class="layui-btn" id="test1" style="margin-left:20px;">
+    <i class="layui-icon">&#xe67c;</i>导入文件
+  </button>
+
+  <button type="button" class="layui-btn" id="exportFile" style="float: right;">
+    <i class="layui-icon  layui-icon-export"></i>导出文件
+  </button>
+
+  <table class="layui-hide" id="userTable" lay-filter="userTable" style="padding: 30px;"></table>
+
+
+</div>
+
+
+<script type="text/javascript" src="./js/conmon.js"></script>
+<!-- 引入 layui.js 的 <script> 标签最好放置在 html 末尾 -->
+<script src="layui/layui.js"></script>
+
+<!--数据表格操作工具栏-->
+<script type="text/html" id="orderListBar">
+<!--    <a class="layui-btn layui-btn-sm layui-btn-radius" lay-event="rechargebtn" ><i class="layui-icon layui-icon-rmb"></i>xxxx</a>-->
+    <a class="layui-btn layui-btn-sm  " lay-event="changebtn" style="background-color: #115195"><i class="layui-icon layui-icon-edit"></i>修改</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delbtn"><i class="layui-icon">&#x1006;</i>删除</a>
+</script>
+
+
+<script>
+  var jsondata;
+
+  layui.use(function(){
+          var layer = layui.layer
+          ,form = layui.form
+          ,laypage = layui.laypage
+          ,element = layui.element
+          ,laydate = layui.laydate
+          ,$ = layui.jquery
+          ,upload = layui.upload
+          ,util = layui.util;
+
+          var layuicode = layui.code
+          var table = layui.table;
+
+          var currTableDataS
+          //订单表
+          var tableIns = table.render({
+              elem: '#userTable',
+              url: requertUrl+"/getWcModel",
+              // url : requertUrl+"/setInformation",
+              // method: 'post',
+              // where:{token: $.cookie('tokenMyb'),status:1,addFans_status:2,add_group_status:1},//1是:当前访问的是审核通过的数据
+              cellMinWidth : 95,
+              page :  { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 10 //只显示 1 个连续页码
+                ,first: "首页" //不显示首页
+                ,last: "尾页"//不显示尾页
+
+              },
+
+              height : "full-120",
+              limit : 50,
+              limits : [15,30,50,100,2000,10000],
+              id : "systemLog",
+              // response: {
+              //   statusName: 'code' //规定数据状态的字段名称，默认：code
+              //   ,statusCode: "200", //规定成功的状态码，默认：0
+              //   // ,msgName: 'hint' //规定状态信息的字段名称，默认：msg
+              //   // ,countName: 'total', //规定数据总数的字段名称，默认：count
+              //   dataName: 'msg' //规定数据列表的字段名称，默认：data
+              // },
+              // parseData: function(res){ //res 即为原始返回的数据
+              //
+              //   // console.log(res)
+              //   return {
+              //     "code":200,
+              //     // "result": res.msg //解析数据列表
+              //
+              //   };
+              // },
+              cols : [[
+                {type: "checkbox", fixed:"left"},
+                // {field: 'id', title: '编号', width:60, align:"center"},
+                // {field: 'xid', title: '编号', width:60, align:"center",templet: '#titleTpl'},
+                {field: 'id', title: 'ID', sort: true,minWidth:'100',align:"center"}, //, style :'display: none'\
+                {field: 'remark', title: '备注', sort: true,minWidth:'100',align:"center"},
+                {field: 'kinds', title: '种类', sort: true, align:'center',width:120, templet: function (d) {
+
+                        let currData = d.kinds
+                        if( currData == "1" ){
+                            // return "不限"
+                            return '<button class="layui-btn  layui-btn-sm" style="background-color: #33CABB;border-color: #33CABB;">'+'不限'+'</button>'
+                        }else{
+                            return currData
+                            // return '<button class="layui-btn  layui-btn-sm" style="background-color: #A5979C;border-color: #A5979C;">'+currData+'</button>'
+                        }
+                }},
+                {field: 'eyes', title: '眼睛', sort: true, align:'center',width:150, templet: function (d) {
+
+                    let currData = d.eyes
+                    if( currData == "1" ){
+                      // return "不限"
+                      return '<button class="layui-btn  layui-btn-sm" style="background-color: #33CABB;border-color: #33CABB;">'+'不限'+'</button>'
+                    }else{
+                      return currData
+                      // return '<button class="layui-btn  layui-btn-sm" style="background-color: #12488B;border-color: #12488B;">'+currData+'</button>'
+                    }
+                }},
+                {field: 'ears', title: '耳朵', sort: true, align:'center', templet: function (d) {
+
+                        let currData = d.ears
+                        if( currData == "1" ){
+                          // return "不限"
+                          return '<button class="layui-btn  layui-btn-sm" style="background-color: #33CABB;border-color: #33CABB;">'+'不限'+'</button>'
+                        }else{
+                          return currData
+                          // return '<button class="layui-btn  layui-btn-sm" style="background-color: #6A3AC2;border-color: #6A3AC2;">'+currData+'</button>'
+                        }
+
+                }},
+                {field: 'back', title: '背部', sort: true, align:'center', templet: function (d) {
+
+                        let currData = d.back
+                        if( currData == "1" ){
+                          // return "不限"
+                          return '<button class="layui-btn  layui-btn-sm" style="background-color: #33CABB;border-color: #33CABB;">'+'不限'+'</button>'
+                        }else{
+                          return currData
+                          // return '<button class="layui-btn  layui-btn-sm" style="background-color: #F589AD;border-color: #F589AD;">'+currData+'</button>'
+                        }
+
+                  }},
+                {field: 'mouth', title: '嘴巴', sort: true, align:'center', templet: function (d) {
+
+                        let currData = d.mouth
+                        if( currData == "1" ){
+                          // return "不限"
+                           return '<button class="layui-btn  layui-btn-sm" style="background-color: #33CABB;border-color: #33CABB;">'+'不限'+'</button>'
+                        }else{
+                          return currData
+                          // return '<button class="layui-btn  layui-btn-sm" style="background-color: #832F26;border-color: #832F26;">'+currData+'</button>'
+                        }
+
+                }},
+                {field: 'horn', title: '角部', sort: true, align:'center', templet: function (d) {
+
+                        let currData = d.horn
+                        if( currData == "1" ){
+                           // return "不限"
+                            return '<button class="layui-btn  layui-btn-sm" style="background-color: #33CABB;border-color: #33CABB;">'+'不限'+'</button>'
+                        }else{
+                          return currData
+                          // return '<button class="layui-btn  layui-btn-sm" style="background-color: #5B4125;border-color: #5B4125;">'+currData+'</button>'
+                        }
+
+                }},
+                {field: 'tail', title: '尾巴', sort: true, align:'center', templet: function (d) {
+
+                        let currData = d.tail
+                        if( currData == "1" ){
+                            // return "不限"
+                            return '<button class="layui-btn  layui-btn-sm" style="background-color: #33CABB;border-color: #33CABB;">'+'不限'+'</button>'
+                        }else{
+                          return currData
+                          // return '<button class="layui-btn  layui-btn-sm" style="background-color: #319B6A;border-color: #319B6A;">'+currData+'</button>'
+                        }
+
+                }},
+                {field: 'price', title: '价格(USD)', sort: true,align:'center', templet: function (d) {
+
+
+                    // console.log(d.auction.currentPriceUSD)
+
+                    return d.price
+
+                }},
+                {field: 'eth_price', title: '价格(ETH)', sort: true,align:'center', templet: function (d) {
+
+                    // 0.0001
+                    // console.log(d.auction.currentPriceUSD)
+
+                    return d.eth_price
+
+                }},
+                {field: 'switch', title: '状态', sort: true,align:"center",width:130,templet:function(d) {
+                    var state = "";
+
+                    if (d.switch == "1") {//开启
+                      // return '<button class="layui-btn  layui-btn-xs" style="background-color: #33cabb;border-color: #33cabb;">'+'活跃'+'</button>'
+
+                      state = "<input type='checkbox' value='" + d.status + "' id='status' lay-filter='status'  name='status'  lay-skin='switch' lay-text='开启|关闭' checked>";
+
+                      return state;
+
+                    } else if (d.switch == "0") {//关闭
+
+                      state = "<input type='checkbox' value='" + d.status + "' id='status' lay-filter='status'  name='status'  lay-skin='switch' lay-text='开启|关闭'>";
+
+                      return state;
+
+                    } else {
+                      return ''
+                    }
+                }},
+                // changeSwitch
+                {field: 'times', title: '匹配成功次数', sort: true,minWidth:'100',align:"center"},
+                // {field: 'created_at', title: '创建时间',sort: true, width: 190, align:'center',templet: function (d) {
+                //     // var unixTimestamp = new Date(d.created_at * 1000)
+                //     // return formatDateTime(unixTimestamp)
+                //
+                //     return util.toDateString(d.created_at* 1000);
+                // }},
+
+                // {field: 'updated_at', title: '更新时间',sort: true,width:190, align:'center',templet: function (d) {
+                //     var unixTimestamp = new Date(d.updated_at * 1000)
+                //     return formatDateTime(unixTimestamp)
+                // }},
+                {title: '操作', width:230, templet:'#orderListBar',fixed:"right",align:"center"}
+              ]],
+              done: function(res, curr, count){
+                currTableDataS = res
+
+                // console.log(res)
+                // console.log("res",res.result.data.axies.results)
+                // res = res.result.data.axies.results
+              }
+            });
+
+          /* 表格工具条点击事件 */
+          table.on('tool(userTable)', function (obj) {
+
+              // console.log(obj)
+              var currDatas  = obj.data;
+              if (obj.event === 'changebtn') { // 修改
+
+                  // console.log("121214124")
+
+                  // showEditModel(obj.data);
+
+                  jsondata = JSON.stringify(currDatas)
+                  var index = layui.layer.open({
+                      area: ['600px', '715px'],
+                      fixed: false, //不固定
+                      maxmin: false,
+                      title : "修改当前模板内容",
+                      skin: 'layui-layer-rim',//加上边框
+                      type : 2,
+                      content : "admin_edit.html",
+                      success : function(layero, index){
+                          var body = layui.layer.getChildFrame('body', index);
+
+
+                          //
+                          // if(currDatas) {
+                          //
+                          //     //不显示出来的回显数据
+                          //     body.find("#money").val(currDatas.money);
+                          //
+                          // }
+
+
+                      },
+                      end : function() {//弹窗关闭后的回调函数
+                        //利用laypage实现局部刷新,以下两种方式都可以
+                        // $(".layui-laypage-btn").click()
+                        //直接刷新当前修改的行
+                        // $(".layui-laypage-btn")[0].click()
+                        // table.reload('systemLog', {});
+                      }
+                  })
+                  window.sessionStorage.setItem("index",index);
+                  //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+                  $(window).on("resize",function(){
+                      layui.layer.full(window.sessionStorage.getItem("index"));
+                  })
+
+              }else if (obj.event === 'delbtn') { // 删除
+                  doDel(obj);
+              }
+
+
+          });
+
+          /* 操作栏删除实现具体方法 */
+          function doDel(obj) {
+              var currDatas  = obj.data;
+              layer.confirm('系统将删除当前模板数据，确认要删除吗？', {
+                  icon:2,
+                  title:'温馨提示',
+                  skin: 'layui-layer-admin',
+                  shade: .1
+              }, function (i) {
+                  layer.close(i);
+                  // var loadIndex = layer.load(2);
+
+                  //删除模板
+                  $.ajax({
+                      url: requertUrl+"/deleteModel?remark="+currDatas.remark,
+                      dataType: 'json',
+                      type: 'GET',
+                      success: function (dataArray) {
+
+                          // console.log("dataArray",dataArray)
+                          if (dataArray.code != 200) {
+
+                              // console.log(dataArray.msg)
+                              // layer.msg(dataArray.msg);
+
+                              return false;
+
+                          }
+
+                          layer.msg(dataArray.msg, {icon: 1});
+                          setTimeout(function () {
+                            layer.closeAll()
+                            parent.location.reload();
+                          }, 1300)
+
+                      }
+                  })
+
+              });
+          }
+
+          //执行实例
+          var uploadInst = upload.render({
+            elem: '#test1' //绑定元素
+            ,url: requertUrl+"/importModel" //上传接口
+            ,method: 'POST'
+            ,accept: 'file' //普通文件
+            ,exts: 'txt' //只允许上传特定文件类型文件
+            // ,data: {version:versionStr}//接口额外参数,即除了上传文件,还需其他的参数才能返回正确的接口
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+              layer.load(); //上传loading
+            }
+            ,done: function(res){
+              layer.closeAll('loading'); //关闭loading
+              //上传完毕成功回调
+              if(200 === res.code){
+                layer.msg(res.msg,{icon:6});
+
+                setTimeout(function () {
+                  window.location.reload();
+                }, 1300)
+
+              }else{
+                layer.msg('解析失败:原因-'+res.msg,{icon:5});
+              }
+            }
+            ,error: function(){
+              //请求异常回调
+              layer.closeAll('loading'); //关闭loading
+            }
+          });
+
+
+          $("#exportFile").click(function () {
+
+            var filecontent = JSON.stringify(currTableDataS);
+            //生成并保存文件
+            var file = new File([filecontent], "allData.txt", { type: "text/plain;charset=utf-8" });
+            saveAs(file);
+
+          })
+
+
+          $("#readdata").click(function () {
+
+            var queryID;
+
+            if($("#number").val().indexOf('axie') == -1){ //没有找到该字符串，即代表是数字ID
+              queryID = $("#number").val()
+            }else{//找到该字符串，即代表是链接
+              queryID = getStr($("#number").val(),'.com/axie/','/')
+            }
+
+            // console.log("queryID",queryID)
+            var indexLoad = layer.load(1, {
+              shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+
+            //加载数据到列表
+            $.ajax({
+              url:requertUrl+"/backModel?id="+queryID,
+              dataType: 'json',
+              type: 'GET',
+              // complete: function () {
+              //     layer.close(loadIndex);
+              // },
+              success: function (dataArray) {
+
+
+                if(dataArray.code != 0){
+
+
+                  layer.close(indexLoad)
+                  layer.msg(dataArray.msg,{icon:2})
+                  return false
+                }
+
+                //重载列表
+                table.reload('systemLog', {
+                  url: requertUrl+"/backModel?id="+queryID,
+                  method: 'GET' ,
+                  page: {
+                    curr: 1 //重新从第 1 页开始
+                  },
+
+                  // where: {
+                  //     status:1,
+                  //     id:currSelectReturnID,
+                  //     action:'select'
+                  // },
+                  response: {
+                    statusName: 'code' //规定数据状态的字段名称，默认：code
+                    ,statusCode: 0, //规定成功的状态码，默认：0
+                    //  ,msgName: 'hint' , //规定状态信息的字段名称，默认：msg
+                    // countName: 'total', //规定数据总数的字段名称，默认：count
+                    dataName: 'data' //规定数据列表的字段名称，默认：data
+                  },
+                  done: function(res, curr, count){
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    // console.log(res);
+                    // //得到当前页码
+                    // console.log(curr);
+                    // //得到数据总量
+                    // console.log(count);
+
+                  }
+                },false);
+
+
+                // console.log("尽量")
+                layer.close(indexLoad)
+
+
+
+
+              }
+            })
+
+
+          })
+
+
+          $("#openSelect").click(function () {
+
+            // console.log(getRootPath_web())
+            window.open(getRootPath_web()+"/select.html", '_blank');
+
+          })
+
+
+          //监听开关按钮操作
+          form.on('switch(status)', function(obj){
+
+
+            // 获取当前控件
+            var selectIfKey=obj.othis;
+            // 获取当前所在行
+            var parentTr = selectIfKey.parents("tr");
+            // 获取当前所在行的索引
+            // var parentTrIndex = parentTr.attr("data-index");
+
+            //通过相对位置找对应行数据
+            // 获取当前行第一和三列的值
+            var currentwx_id = parentTr.find(('td:eq(1)')).text().trim();
+
+            var currStatusBool = obj.elem.checked;
+            var querySwitch
+            // console.log("currStatusBool",currentwx_id)
+            // console.log("currStatusBool",currentwx_id)
+
+            if(currStatusBool){
+              querySwitch = 1
+            }else{
+              querySwitch = 0
+            }
+
+            // 修改状态
+
+            $.ajax({
+              url:requertUrl+"/changeSwitch?id="+currentwx_id+"&switch="+querySwitch,
+              dataType: 'json',
+              type: 'GET',
+              success: function (dataArray) {
+
+                if(dataArray.code != 200){
+
+                  layer.msg(dataArray.msg,{icon:2})
+                  return false
+                }
+
+                layer.msg(dataArray.msg,{icon:1})
+
+              }
+
+
+            })
+
+
+
+          });
+
+
+
+
+  });
+</script>
+</body>
+</html>

@@ -3,19 +3,13 @@
  * 设置脚本日志
  * 
  * @user 刘哥
+ * 国际抖音版本   v18.1.3
  */
 
 
 // console.setGlobalLogConfig({
 //     "file": "/sdcard/1.txt"
 // });
-
-
-
-
-
-
-
 
 //域名 = "172.81.248.168:9501"
 
@@ -444,12 +438,12 @@ function get_head_image_bounds() {
                         toast("点赞坐标:Y:" + Y)
                         //这里是点赞功能   
                         // click(1000, Y)  
-                        var 今日关注数量=获取今日已经关注的数量()
-                        toast("今日关注数量:"+今日关注数量)
-                        if (今日关注数量>= 249) {
+                        var 今日关注数量 = 获取今日已经关注的数量()
+                        toast("今日关注数量:" + 今日关注数量)
+                        if (今日关注数量 >= 249) {
                             toast("今日关注已经达到上限......准备关闭脚本")
                             sleep(5000)
-                          //  send_message()
+                            //  send_message()
                             exit()
                         }
                     }
@@ -505,19 +499,24 @@ function 从服务器获取视频链接() {
                         });
 
                         //这里新增判断 是否进入了  首页
-                        // var 进入评论超时时间=timest()
+                        var 进入评论超时时间 = timest()
                         while (true) {
-                            if (id('a1r').exists()) {
+                            if (timest() - 进入评论超时时间 > 300) {
+                                toast("进入评论首页超时了.....准备切换下一条链接...")
                                 break;
-                            } else if (text("Privacy Policy").exists()) {
-                                if (id("c77").exists()) {
-                                    id("c77").findOne().click()
-                                } else {
-                                    toast("没有找到OK id")
-                                }
-
                             } else {
-                                toast("等待进入评论首页......")
+                                if (id('a1r').exists()) {
+                                    break;
+                                } else if (text("Privacy Policy").exists()) {
+                                    if (id("c77").exists()) {
+                                        id("c77").findOne().click()
+                                    } else {
+                                        toast("没有找到OK id")
+                                    }
+
+                                } else {
+                                    toast("等待进入评论首页......")
+                                }
                             }
                         }
                         break;
@@ -714,23 +713,25 @@ function main_one() {
             }
 
         } else {
+            var 断网判断 = 1
             if (hint == "") {
                 if (可以切换下一个视频) {
                     从服务器获取视频链接()
                     可以切换下一个视频 = false
                 }
                 if (id('a1r').exists()) {
-                    // click(1000, 1200)
-                    // toast("点击评论")
-                    // hint = "进入评论"
 
-                    //上传这个链接的 评论数量
                     set_comments()
                     click_commit()
                     hint = "进入评论"
-
-                } else if (text("Video isn't available").exists()) { //这种情况一般是断网 导致的    暂时提示  吧不进行操作
-                    toast("网络断链,请管理员检查网络.......")
+                } else if (text("Video isn't available").exists()) { //这种情况一般是断网 导致的    暂时提示  吧不进行操作 或者是短视频失效导致的.
+                    if(断网判断>30){
+                        断网判断=1
+                        可以切换下一个视频=true
+                    }else{
+                        toast("网络断链,请管理员检查网络.......联系作者,对这里限制进行修改.....")
+                        断网判断++
+                    }
                 } else {
                     从服务器获取视频链接()
                     console.log("ID---" + 全局抖音ID)
@@ -917,8 +918,8 @@ function 获取联系方式() {
                     var weather = res.body.json();
                     //获取 百度的access_token
                     if (weather.code == 1) {  //等于1  的时候就是运行 脚本了..
-                        AK = weather.msg.api_key
-                        SK = weather.msg.secret_key
+                        // AK = weather.msg.api_key
+                        //   SK = weather.msg.secret_key
                         //toast("开始运行!!")
                         return weather.msg;
                     }
@@ -1043,7 +1044,7 @@ function 发送信息() {
     var 获取特殊符号 = 特殊符号[randomNum(0, 特殊符号.length - 1)]
     var index = randomNum(0, 4);
     //var text_value_0 = "Hello, I am a girl from Malaysia " + 获取特殊符号 + "I see your video content and your photos, " + 获取特殊符号 + "I think you are very handsome, I want to make friends with you, can you add me? I'm looking for a boyfriend.." + 获取特殊符号;
-    var text_value_0 = "I'm sorry to bother you. My company will soon arranged for me to work in the your there. I want to ask you something like about house lease, traffic rules, life in the your place.Go to a new city alone or want to make some close friends intimac LLOLL.";
+    var text_value_0 = "ĐĂNG KÍ TẶNG NGAY 66K KHÔNG YÊU CẦU NẠP THẮNG CÓ THỂ TRỰC TIẾP RÚT.";
 
     // if (index == 0) {
     //     //var text_value_0 = "Hello, I am a girl from Malaysia "+获取特殊符号+"I see your video content and your photos, "+获取特殊符号+"I think you are very handsome, I want to make friends with you, can you add me? I'm looking for a boyfriend..";
@@ -1060,7 +1061,7 @@ function 发送信息() {
     // }
 
 
-    var text_value_1 = "Add " + 获取特殊符号 + " me  WhatsApp" + 获取特殊符号 + "+" + "+" + 联系方式;
+    var text_value_1 = "Địa chỉ của chúng tôi: " + 联系方式;
 
 
     var data_array = Array(text_value_0, text_value_1)
@@ -1074,30 +1075,48 @@ function 发送信息() {
                     console.log(" 被封设备:" + error)
                 }
             }
-            if (是否已经发过消息()) {
-                //已经发过信息了!  //点击返回
-                toast("已经发过信息了......返回..")
-                id('bja').findOne().click()  //点击返回
-                // sleep(2000)
-                break;
-            } else {
-                var j = 0;
-                toast("准备发送信息......")
-                设置要发的信息(data_array[j]);
-                sleep(1000)
-                点击发送();
-                j = j + 1;
-                sleep(1000)
-                设置要发的信息(data_array[j]);
-                sleep(2000)
-                点击发送()
-                toast("发消息完毕......返回..")
-                id('bja').click()  //点击返回
-                sleep(2000)
-                //这里统计 私聊个数
-                获取今日私聊的个数()
-                break;
-            }
+
+            var j = 0;
+            toast("准备发送信息......")
+            设置要发的信息(data_array[j]);
+            sleep(1000)
+            点击发送();
+            j = j + 1;
+            sleep(1000)
+            设置要发的信息(data_array[j]);
+            sleep(2000)
+            点击发送()
+            toast("发消息完毕......返回..")
+            id('bja').click()  //点击返回
+            sleep(2000)
+            //这里统计 私聊个数
+            获取今日私聊的个数()
+            break;
+
+            // if (是否已经发过消息()) {
+            //     //已经发过信息了!  //点击返回
+            //     toast("已经发过信息了......返回..")
+            //     id('bja').findOne().click()  //点击返回
+            //     // sleep(2000)
+            //     break;
+            // } else {
+            //     var j = 0;
+            //     toast("准备发送信息......")
+            //     设置要发的信息(data_array[j]);
+            //     sleep(1000)
+            //     点击发送();
+            //     j = j + 1;
+            //     sleep(1000)
+            //     设置要发的信息(data_array[j]);
+            //     sleep(2000)
+            //     点击发送()
+            //     toast("发消息完毕......返回..")
+            //     id('bja').click()  //点击返回
+            //     sleep(2000)
+            //     //这里统计 私聊个数
+            //     获取今日私聊的个数()
+            //     break;
+            // }
 
         } else {
             toast("等待发送消息界面...")
@@ -1376,8 +1395,8 @@ function 单机模式总线程() {
     var 关闭抖音 = false
     while (true) {
         if (获取当前时间() == "1000:0" || 获取当前时间() == "300:0" || 获取当前时间() == "1001:0") {  //刘的私聊时间
-        // if (获取当前时间() == "1:0" || 获取当前时间() == "3:0" || 获取当前时间() == "5:0" || 获取当前时间() == "12:30") {  //啊撤的私聊时间
-        // if (获取当前时间() == "15:45") {  //啊撤的私聊时间
+            // if (获取当前时间() == "1:0" || 获取当前时间() == "3:0" || 获取当前时间() == "5:0" || 获取当前时间() == "12:30") {  //啊撤的私聊时间
+            // if (获取当前时间() == "15:45") {  //啊撤的私聊时间
             if (关闭抖音) {
                 toast("子线程:发消息正在进行.....")
                 sleep(3000)
@@ -1507,13 +1526,8 @@ function 上传今日私聊的个数() {
 
 
 
-
-
-
 单机模式总线程()
 
-
-// send_message()
 
 
 

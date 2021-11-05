@@ -142,32 +142,22 @@ class Login extends Controller
             }
 
             #post 请求
-
             # 获取文件
             $file = $this->request()->getUploadedFile('file');
             $version = $this->request()->getParsedBody('version');
             $file->moveTo(EASYSWOOLE_ROOT . '/Static/script/main.js');
-
             $version = $version + 1;
-
-
             $res = AdminModel::create()->where(['id' => 1])->update(['version' => $version]);
-
             if (!$res) {
                 $this->writeJson(-101, 'OK', '脚本更新失败');
                 return false;
             }
-
             $this->writeJson(200, 'OK', '脚本更新成功');
             return false;
-
         } catch (\Throwable $e) {
             $this->writeJson(-1, 'OK', '异常:' . $e->getMessage());
             return false;
-
         }
-
-
     }
 
 

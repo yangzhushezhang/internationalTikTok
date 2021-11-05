@@ -1,0 +1,109 @@
+{
+  "eyes":[
+    { "name":"Blossom", "value":"eyes-blossom",
+      "simple": ""
+    },
+    { "name":"Bookworm", "value":"eyes-bookworm",
+      "simple": ""
+    },
+    { "name":"Broken Bookworm", "value":"eyes-broken-bookworm",
+      "simple": ""
+    },
+    { "name":"Calico Zeal", "value":"eyes-calico-zeal",
+      "simple": ""
+    },
+    { "name":"Chubby", "value":"eyes-chubby",
+      "simple": ""
+    },
+    { "name":"Clear", "value":"eyes-clear",
+      "simple": ""
+    },
+    { "name":"Confused", "value":"eyes-confused",
+      "simple": ""
+    },
+    { "name":"Crimson Gecko", "value":"eyes-crimson-gecko",
+      "simple": ""
+    },
+    { "name":"Cucumber Slice", "value":"eyes-cucumber-slice",
+      "simple": ""
+    },
+    { "name":"Dokuganryu", "value":"eyes-dokuganryu",
+      "simple": ""
+    },
+    { "name":"Dreamy Papi", "value":"eyes-eyes-dreamy-papi",
+      "simple": ""
+    },
+    { "name":"Gecko", "value":"eyes-gecko",
+      "simple": ""
+    },
+    { "name":"Gero", "value":"eyes-gero",
+      "simple": ""
+    },
+    { "name":"lcy Gaze", "value":"eyes-icy-gaze",
+      "simple": ""
+    },
+    { "name":"Insomnia", "value":"eyes-insomnia",
+      "simple": ""
+    },
+    { "name":"Kabuki", "value":"eyes-kabuki",
+      "simple": ""
+    },
+    { "name":"Kotaro", "value":"eyes-kotaro",
+      "simple": ""
+    },
+    { "name":"Little Owl", "value":"eyes-little-owl",
+      "simple": ""
+    },
+    { "name":"Little Peas", "value":"eyes-little-peas",
+      "simple": ""
+    },
+    { "name":"Lucas", "value":"eyes-lucas",
+      "simple": ""
+    },
+    { "name":"Mavis", "value":"eyes-mavis",
+      "simple": ""
+    },
+    { "name":"Neo", "value":"eyes-neo",
+      "simple": ""
+    },
+    { "name":"Nerdy", "value":"eyes-nerdy",
+      "simple": ""
+    },
+    { "name":"Papi", "value":"eyes-papi",
+      "simple": ""
+    },
+    { "name":"Puppy", "value":"eyes-puppy",
+      "simple": ""
+    },
+    { "name":"Robin", "value":"eyes-robin",
+      "simple": ""
+    },
+    { "name":"Scar", "value":"eyes-scar",
+      "simple": ""
+    },
+    { "name":"Sky Mavis", "value":"eyes-sky-mavis",
+      "simple": ""
+    },
+    { "name":"Sleepless", "value":"eyes-sleepless",
+      "simple": ""
+    },
+    { "name":"Snowflakes", "value":"eyes-snowflakes",
+      "simple": ""
+    },
+    { "name":"Telescope", "value":"eyes-telescope",
+      "simple": ""
+    },
+    { "name":"Topaz", "value":"eyes-topaz",
+      "simple": ""
+    },
+    { "name":"Tricky", "value":"eyes-tricky",
+      "simple": ""
+    },
+    { "name":"Yen", "value":"eyes-yen",
+      "simple": ""
+    },
+    { "name":"Zeal", "value":"eyes-zeal",
+      "simple": ""
+    }
+  ]
+}

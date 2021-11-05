@@ -1,0 +1,146 @@
+{
+  "ears":[
+
+    { "name":"Beetle Spike", "value":"ears-beetle-spike",
+      "simple": ""
+    },
+    { "name":"Belieber", "value":"ears-belieber",
+      "simple": ""
+    },
+    { "name":"Bubblemaker", "value":"ears-bubblemaker",
+      "simple": ""
+    },
+    { "name":"Clover", "value":"ears-clover",
+      "simple": ""
+    },
+    { "name":"Curly", "value":"ears-curly",
+      "simple": ""
+    },
+    { "name":"Curved Spine", "value":"ears-curved-spine",
+      "simple": ""
+    },
+    { "name":"Deadly Pogona", "value":"ears-deadly-pogona",
+      "simple": ""
+    },
+    { "name":"Ear Breathing", "value":"ears-ear-breathing",
+      "simple": ""
+    },
+    { "name":"Early Bird", "value":"ears-early-bird",
+      "simple": ""
+    },
+    { "name":"Earwing", "value":"ears-earwing",
+      "simple": ""
+    },
+    { "name":"Friezard", "value":"ears-friezard",
+      "simple": ""
+    },
+    { "name":"Gill", "value":"ears-gill",
+      "simple": ""
+    },
+    { "name":"Heart Cheek", "value":"ears-heart-cheek",
+      "simple": ""
+    },
+    { "name":"Hollow", "value":"ears-hollow",
+      "simple": ""
+    },
+    { "name":"Inkling", "value":"ears-inkling",
+      "simple": ""
+    },
+    { "name":"Innocent-lamb", "value":"ears-innocent-lamb",
+      "simple": ""
+    },
+    { "name":"Karimata", "value":"ears-karimata",
+      "simple": ""
+    },
+    { "name":"Larva", "value":"ears-larva",
+      "simple": ""
+    },
+    { "name":"Leaf Bug", "value":"ears-leaf-bug",
+      "simple": ""
+    },
+    { "name":"Leafy", "value":"ears-leafy",
+      "simple": ""
+    },
+    { "name":"Lotus", "value":"ears-lotus",
+      "simple": ""
+    },
+    { "name":"Maiko", "value":"ears-maiko",
+      "simple": ""
+    },
+    { "name":"Merry Lamb", "value":"ears-merry-lamb",
+      "simple": ""
+    },
+    { "name":"Mon", "value":"ears-mon",
+      "simple": ""
+    },
+    { "name":"Nimo", "value":"ears-nimo",
+      "simple": ""
+    },
+    { "name":"Nut Cracker", "value":"ears-nut-cracker",
+      "simple": ""
+    },
+    { "name":"Nyan", "value":"ears-nyan",
+      "simple": ""
+    },
+    { "name":"Owl", "value":"ears-owl",
+      "simple": ""
+    },
+    { "name":"Peace Maker", "value":"ears-peace-maker",
+      "simple": ""
+    },
+    { "name":"Pinecones", "value":"ears-pinecones",
+      "simple": ""
+    },
+    { "name":"Pink Cheek", "value":"ears-pink-cheek",
+      "simple": ""
+    },
+    { "name":"Pogona", "value":"ears-pogona",
+      "simple": ""
+    },
+    { "name":"Pointy Nyan", "value":"ears-pointy-nyan",
+      "simple": ""
+    },
+    { "name":"Puppy", "value":"ears-puppy",
+      "simple": ""
+    },
+    { "name":"Red Nimo", "value":"ears-red-nimo",
+      "simple": ""
+    },
+    { "name":"Risky Bird", "value":"ears-risky-bird",
+      "simple": ""
+    },
+    { "name":"Rosa", "value":"ears-rosa",
+      "simple": ""
+    },
+    { "name":"Sakura", "value":"ears-sakura",
+      "simple": ""
+    },
+    { "name":"Seaslug", "value":"ears-seaslug",
+      "simple": ""
+    },
+    { "name":"Sidebarb", "value":"ears-sidebarb",
+      "simple": ""
+    },
+    { "name":"Small Frill", "value":"ears-small-frill",
+      "simple": ""
+    },
+    { "name":"Swirl", "value":"ears-swirl",
+      "simple": ""
+    },
+    { "name":"Tassels", "value":"ears-tassels",
+      "simple": ""
+    },
+    { "name":"The Last Leaf", "value":"ears-the-last-leaf",
+      "simple": ""
+    },
+    { "name":"Tiny Fan", "value":"ears-tiny-fan",
+      "simple": ""
+    },
+    { "name":"Vector", "value":"ears-vector",
+      "simple": ""
+    },
+    { "name":"Zen", "value":"ears-zen",
+      "simple": ""
+    }
+  ]
+}

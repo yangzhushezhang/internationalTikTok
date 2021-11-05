@@ -1,0 +1,149 @@
+{
+  "back":[
+
+    { "name":"1ND14N-5T4R(Bulkwark)", "value":"back-1nd14n-5t4r",
+      "simple": "Bulkwark"
+    },
+    { "name":"Anemone(Aqua Vitality)", "value":"back-anemone",
+      "simple": "Aqua Vitality"
+    },
+    { "name":"Balloon(Balloon Pop)", "value":"back-balloon",
+      "simple": "Balloon Pop"
+    },
+    { "name":"Bidens(Cleanse Scent)", "value":"back-bidens",
+      "simple": "Cleanse Scent"
+    },
+    { "name":"Blue Moon(Scale Dart)", "value":"back-blue-moon",
+      "simple": "Scale Dart"
+    },
+    { "name":"Bone Sail(lvory Chop)", "value":"back-bone-sail",
+      "simple": "lvory Chop"
+    },
+    { "name":"Buzz Buzz(Bug Noise)", "value":"back-buzz-buzz",
+      "simple": "Bug Noise"
+    },
+    { "name":"Candy Canes(Barb Strike)", "value":"back-candy-canes",
+      "simple": "Barb Strike"
+    },
+    { "name":"Croc(Nile Strike)", "value":"back-croc",
+      "simple": "Nile Strike"
+    },
+    { "name":"Crystal Hermit(Shelter)", "value":"back-crystal-hermit",
+      "simple": "Shelter"
+    },
+    { "name":"Cupid(Heart Break)", "value":"back-cupid",
+      "simple": "Heart Break"
+    },
+    { "name":"Furball(Juggling Balls)", "value":"back-furball",
+      "simple": "Juggling Balls"
+    },
+    { "name":"Frozen Bucket(Bulkwark)", "value":"back-frozen-bucket",
+      "simple": "Bulkwark"
+    },
+    { "name":"Garish Worm(Barb Strike)", "value":"back-garish-worm",
+      "simple": "Barb Strike"
+    },
+    { "name":"Goldfish(Swift Escape)", "value":"back-goldfish",
+      "simple": "Swift Escape"
+    },
+    { "name":"Green Thorns(Vine Dagger)", "value":"back-green-thorns",
+      "simple": "Vine Dagger"
+    },
+    { "name":"Hamaya(Revenge Arrow)", "value":"back-hamaya",
+      "simple": "Revenge Arrow"
+    },
+    { "name":"Hasagi(Single Combat)", "value":"back-hasagi",
+      "simple": "Single Combat"
+    },
+    { "name":"Hermit(Shelter)", "value":"back-hermit",
+      "simple": "Shelter"
+    },
+    { "name":"Hero(Heroic Reward)", "value":"back-hero",
+      "simple": "Heroic Reward"
+    },
+    { "name":"lndian Star(Bulkwark)", "value":"back-indian-star",
+      "simple": "Bulkwark"
+    },
+    { "name":"Jaguar(Nitro Leap)", "value":"back-jaguar",
+      "simple": "Nitro Leap"
+    },
+    { "name":"Kingfisher(Patient Hunter)", "value":"back-kingfisher",
+      "simple": "Patient Hunter"
+    },
+    { "name":"Mint(Refresh)", "value":"back-mint",
+      "simple": "Refresh"
+    },
+    { "name":"Origami(Heart Break)", "value":"back-origami",
+      "simple": "Heart Break"
+    },
+    { "name":"Perch(Spinal Tap)", "value":"back-perch",
+      "simple": "Spinal Tap"
+    },
+    { "name":"Pigeon Post(Blackmail)", "value":"back-pigeon-post",
+      "simple": "Blackmail"
+    },
+    { "name":"Pink Turnip(Turnip Rocket)", "value":"back-pink-turnip",
+      "simple": "Turnip Rocket"
+    },
+    { "name":"Pumpkin(October Treat)", "value":"back-pumpkin",
+      "simple": "October Treat"
+    },
+    { "name":"Raven(lll-omened)", "value":"back-raven",
+      "simple": "lll-omened"
+    },
+    { "name":"Red Ear(Slippery Shield)", "value":"back-red-ear",
+      "simple": "Slippery Shield"
+    },
+    { "name":"Risky Beast(Revenge Arrow)", "value":"back-risky-beast",
+      "simple": "Revenge Arrow"
+    },
+    { "name":"Ronin(Single Combat)", "value":"back-ronin",
+      "simple": "Single Combat"
+    },
+    { "name":"Rugged Sail(lvory Chop)", "value":"back-rugged-sail",
+      "simple": "lvory Chop"
+    },
+    { "name":"Sandal(Bug Splat)", "value":"back-sandal",
+      "simple": "Bug Splat"
+    },
+    { "name":"Scarab(Scarab Curse)", "value":"back-scarab",
+      "simple": "Scarab Curse"
+    },
+    { "name":"Shiitake(Shroom's Grace)", "value":"back-shiitake",
+      "simple": "Shroom's Grace"
+    },
+    { "name":"Snail Shell(Sticky Goo)", "value":"back-snail-shell",
+      "simple": "Sticky Goo"
+    },
+    { "name":"Spiky Wing(Buzzing Wind)", "value":"back-spiky-wing",
+      "simple": "Buzzing Wind"
+    },
+    { "name":"Sponge(Shipwreck)", "value":"back-sponge",
+      "simple": "Shipwreck"
+    },
+    { "name":"Starry Balloon(Balloon Pop)", "value":"back-starry-balloon",
+      "simple": "Balloon Pop"
+    },
+    { "name":"Starry Shell(Sticky Goo)", "value":"back-starry-shell",
+      "simple": "Sticky Goo"
+    },
+    { "name":"Timber(Woodman Power)", "value":"back-timber",
+      "simple": "Woodman Power"
+    },
+    { "name":"Tri Feather(Triple Threat)", "value":"back-tri-feather",
+      "simple": "Triple Threat"
+    },
+    { "name":"Tri Spikes(Spike Throw)", "value":"back-tri-spikes",
+      "simple": "Spike Throw"
+    },
+    { "name":"Turnip(Turnip Rocket)", "value":"back-turnip",
+      "simple": "Turnip Rocket"
+    },
+    { "name":"Watering Can(Aqua Stock)", "value":"back-watering-can",
+      "simple": "Aqua Stock"
+    },
+    { "name":"Yakitori(Shroom's Grace)", "value":"back-yakitori",
+      "simple": "Shroom's Grace"
+    }
+  ]
+}

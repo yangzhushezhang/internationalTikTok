@@ -23,6 +23,99 @@
 
 <link href="./css/bootstrap-toggle.css" rel="stylesheet">
 
+<!--如需用右侧窗口需设置此样式-->
+<style>
+
+
+    .lyear-right-box {
+        display: -webkit-box;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        flex-direction: column;
+        background-color: #fff;
+        width: 300px;
+        max-width: calc( 100% - 50px);
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: -300px;
+        z-index: 999;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-transition: .3s ease;
+        transition: .3s ease;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-perspective: 1000;
+        perspective: 1000;
+        will-change: transform;
+    }
+    .lyear-right-box.lyear-right-box-sm {
+        width: 220px;
+        right: -220px
+    }
+    .lyear-right-box.lyear-right-box-lg {
+        width: 420px;
+        right: -420px
+    }
+    .lyear-right-box.lyear-right-box-xl {
+        width: 640px;
+        right: -640px
+    }
+    .lyear-right-box.lyear-right-box-xxl {
+        width: 860px;
+        right: -860px
+    }
+    .lyear-right-box.lyear-right-box-open {
+        right: 0;
+        -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.08);
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.08);
+    }
+    .lyear-right-box-header {
+        position: relative;
+        padding: 0 20px;
+        min-height: 68px !important;
+        border-bottom: 1px solid #ebebeb
+    }
+    .lyear-right-box-header .lyear-right-box-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        margin-left: 16px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .lyear-right-box-title {
+        letter-spacing: .5px;
+        line-height: 68px;
+    }
+    .lyear-right-box-body {
+        height: -moz-calc(100% - 127px);
+        height: -webkit-calc(100% - 127px);
+        height: calc(100% - 127px);
+        position: relative;
+    }
+    /*遮罩层*/
+    .lyear-right-box-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 998;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .p-20 {
+        padding: 20px;
+    }
+    .lyear-right-box-footer {
+        padding: 10px 20px;
+        border-top: 1px solid #ebebeb
+    }
+
+</style>
+
 
 
 </head>
@@ -80,7 +173,9 @@
 
 
         <div class="card-body">
-
+            <a class="btn btn-info m-r-5"  id="yijianguanzhu"><i class="mdi mdi-kabaddi"></i>一键关注</a>
+            <a class="btn btn-pink m-r-5"  id="yijiansiliao"><i class="mdi mdi-message-outline"></i>一键私聊</a>
+            <a class="btn btn-cyan m-r-5"  id="addurlsbtn" data-toggle="lyear-right-box" data-target="#my-box"><i class="mdi mdi-harddisk-plus"></i>批量添加UID模板</a>
           <div class="table-responsive">
             <table class="table table-bordered" id="sampleTable">
 
@@ -96,6 +191,45 @@
   </div>
 
 </div>
+
+<!-- 右侧框-->
+<div class="lyear-right-box lyear-right-box-xl" id="my-box">
+    <header class="lyear-right-box-header">
+        <div class="lyear-right-box-title">批量添加UID模板</div>
+        <span class="lyear-right-box-close"><i class="mdi mdi-close"></i></span>
+    </header>
+
+    <div class="lyear-right-box-body p-20">
+        <form action="#!" method="post" class="row">
+            <div class="form-group col-md-12">
+                <label for="add_location" class="col-form-label">地区:</label>
+                <select class="form-control addselectpicker" id="add_location" name="add_location" data-style="btn btn-pink" onchange="selectDialogOnchang(this)">
+                    <option value="1" selected>越南</option>
+                    <option value="2">日本</option>
+                    <option value="3">韩国</option>
+                </select>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="add_likns" class="col-form-label">批量UID:</label>
+                <!--                            <textarea class="form-control" id="message-text"></textarea>-->
+                <textarea placeholder="请输入批量UID,每个uid用换行隔开" class="form-control" id="add_likns" style="height:520px"></textarea>
+            </div>
+        </form>
+    </div>
+
+    <footer class="lyear-right-box-footer">
+
+        <button type="button" class="btn btn-primary" id="add-form" data-target="#my-box">确认添加</button>
+
+
+        <!--        <button type="button" class="btn btn-primary" id="add_form_dy_urls" >确认添加</button>-->
+        <!--        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>-->
+
+    </footer>
+
+</div>
+
+
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/popper.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.min.js"></script>
@@ -130,11 +264,14 @@
 <script type="text/javascript" src="./js/bootstrap-toggle.js"></script>
 
 
+<!-- 引入select组件 -->
+<link href="./js/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+<script src="./js/bootstrap-select-1.13.18/bootstrap-select.min.js"></script>
+
+<!--如需用右侧窗口需引入此js-->
+<script type="text/javascript" src="./js/perfect-scrollbar.min.js"></script>
+
 <script type="text/javascript">
-
-
-
-
 
 
      var mybck= $.cookie('tokenMyb');
@@ -149,10 +286,153 @@
 
         $(function(){
 
+
+
+            $('.addselectpicker').selectpicker({});
+
+            //-------------------侧边栏功能------------------//
+            //右边框内容必须创建
+            new PerfectScrollbar('.lyear-right-box-body', {
+                swipeEasing: false,
+                suppressScrollX: true
+            });
+
+            $(document).on('click', '[data-toggle="lyear-right-box"]', function(e) {
+
+                $("#add_likns").focus();
+
+                e.preventDefault();
+                var target = $(this).data('target');
+
+
+                // console.log("当前1",target)
+
+                if (target == false) {
+                    closeBox($(target).closest('.lyear-right-box'));
+                } else {
+                    if ( $(target).hasClass('lyear-right-box-open') ) {
+                        $("#add_likns").val("");
+                        closeBox($(target).closest('.lyear-right-box'));
+                    } else {
+                        $(target).addClass('lyear-right-box-open').after('<div class="lyear-right-box-backdrop" data-target="'+ target +'"></div>');;
+                    }
+                }
+            });
+
+            $(document).on('click', '.lyear-right-box-backdrop', function(){
+                $("#add_likns").val("");
+                var target = $(this).data('target');
+
+                closeBox($(target).closest('.lyear-right-box'));
+            });
+
+            $(document).on('click', '.lyear-right-box-close', function(){
+                $("#add_likns").val("");
+                var boxObj = $(this).closest('.lyear-right-box');
+
+                closeBox(boxObj);
+            });
+
+            /**
+             * 关闭方法
+             * @param object e box对象
+             */
+            var closeBox = function(e) {
+                $(e).removeClass('lyear-right-box-open');
+                $('.lyear-right-box-backdrop').remove();
+            }
+
+
+            $(document).on('click', '#add-form', function(e) {
+                // ajax后端交互，成功后关闭box
+                // alert('添加成功');
+
+                var strContent = document.getElementById("add_likns").value;
+                // console.log("啊啊啊啊11111",strContent)
+
+                // var strContentHH = strContent.split("\n")
+                // var strContentHH = strContent.split("\n").join("@")
+
+                // console.log("啊啊啊啊",strContent.split("\n").join(";"))
+
+                if($("#add_likns").val() == 0) {
+
+                    // layer.msg("请填入批量链接,否则无法进行添加");
+
+                    // $.message({
+                    //     message:"请填入批量链接,否则无法进行添加" ,
+                    //     type: 'error',
+                    //     showClose: true
+                    // });
+                    swal("温馨提示!", "请填入批量UID,否则无法进行添加！", "error");
+
+                    var boxObj = $(this).closest('.lyear-right-box');
+
+                    // console.log("boxObj",boxObj)
+
+                    closeBox(boxObj);
+
+                    return false;
+                }
+
+
+
+                let postData = {}
+                postData['user_id']=strContent;
+                postData['location'] =$("#add_location").val();
+
+                $("#add_likns").val("");
+                var boxObj = $(this).closest('.lyear-right-box');
+
+                closeBox(boxObj);
+
+                $.ajax({
+                    url:global_requestDyget_dy_addUserId,
+                    type: "POST",
+                    data: postData,
+                    dataType:'JSON',
+                    success: function (delresult) {
+
+                        if(delresult.code == 200){
+
+                            $("#add_likns").val("");
+
+                            $.message({
+                                message:delresult.msg ,
+                                type: 'success',
+                                showClose: true
+                            });
+
+
+
+                        }else{
+
+                            $.message({
+                                message:delresult.msg ,
+                                type: 'error',
+                                showClose: true
+                            });
+
+
+                        }
+
+                    },
+
+
+                });
+
+
+
+            });
+
+            //-------------------侧边栏功能------------------//
+
+
+            //-------------------table功能------------------//
+
            //1.初始化Table
            var oTable = new TableInit();
            oTable.Init();
-
 
 
 
@@ -248,16 +528,24 @@
                            title: '存在假粉',
                            formatter:falsefanformat
                        },{
+                           field: 'running_model',
+                           align: 'center',
+                           title: '配置',
+                           formatter:taskTypeformat
+                       }
+                       ,{
                            field: 'created_at',
                            align: 'center',
                            title: '创建时间',
                            formatter:createdat
-                       }, {
-                           field: 'update_at',
-                           align: 'center',
-                           title: '更新时间',
-                           formatter:updatedat
-                       }, {
+                       },
+                       //  {
+                       //     field: 'update_at',
+                       //     align: 'center',
+                       //     title: '更新时间',
+                       //     formatter:updatedat
+                       // },
+                           {
                            field:'ID',
                            title: '操作',
                            // width: 200,
@@ -285,6 +573,9 @@
 
                        },
                        onLoadSuccess: function () {
+                            //记得引用这个,否则样式不显示出来
+                            $('.addselectpicker').selectpicker({});
+
                             var changeHandler = function () {
 
                                 var id = $(this).val();
@@ -892,7 +1183,233 @@
 
              }
 
-            //创建时间模板
+
+
+
+
+
+
+
+
+
+         // style="background: #337ab7 !important;border-color: #608fb8;"
+         function taskTypeformat(value,row,index) {
+
+             // console.log("row",typeof(row),row);
+
+
+             //把行数据对象转成字符串格式
+             var rowStr = JSON.stringify(row)
+
+             //再对字符串进行64位编码
+             rowStr = window.btoa(rowStr)
+
+             //传字符串需拼接'' 符号,否则会报错
+             rowStr = "'"+rowStr+"'"
+
+             // console.log("rowStr",typeof(rowStr),rowStr);
+
+
+             // nickname
+            if(row.running_model == "1"){//
+                 // return '<button class="btn btn-xs btn-info" style="background: #337ab7 !important;border-color: #337ab7;">'+'采集'+'</button>'+
+
+                return   `
+                   <select class="addselectpicker" data-style="btn btn-info" id="sele`+ row.id +`" onchange="selectchange(`+ rowStr +`)" style="position: absolute;">
+                      <option value="1" selected>加粉</option>
+                      <option value="2">私聊</option>
+                      <option value="3">ID关注模式</option>
+                    </select>
+                `
+             }else if(row.running_model == "2"){//
+                 // return '<button class="btn btn-xs btn-info" style="background: #337ab7 !important;border-color: #337ab7;">'+'采集'+'</button>'+
+
+
+                return   `
+                   <select class="addselectpicker" data-style="btn btn-brown" id="sele`+ row.id +`" onchange="selectchange(`+ rowStr +`)" style="position: absolute;">
+                      <option value="1">加粉</option>
+                      <option value="2" selected>私聊</option>
+                      <option value="3" >ID关注模式</option>
+                    </select>
+                `
+             }else if(row.running_model == "3"){//
+                // return '<button class="btn btn-xs btn-info" style="background: #337ab7 !important;border-color: #337ab7;">'+'采集'+'</button>'+
+
+                return   `
+                   <select class="addselectpicker" data-style="btn btn-brown" id="sele`+ row.id +`" onchange="selectchange(`+ rowStr +`)" style="position: absolute;">
+                      <option value="1">加粉</option>
+                      <option value="2" >私聊</option>
+                      <option value="3" selected>ID关注模式</option>
+                    </select>
+                `
+            }else{
+                 return ''
+             }
+
+         }
+
+
+
+         function selectchange(rowId){
+
+             // console.log("rowID",window.atob(rowId));
+
+             var rowIDStr =  window.atob(rowId)
+
+             var rowIdObj = JSON.parse(rowIDStr)
+
+             // console.log("rowIdObj",typeof(rowIdObj),rowIdObj);
+
+             // var sel=document.getElementById("#sele2");
+             // var index = sel.selectedIndex; // 选中索引
+             // console.log("选中的值", $('#sele'+rowId).val())
+
+             // getStr =global_requestupdate_data+"?task_type="+$('#sele'+rowId).val()+"&ids="+rowId;
+
+             //这里是原本正常的
+             // var postData = {token:$.cookie('tokenMyb'),running_model:$('#sele'+rowId).val(),id:rowId};
+
+             //改造后的
+             var postData = {token:$.cookie('tokenMyb'),running_model:$('#sele'+rowIdObj.id).val(),id:rowIdObj.id};
+
+             $.ajax({
+                 url:global_requestupdate_data+"?nickname="+rowIdObj.nickname,
+                 type: "POST",
+                 data: postData,
+                 dataType:'JSON',
+                 success: function (resultData) {
+
+                     if(resultData.code == 1){
+
+                         $.message({
+                             message:resultData.msg ,
+                             type: 'success',
+                             showClose: true
+                         });
+
+                         $('#sampleTable').bootstrapTable('refresh');
+
+
+                         // window.location.reload()
+
+
+
+                     }else{
+
+                         $.message({
+                             message:resultData.msg ,
+                             type: 'error',
+                             showClose: true
+                         });
+
+
+                         $('#sampleTable').bootstrapTable('refresh');
+
+                     }
+
+                 },
+
+
+             });
+
+
+
+         }
+
+
+         //一键关注点击事件
+         $("#yijianguanzhu").click(function () {
+
+             var postData = {token:$.cookie('tokenMyb'),action:'all',running_model:'1',id:'1057'};
+
+             $.ajax({
+                 url:global_requestupdate_data,
+                 type: "POST",
+                 data: postData,
+                 dataType:'JSON',
+                 success: function (resultData) {
+
+                     if(resultData.code == 1){
+
+                         $.message({
+                             message:resultData.msg ,
+                             type: 'success',
+                             showClose: true
+                         });
+
+                         $('#sampleTable').bootstrapTable('refresh');
+
+
+
+                     }else{
+
+                         $.message({
+                             message:resultData.msg ,
+                             type: 'error',
+                             showClose: true
+                         });
+
+
+                         $('#sampleTable').bootstrapTable('refresh');
+
+                     }
+
+                 },
+
+
+             });
+
+         })
+
+
+
+         //一键私聊点击事件
+         $("#yijiansiliao").click(function () {
+
+             var postData = {token:$.cookie('tokenMyb'),action:'all',running_model:'2',id:'1057'};
+
+             $.ajax({
+                 url:global_requestupdate_data,
+                 type: "POST",
+                 data: postData,
+                 dataType:'JSON',
+                 success: function (resultData) {
+
+                     if(resultData.code == 1){
+
+                         $.message({
+                             message:resultData.msg ,
+                             type: 'success',
+                             showClose: true
+                         });
+
+                         $('#sampleTable').bootstrapTable('refresh');
+
+
+
+                     }else{
+
+                         $.message({
+                             message:resultData.msg ,
+                             type: 'error',
+                             showClose: true
+                         });
+
+
+                         $('#sampleTable').bootstrapTable('refresh');
+
+                     }
+
+                 },
+
+
+             });
+
+         })
+
+
+
+         //创建时间模板
             function createdat(value,row,index) {
 
                  var unixTimestamp = new Date(row.created_at * 1000)
@@ -1220,6 +1737,14 @@
 
 
 
+         function selectDialogOnchang(obj){
+
+
+             // $("#add_likns").focus();
+
+
+
+         }
      }
 
 

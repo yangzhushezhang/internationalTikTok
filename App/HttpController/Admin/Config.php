@@ -201,33 +201,29 @@ class Config extends Base
     {
 
         try {
-            $nickname = $this->request()->getQueryParam('nickname');
-
-
-            $res = ConfigModel::create()->get(['nickname' => $nickname]);
-
-
-            if (!$res) {
-                $this->response()->write(json_encode(['code' => 0, 'msg' => '修改失败'], true));
-                return false;
-            }
-            // 获取post 参
             $post = $this->request()->getParsedBody();
-
+            // 获取post 参
             $update = [
-                'api_key' => $post['api_key'],
-                'secret_key' => $post['secret_key'],
-                'attention_num' => $post['attention_num'],
-                'sendMessage_time' => $post['sendMessage_time']
+                'running_model' => $post['running_model']
             ];
-
-            $res = ConfigModel::create()->where(['nickname' => $nickname])->update($update);
-
-            if (!$res) {
-                $this->response()->write(json_encode(['code' => 0, 'msg' => '修改失败'], true));
-                return false;
+            if (isset($post['action']) && $post['action'] == "all") {
+                $res = ConfigModel::create()->where(['status' => 0])->update($update);
+                if (!$res) {
+                    $this->response()->write(json_encode(['code' => 0, 'msg' => '修改失败'], true));
+                    return false;
+                }
+            } else {
+                $res = ConfigModel::create()->get(['id' => $post['id']]);
+                if (!$res) {
+                    $this->response()->write(json_encode(['code' => 0, 'msg' => '修改失败'], true));
+                    return false;
+                }
+                $res = ConfigModel::create()->where(['id' => $post['id']])->update($update);
+                if (!$res) {
+                    $this->response()->write(json_encode(['code' => 0, 'msg' => '修改失败'], true));
+                    return false;
+                }
             }
-
 
             $this->response()->write(json_encode(['code' => 1, 'msg' => '修改成功'], true));
             return true;
@@ -494,7 +490,6 @@ class Config extends Base
     function set_name()
     {
         try {
-
             $name = $this->request()->getQueryParam('name');
             //var_dump("name:" . $name);
             $res = DyName::create()->get(['name' => $name]);
@@ -503,7 +498,6 @@ class Config extends Base
                 DyName::create()->data(['name' => $name])->save();
                 $this->writeJson('1', '', '');
                 return false;
-
             }
             $this->writeJson('0', '', '名字重复了!');
             return false;
@@ -511,8 +505,6 @@ class Config extends Base
             $this->writeJson('0', '', '异常:' . $e->getMessage());
             return false;
         }
-
-
     }
 
 
@@ -656,7 +648,6 @@ class Config extends Base
             }
             return $accessToken->access_token;
         } catch (\Throwable $e) {
-
             var_dump($e->getMessage());
             return "";
         }
@@ -675,12 +666,18 @@ class Config extends Base
             $url = "https://aip.baidubce.com/rest/2.0/face/v3/detect?access_token=" . $access_token;
             $client = new \EasySwoole\HttpClient\HttpClient($url);
 
+
+
             $post_data = [
                 'image' => $image,
                 "image_type" => "BASE64",
                 "face_field" => "age,gender",
             ];
             $res = $client->post($post_data)->getBody();
+
+            $client->getErrCode();
+
+
             if (!$res) {
                 return '';
             }
@@ -701,7 +698,6 @@ class Config extends Base
     function get_sex_form_my_server()
     {
 
-
         //ZL5wxWPUOp9Yzn1Yc7pjLeZ0
         //FGONKQ4YcRWeX7nIBMPgWukBcDXlG2ao
         try {
@@ -711,11 +707,15 @@ class Config extends Base
             if (!$access_token) {
 //                $access_token = $this->get_Access_Token("N5RYZegzg9yzaEX0pGy75yZ8", "jnAGQI0vxMdS24QXf9QKjaPowNvCfdQm");
                 $access_token = $this->get_Access_Token("ZL5wxWPUOp9Yzn1Yc7pjLeZ0", "FGONKQ4YcRWeX7nIBMPgWukBcDXlG2ao");
+
                 if ($access_token) {
                     $redis->set("Access_Token", $access_token, 3600 * 24 * 30);
                 }
             }
             $image = $this->request()->getParsedBody();
+
+
+
             $sex = $this->get_Sex($access_token, $image['image']);
             $this->writeJson(200, $sex, "获取成功");
             var_dump($sex);
@@ -747,7 +747,7 @@ class Config extends Base
 
 
             $one = ConfigModel::create()->where(['nickname' => $nickname])->update(['attentionTheLastTime' => time()]);
-            if (!$one){
+            if (!$one) {
                 $this->writeJson(101, 'OK', '数据更新失败');
                 return true;
             }
@@ -761,7 +761,30 @@ class Config extends Base
     }
 
 
+    /**
+     * 获取 手机的 运行模式
+     */
 
+
+    function get_running_model()
+    {
+        try {
+            DbManager::getInstance()->invoke(function ($client) {
+
+                $username = $this->request()->getRequestParam("username");
+                $res = ConfigModel::invoke($client)->get(['nickname' => $username]);
+                if ($res) {
+                    $this->writeJson(1, $res['running_model'], "获取成功");
+                    return;
+                }
+                $this->writeJson(1, 1, "获取成功");
+            });
+
+        } catch (\Throwable $e) {
+            $this->writeJson(1, 1, "获取异常:" . $e->getMessage());
+            return;
+        }
+    }
 
 
 }

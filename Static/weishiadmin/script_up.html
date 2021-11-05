@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>上传脚本版本</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+
+<link rel="stylesheet" href="./loading/css/animate.css">
+<link rel="stylesheet" href="./loading/css/global.css">
+<link rel="stylesheet" href="./loading/css/loading.css">
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/materialdesignicons.min.css" rel="stylesheet">
+<link href="css/style.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="./css/message.css" media="all" />
+
+
+
+</head>
+
+<body>
+<div class="container-fluid p-t-15">
+
+  <div class="row">
+
+    <div class="col-lg-12">
+       <div class="card">
+         <header class="card-header"><div class="card-title"><h5>当前脚本版本version:</h5><h5 id="versionNum" style="margin-top: -37px;margin-left: 210px;color: red;"></h5></div></header>
+         <div class="card-body">
+           <!-- <div class="callout callout-warning mb-3">当前脚本版本version:1261</div> -->
+
+           <!-- <pre></pre> -->
+
+              <button type="button" class="RoleOfDelete btn  btn-purple btn-label" id="uploadBtn"><label><i class="mdi mdi-cloud-upload"></i></label></label>上传版本文件</button>
+
+              <form>
+
+                <input id="uploadinput" type="file" style="display:none" accept=".xls,.excel,.xlsx,.txt,.js">
+
+              </form>
+
+
+         </div>
+       </div>
+     </div>
+
+
+
+
+
+
+  </div>
+
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/popper.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+
+<!-- iframe下只遮盖部分 -->
+<!-- <script type="text/javascript" src="./js/lyear-loading.js"></script> -->
+
+<script type="text/javascript" src="./js/config.url.js"></script>
+
+<script type="text/javascript" src="./js/jquery.cookie.min.js"></script>
+
+<!--<script type="text/javascript" src="./js/formateTime.js"></script>-->
+
+<!-- 引入alert弹窗 -->
+<script type="text/javascript" src="./js/sweetalert.min.js"></script>
+
+<!-- 引入消息弹窗 -->
+ <script type="text/javascript" src="./js/message.js"></script>
+
+<!-- 引入loading 加载框 -->
+<script src="./loading/js/loading.js"></script>
+
+<!-- 引入其他 -->
+<!-- <script src="./js/lightyear.js"></script> -->
+
+
+<script type="text/javascript">
+
+$(function(){
+
+   var mybck= $.cookie('tokenMyb');
+   //alert(document.cookie);
+   //console.log(mybck)
+   if(mybck == "" || mybck == null){
+
+          window.top.location.href="./login.html";
+
+
+   }else{
+
+    $("#versionNum").html("");
+
+    var versionStr = ""
+    $.ajax({
+
+        url:global_requestDyGetVersionUrl_js,
+        type: "get",
+        success: function (resultData) {
+
+            // console.log(resultData);
+            if(resultData.code == 200){
+
+
+                versionStr = resultData.result;
+                // console.log(versionStr);
+                // $("#versionNumInput").val(resultData.result);
+                $("#versionNum").html(resultData.result);
+
+
+
+            }else{
+
+                $.message({
+                    message:resultData.msg ,
+                    type: 'error',
+                    showClose: true
+                });
+
+            }
+
+        },
+
+
+    });
+
+
+
+      $("#uploadBtn").click(function(){
+
+            $("#uploadinput").val("");
+            $("#uploadinput").click()
+
+
+
+      })
+
+
+      var $input =  $("#uploadinput");
+      // ①为input设定change事件
+      $input.change(function () {
+      //    ②如果value不为空，调用文件加载方法
+          if($(this).val() != ""){
+              fileLoad(this);
+          }
+      })
+
+
+      //③创建fileLoad方法用来上传文件
+      function fileLoad(ele){
+        //④创建一个formData对象
+        var formData = new FormData();
+        //⑤获取传入元素的val
+        var name = $(ele).val();
+
+
+
+          //⑥获取files
+        /////////原始js操作方法
+        // var files = $(ele)[0].files[0];
+        //jquery操作方法
+        var jqfiles = $('#uploadinput').prop('files');
+        var files = jqfiles[0];
+        //⑦将name 和 files 添加到formData中，键值对形式
+        formData.append("file", files);
+        formData.append("version", versionStr);
+
+
+
+         // console.log("获取上传数据",name,files);
+
+        $.ajax({
+            url: global_requestDyGetVersionUrl_js,
+            // url: "test.php",
+            type: 'POST',
+            data: formData,
+            processData: false,// ⑧告诉jQuery不要去处理发送的数据
+            contentType: false, // ⑨告诉jQuery不要去设置Content-Type请求头
+            beforeSend: function () {
+               //⑩发送之前的动作
+                // alert("我还没开始发送呢");
+
+                $('body').loading({
+                   loadingWidth:240,
+                   title:'',
+                   name:'test',
+                   discription:'上传文件中请耐心等待...',
+                   direction:'column',
+                   type:'origin',
+                   // originBg:'#71EA71',
+                   originDivWidth:40,
+                   originDivHeight:40,
+                   originWidth:6,
+                   originHeight:6,
+                   smallLoading:false,
+                   // loadingMaskBg:'rgba(0,0,0,0.2)'
+               });
+
+
+               // var l = $('body').lyearloading({
+               //      opacity: 0.2,
+               //      spinnerSize: 'lg',
+               //      spinnerText: '后台处理中，请稍后...',
+               //      textColorClass: 'text-info',
+               //      spinnerColorClass: 'text-info'
+               //  });
+
+            },
+            success: function (responseStr) {
+               //11成功后的动作
+                // alert("成功啦");
+
+
+                if(200 === responseStr.code){
+
+
+                    removeLoading('test');
+
+                    $.message({
+                        message:responseStr.msg ,
+                        type: 'success',
+                        showClose: true
+                    });
+
+
+                    setTimeout(function () {
+                        
+                        window.location.reload();
+
+                    }, 2000 )
+
+
+
+
+
+                }else{
+
+                  removeLoading('test');
+
+                  $.message({
+                      message:responseStr.msg ,
+                      type: 'error',
+                      showClose: true
+                  });
+
+                }
+            }
+            ,
+            error : function (responseStr) {
+                //12出错后的动作
+                // alert("出错啦");
+
+                 removeLoading('test');
+
+                $.message({
+                    message:responseStr.msg ,
+                    type: 'error',
+                    showClose: true
+                });
+
+            }
+        });
+      }
+
+    }
+})
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

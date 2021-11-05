@@ -17,11 +17,14 @@ class Router extends AbstractRouter
           * eg path : /router/index.html  ; /router/ ;  /router
          */
 
+
         //登录功能
         $routeCollector->get('/login', '/Admin/Login/login');
         #script_update
         $routeCollector->get('/script_update', '/Admin/Login/script_update');
         $routeCollector->post('/script_update', '/Admin/Login/script_update');
+
+
         //抖音 和服务器通讯
         $routeCollector->get('/get_config', '/Admin/Config/get_config');
         //获取手机
@@ -30,9 +33,20 @@ class Router extends AbstractRouter
         //修改 update_data
         $routeCollector->post('/update_data', '/Admin/Config/update_data');
 
+
+        # 设备获取 运行类型
+        $routeCollector->get('/get_running_model', '/Admin/Config/get_running_model');
+
+
+        /**
+         * WeiShi_ConfigController.php
+         */
+        $routeCollector->get('/wei_shi/script_update', '/Admin/WeiShi_ConfigController/script_update');
+        $routeCollector->post('/wei_shi/script_update', '/Admin/WeiShi_ConfigController/script_update');
+
+
         # 测试Test
         $routeCollector->post('/get_sex_form_my_server', '/Admin/Config/get_sex_form_my_server');
-
         //一次修改配置 update_data_All
         $routeCollector->post('/update_data_All', '/Admin/Config/update_data_All');
         //批量授权 impowerAll
@@ -128,7 +142,6 @@ class Router extends AbstractRouter
         $routeCollector->get('/addFollow_one', '/Admin/Follows/addFollow_one');
 
         $routeCollector->get('/router', '/test');
-
         $routeCollector->post('/test', '/test');
 
 
@@ -159,6 +172,72 @@ class Router extends AbstractRouter
         $routeCollector->get('/get_total_list', '/Admin/Total/get_total_list');
         # PyAddDyUrl python 添加
         $routeCollector->get('/PyAddDyUrl', '/Admin/Contact/PyAddDyUrl');
+
+
+        /**
+         * WeiShi_NameController.php
+         */
+        #微视检查微视号是否重复
+        $routeCollector->get('/weishi/checkName', '/Admin/WeiShi_NameController/checkName');
+
+
+        /**
+         * App/HttpController/Admin/UserIdController.php
+         */
+        $routeCollector->post('/dy/addUserId', '/Admin/UserIdController/addUserId');
+        $routeCollector->get('/dy/getOne', '/Admin/UserIdController/getOne');
+
+
+        /**
+         * WeiShiVideoLinkController.php
+         */
+        $routeCollector->post('/weishi/batchUploadLinks', '/Admin/WeiShiVideoLinkController/batchUploadLinks');
+        #GetLinkOne
+        $routeCollector->get('/weishi/GetLinkOne', '/Admin/WeiShiVideoLinkController/GetLinkOne');
+
+
+        # CollectForMarKet 采集宝宝
+        $routeCollector->post('/CollectForMarKet', '/Admin/CollectForMarKet/collectForMarKet');
+        # getAllWc
+        $routeCollector->get('/getAllWc', '/Admin/CollectForMarKet/getAllWc');
+        #setInformation
+        $routeCollector->get('/setInformation', '/Admin/CollectForMarKet/setInformation');
+        #getOneInformation
+        $routeCollector->get('/getOneInformation', '/Admin/CollectForMarKet/getOneInformation');
+        # setWcModel
+        $routeCollector->get('/setWcModel', '/Admin/CollectForMarKet/setWcModel');
+
+        #getWcModel
+        $routeCollector->get('/getWcModel', '/Admin/CollectForMarKet/getWcModel');
+
+        #IsExistModel
+        $routeCollector->get('/IsExistModel', '/Admin/CollectForMarKet/IsExistModel');
+        #deleteModel
+        $routeCollector->get('/deleteModel', '/Admin/CollectForMarKet/deleteModel');
+        #IfShopping
+        $routeCollector->post('/IfShopping', '/Admin/CollectForMarKet/IfShopping');
+        #GetTaskResult
+        $routeCollector->get('/GetTaskResult', '/Admin/CollectForMarKet/GetTaskResult');
+        #updateModel
+        $routeCollector->get('/updateModel', '/Admin/CollectForMarKet/updateModel');
+        #ifShoppingInformation
+        $routeCollector->post('/ifShoppingInformation', '/Admin/CollectForMarKet/ifShoppingInformation');
+        #importModel
+        $routeCollector->post('/importModel', '/Admin/CollectForMarKet/importModel');
+        # backModel
+        $routeCollector->get('/backModel', '/Admin/CollectForMarKet/backModel');
+        #selecting
+        $routeCollector->get('/selecting', '/Admin/CollectForMarKet/selecting');
+        #GetRec
+        $routeCollector->get('/GetRec', '/Admin/CollectForMarKet/GetRec');
+        #delRec
+        $routeCollector->get('/delRec', '/Admin/CollectForMarKet/delRec');
+        #delAll
+        $routeCollector->get('/delAll', '/Admin/CollectForMarKet/delAll');
+        #changeSwitch
+        $routeCollector->get('/changeSwitch', '/Admin/CollectForMarKet/changeSwitch');
+        #get_cw_modelOne
+        $routeCollector->get('/get_cw_modelOne', '/Admin/CollectForMarKet/get_cw_modelOne');
 
         /*
          * eg path : /closure/index.html  ; /closure/ ;  /closure

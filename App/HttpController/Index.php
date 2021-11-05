@@ -5,6 +5,7 @@ namespace App\HttpController;
 
 
 use EasySwoole\Http\AbstractInterface\Controller;
+use EasySwoole\HttpClient\Exception\InvalidUrl;
 
 class Index extends Controller
 {
@@ -20,7 +21,15 @@ class Index extends Controller
 
     function test()
     {
-        $this->writeJson(1, '1111111', 'chengg!');
+
+
+        try {
+            var_dump("45454");
+        } catch (InvalidUrl $e) {
+            var_dump("特使异常");
+        }
+
+
     }
 
     protected function actionNotFound(?string $action)

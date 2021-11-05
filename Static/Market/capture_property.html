@@ -1,0 +1,1035 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>axie小工具-属性</title>
+  <link href="assets/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="layui/css/layui.css">
+  <script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="js/xm-select.js"></script>
+    <script type="text/javascript" src="js/FileSaver.js"></script>
+  <style>
+
+    .layui-table-cell{
+        height: 70px;
+        line-height: 70px;
+    }
+
+    .abilities_part1{
+        position: relative;
+        display: inline-block;
+        margin: 20px 20px;
+    }
+
+    .abilities_name{
+        position: absolute;
+        top: 30px;
+        left: 120px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .abilities_detail{
+        position: absolute;
+        top: 270px;
+        left: 60px;
+        /*color: #fff;*/
+        white-space: pre-wrap;
+        width: 210px;
+
+        color: rgb(204, 204, 204);
+        font-weight: bold;
+    }
+
+    .abilities_image_small{
+        position: absolute;
+        top: 315px;
+        left: 18px;
+        width: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div style="padding: 20px">
+
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>地址方式</legend>
+  </fieldset>
+  <div class="layui-inline">
+    <label class="layui-form-label">地址</label>
+    <div class="layui-input-block" style="width: 800px;">
+      <input type="text" name="address" id="address" lay-verify="title" autocomplete="off" placeholder="请输入地址" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-inline" style="margin-left: 20px;">
+    <button type="submit" class="layui-btn" lay-submit="" lay-filter="readdata" id="readdata"><i class="layui-icon layui-icon-read"></i> 查找相似(地址方式)</button>
+  </div>
+
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>手动选择方式</legend>
+  </fieldset>
+
+
+  <div class="layui-inline">
+    <label class="layui-form-label">种类</label>
+    <form class="layui-form" action="" lay-filter="classform" style="display: inline-block;">
+      <div class="layui-form-item">
+        <div class="layui-input-block1">
+          <input type="checkbox" name="Beast" title="Beast" id="Beast" >
+          <input type="checkbox" name="Aquatic" title="Aquatic" id="Aquatic" >
+          <input type="checkbox" name="Plant" title="Plant" id="Plant" >
+          <input type="checkbox" name="Bird" title="Bird" id="Bird" >
+          <input type="checkbox" name="Bug" title="Bug" id="Bug" >
+          <input type="checkbox" name="Reptile" title="Reptile" id="Reptile" >
+          <input type="checkbox" name="Mech" title="Mech" id="Mech" >
+          <input type="checkbox" name="Dawn" title="Dawn" id="Dawn" >
+          <input type="checkbox" name="Dusk" title="Dusk" id="Dusk" >
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <form class="layui-form" action="">
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">眼睛</label>
+        <div class="layui-input-inline">
+          <input type="text" id="eye_input" autocomplete="off" class="layui-input" >
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">耳朵</label>
+        <div class="layui-input-inline">
+          <input type="text" id="ear_input"  autocomplete="off" class="layui-input" >
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">背部</label>
+        <div class="layui-input-inline">
+          <input type="text" id="back_input"  autocomplete="off" class="layui-input" >
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">嘴巴</label>
+        <div class="layui-input-inline">
+          <input type="text" id="mouth_input"  autocomplete="off" class="layui-input" >
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">角</label>
+        <div class="layui-input-inline">
+          <input type="text" id="horn_input"  autocomplete="off" class="layui-input" >
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">尾部</label>
+        <div class="layui-input-inline">
+          <input type="text" id="tail_input" autocomplete="off" class="layui-input" >
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-form-item" style="margin-left: 60px;">
+      <div class="layui-inline">
+        <div style="display: inline-block">速度speed<div id="speedSlider" class="demo-slider" style="display: inline-block;width: 800px;margin-left: 20px;"></div></div>
+      </div>
+    </div>
+    <div class="layui-form-item" style="margin-left: 60px;">
+      <div class="layui-inline">
+        <div style="display: inline-block">体力hp<div id="hpSlider" class="demo-slider" style="display: inline-block;width: 800px;margin-left: 20px;"></div></div>
+      </div>
+    </div>
+    <div class="layui-form-item" style="margin-left: 60px;">
+      <div class="layui-inline">
+        <div style="display: inline-block">技能morale<div id="moraleSlider" class="demo-slider" style="display: inline-block;width: 800px;margin-left: 20px;"></div></div>
+      </div>
+    </div>
+    <div class="layui-form-item" style="margin-left: 60px;">
+      <div class="layui-inline">
+        <div style="display: inline-block">士气skill<div id="skillSlider" class="demo-slider" style="display: inline-block;width: 800px;margin-left: 20px;"></div></div>
+      </div>
+    </div>
+  </form>
+
+<!--    <div class="layui-inline" style="margin-top: 20px;display: block">-->
+<!--    <label class="layui-form-label">耳朵</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;">-->
+<!--      <input type="text" id="ear_input"  autocomplete="off" class="layui-input" >-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="layui-inline" style="margin-top: 20px;">-->
+<!--    <label class="layui-form-label">眼睛</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;">-->
+<!--      <input type="text" id="eye_input" autocomplete="off" class="layui-input" >-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="layui-inline" style="margin-top: 20px;">-->
+<!--    <label class="layui-form-label">背部</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;">-->
+<!--      <input type="text" id="back_input"  autocomplete="off" class="layui-input" >-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="layui-inline" style="margin-top: 20px;">-->
+<!--    <label class="layui-form-label">嘴巴</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;">-->
+<!--      <input type="text" id="mouth_input"  autocomplete="off" class="layui-input" >-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="layui-inline" style="margin-top: 20px;">-->
+<!--    <label class="layui-form-label">角</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;">-->
+<!--      <input type="text" id="horn_input"  autocomplete="off" class="layui-input" >-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+<!--  <div class="layui-inline" style="margin-top: 20px;">-->
+<!--    <label class="layui-form-label">尾部</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;">-->
+<!--      <input type="text" id="tail_input" autocomplete="off" class="layui-input" >-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--    <div class="layui-inline" style="margin-top: 20px;display: block">-->
+<!--      <label class="layui-form-label">速度speed</label>-->
+<!--      <div class="layui-input-block" style="width: 800px;display: inline-block;min-height: 0;">-->
+<!--        <div id="speedSlider" class="demo-slider"></div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--  <div class="layui-inline" style="margin-top: 20px;margin-bottom: 10px;height: 30px;">-->
+<!--    <label class="layui-form-label">hp</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;display: inline-block;min-height: 0;">-->
+<!--      <div id="hpSlider" class="demo-slider"></div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="layui-inline" style="margin-top: 20px;margin-bottom: 10px;height: 30px;">-->
+<!--    <label class="layui-form-label">morale</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;display: inline-block;min-height: 0;">-->
+<!--      <div id="moraleSlider" class="demo-slider"></div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="layui-inline" style="margin-top: 20px;margin-bottom: 10px;height: 30px;">-->
+<!--    <label class="layui-form-label">skill</label>-->
+<!--    <div class="layui-input-block" style="width: 800px;display: inline-block;min-height: 0;">-->
+<!--      <div id="skillSlider" class="demo-slider"></div>-->
+<!--    </div>-->
+<!--  </div>-->
+    <div class="layui-inline" style="margin-top: 20px;margin-bottom: 10px;height: 30px;margin-left: 50px;">
+      <button type="submit" class="layui-btn" lay-submit="" lay-filter="readdata" id="readdata_hand"><i class="layui-icon layui-icon-read"></i> 查找相似(输入框方式)</button>
+    </div>
+
+
+  <table class="layui-hide" id="test" style="padding: 30px;"></table>
+
+</div>
+
+
+<script type="text/javascript" src="./js/conmon.js"></script>
+<!-- 引入 layui.js 的 <script> 标签最好放置在 html 末尾 -->
+<script src="layui/layui.js"></script>
+
+<!--数据表格操作工具栏-->
+<script type="text/html" id="orderListBar">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="addbtn" style="background-color: #1890ff"><i class="layui-icon layui-icon-addition"></i>模块添加</a>
+<!--    <a class="layui-btn layui-btn-sm  " lay-event="changebtn" style="background-color: #115195"><i class="layui-icon layui-icon-edit"></i>修改</a>-->
+<!--    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delbtn"><i class="layui-icon">&#x1006;</i>删除</a>-->
+</script>
+
+
+<script>
+  var jsondata;
+
+  layui.use(function(){
+          var layer = layui.layer
+          ,form = layui.form
+          ,laypage = layui.laypage
+          ,element = layui.element
+          ,laydate = layui.laydate
+          ,$ = layui.jquery
+          ,upload = layui.upload
+          ,slider = layui.slider
+          ,util = layui.util;
+
+          var layuicode = layui.code
+          var table = layui.table;
+
+          var speedMinMax  = ''
+          var hpMinMax  = ''
+          var moraleMinMax  = ''
+          var skillMinMax  = ''
+
+          speedMinMax = "27@61"
+          hpMinMax = "27@61"
+          moraleMinMax = "27@61"
+          skillMinMax = "27@61"
+
+          //设置最大最小值
+          slider.render({
+            elem: '#speedSlider'
+            ,min: 27 //最小值
+            ,max: 61 //最大值
+            ,value: 61 //初始值
+            ,range: true //范围选择
+            ,theme: '#1E9FFF' //主题色
+            ,change: function(vals){
+              // console.log("speedSlider",'开始值：'+ vals[0] + '、结尾值：'+ vals[1])
+              speedMinMax = vals[0]+"@"+vals[1]
+            }
+          });
+
+        //设置最大最小值
+        slider.render({
+          elem: '#hpSlider'
+          ,min: 27 //最小值
+          ,max: 61 //最大值
+          ,value: 61 //初始值
+          ,range: true //范围选择
+          ,theme: '#1E9FFF' //主题色
+          ,change: function(vals){
+            // console.log("11132323",'开始值：'+ vals[0] + '、结尾值：'+ vals[1])
+            hpMinMax = vals[0]+"@"+vals[1]
+          }
+        });
+
+
+        //设置最大最小值
+        slider.render({
+          elem: '#moraleSlider'
+          ,min: 27 //最小值
+          ,max: 61 //最大值
+          ,value: 61 //初始值
+          ,range: true //范围选择
+          ,theme: '#1E9FFF' //主题色
+          ,change: function(vals){
+            // console.log("11132323",'开始值：'+ vals[0] + '、结尾值：'+ vals[1])
+            moraleMinMax = vals[0]+"@"+vals[1]
+          }
+        });
+
+        //设置最大最小值
+        slider.render({
+          elem: '#skillSlider'
+          ,min: 27 //最小值
+          ,max: 61 //最大值
+          ,value: 61 //初始值
+          ,range: true //范围选择
+          ,theme: '#1E9FFF' //主题色
+          ,change: function(vals){
+            // console.log("11132323",'开始值：'+ vals[0] + '、结尾值：'+ vals[1])
+            skillMinMax = vals[0]+"@"+vals[1]
+          }
+        });
+
+
+          var partArrays = []
+          var speedArrays = []
+          var hpArrays = []
+          var moraleArrays = []
+          var skillArrays = []
+
+          var partArraysStr = ""
+          var speedArraysStr = ""
+          var hpArraysStr = ""
+          var moraleArraysStr = ""
+          var skillArraysStr = ""
+
+          var requestStr = "";
+
+          var tempOBjJson = {
+            "code": 0,
+            "msg": "",
+            "count": 10,
+            "data": [
+              {
+                "id": 347,
+                "axie_id": "7674830",
+                "status": 0,
+                "created_at": 1635162141,
+                "updated_at": 1635162144
+              },
+              {
+                "id": 346,
+                "axie_id": "7956473",
+                "status": 7,
+                "created_at": 1635162141,
+                "updated_at": 1635162143
+              },
+              {
+                "id": 345,
+                "axie_id": "7385098",
+                "status": 0,
+                "created_at": 1635162140,
+                "updated_at": 1635162141
+              },
+              {
+                "id": 344,
+                "axie_id": "4145724",
+                "status": 8,
+                "created_at": 1635162139,
+                "updated_at": 1635162145
+              },
+              {
+                "id": 343,
+                "axie_id": "3889958",
+                "status": 63,
+                "created_at": 1635162138,
+                "updated_at": 1635162140
+              },
+              {
+                "id": 342,
+                "axie_id": "7821138",
+                "status": 3,
+                "created_at": 1635162138,
+                "updated_at": 1635162139
+              },
+              {
+                "id": 341,
+                "axie_id": "7326193",
+                "status": 0,
+                "created_at": 1635162135,
+                "updated_at": 1635162138
+              },
+              {
+                "id": 340,
+                "axie_id": "5844809",
+                "status": -1,
+                "created_at": 1635162135,
+                "updated_at": 1635162137
+              },
+              {
+                "id": 339,
+                "axie_id": "7816713",
+                "status": 0,
+                "created_at": 1635162134,
+                "updated_at": 1635162135
+              },
+              {
+                "id": 338,
+                "axie_id": "7958306",
+                "status": 3,
+                "created_at": 1635162133,
+                "updated_at": 1635162134
+              }
+            ]
+          }
+
+
+          var currTableDataS
+
+          //订单表
+          var tableIns = table.render({
+            elem: '#test',
+            url : 'aaa.json',
+            // url : requertUrl+"/setInformation",
+            // method: 'post',
+            // where:{token: $.cookie('tokenMyb'),status:1,addFans_status:2,add_group_status:1},//1是:当前访问的是审核通过的数据
+            cellMinWidth : 95,
+            // page :  { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+            //   layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+            //   //,curr: 5 //设定初始在第 5 页
+            //   ,groups: 10 //只显示 1 个连续页码
+            //   ,first: "首页" //不显示首页
+            //   ,last: "尾页"//不显示尾页
+            //
+            // },
+
+            height : "full-20",
+            // limit : 15,
+            // limits : [15,30,50,100],
+            id : "systemLog",
+            response: {
+              statusName: 'code' //规定数据状态的字段名称，默认：code
+              ,statusCode: "200", //规定成功的状态码，默认：0
+              // ,msgName: 'hint' //规定状态信息的字段名称，默认：msg
+              // ,countName: 'total', //规定数据总数的字段名称，默认：count
+              dataName: 'result' //规定数据列表的字段名称，默认：data
+            },
+            parseData: function(res){ //res 即为原始返回的数据
+
+              // console.log(res)
+              return {
+                "code":200,
+                // "result": res.result.data.axies.results //解析数据列表
+                "result": res.result.data.axies.results //解析数据列表
+
+              };
+            },
+            cols : [[
+              {type: "checkbox", fixed:"left"},
+              // {field: 'id', title: '编号', width:60, align:"center"},
+              // {field: 'xid', title: '编号', width:60, align:"center",templet: '#titleTpl'},
+              {field: 'id', title: 'ID', sort: true,minWidth:'100',align:"center"}, //, style :'display: none'
+              {field: 'image', title: '宠物图像',sort: true,width:122, height:200, align:'center',templet: function(d){
+
+                  var imageName = d.image;
+
+                  return '<div ><img src="'+imageName+'" ' + 'alt="" width="200px" height="60px"></a></div>';
+
+                }},
+              {field: 'class', title: '种类', sort: true, align:'center',width:120,templet: function (d) {
+                  // console.log(d)
+                  return d.class
+                }},
+              {field: 'Eyes', title: '眼(eyes)', sort: true, align:'center',width:150, templet: function (d) {
+
+                  let currData = d.parts[0]
+                  // console.log(currData,typeof currData)
+                  if(!currData ){
+                    return "无"
+                  }else{
+                    return d.parts[0].name
+                  }
+
+                }},
+              {field: 'Ears', title: '耳(ears)', sort: true, align:'center', templet: function (d) {
+
+                  let currData = d.parts[1]
+                  // console.log(currData,typeof currData)
+                  if(!currData ){
+                    return "无"
+                  }else{
+                    return d.parts[1].name
+                  }
+
+                }},
+              {field: 'Back', title: '背(back)', sort: true, align:'center', templet: function (d) {
+
+                  let currData = d.parts[1]
+                  // console.log(currData,typeof currData)
+                  if(!currData ){
+                    return "无"
+                  }else{
+                    return d.parts[2].name
+                  }
+
+                }},
+              {field: 'Mouth', title: '牙(mouth)', sort: true, align:'center', templet: function (d) {
+
+                  let currData = d.parts[1]
+                  // console.log(currData,typeof currData)
+                  if(!currData ){
+                    return "无"
+                  }else{
+                    return d.parts[3].name
+                  }
+
+                }},
+              {field: 'Horn', title: '角(horn)', sort: true, align:'center', templet: function (d) {
+
+                  let currData = d.parts[1]
+                  // console.log(currData,typeof currData)
+                  if(!currData ){
+                    return "无"
+                  }else{
+                    return d.parts[4].name
+                  }
+
+                }},
+              {field: 'Tail', title: '尾(tail)', sort: true, align:'center', templet: function (d) {
+
+                  let currData = d.parts[1]
+                  // console.log(currData,typeof currData)
+                  if(!currData ){
+                    return "无"
+                  }else{
+                    return d.parts[5].name
+                  }
+
+                }},
+              {field: 'content', title: '价格(USD)', sort: true,align:'center', templet: function (d) {
+
+
+                  // console.log(d.auction.currentPriceUSD)
+
+                  return d.auction.currentPriceUSD
+
+                }},
+              {field: 'content', title: '价格(ETH)', sort: true,align:'center', templet: function (d) {
+
+
+                  // console.log(d.auction.currentPriceUSD)
+
+
+                  // var input_curr_eth_price = parseFloat(d.auction.currentPriceUSD)
+                  // var input_curr_fl_price = parseFloat('3784')
+                  //
+                  // //美元价格
+                  // var  input_curr_usd_price = parseFloat(input_curr_eth_price /  input_curr_fl_price) // 输出结果为 2.4544
+
+
+                  return parseInt(d.auction.currentPrice)/1000000000000000000
+                }},
+              // {field: 'created_at', title: '创建时间',sort: true, width: 190, align:'center',templet: function (d) {
+              //     var unixTimestamp = new Date(d.created_at * 1000)
+              //     return formatDateTime(unixTimestamp)
+              // }},
+              // {field: 'updated_at', title: '更新时间',sort: true,width:190, align:'center',templet: function (d) {
+              //     var unixTimestamp = new Date(d.updated_at * 1000)
+              //     return formatDateTime(unixTimestamp)
+              // }},
+
+              // {field: 'order_time',title: '订单时间', width:163,align:"center"},
+              // {field: 'order_time',title: '订单时间', width:118,align:"center",templet:function(d){
+              //         var to = d.order_time.substr(5,);
+              //         return to
+              //     }},
+              // {title: '', width:1, templet:'#orderListBar',fixed:"right",align:"center"}
+            ]],
+            done: function(res, curr, count){
+              // console.log("res",res.result.data.axies.results)
+              // res = res.result.data.axies.results
+            }
+          });
+
+
+          /* 表格工具条点击事件 */
+          table.on('tool(userTable)', function (obj) {
+
+              // console.log(obj)
+              var currDatas  = obj.data;
+              if (obj.event === 'changebtn') { // 修改
+
+                  // console.log("121214124")
+
+                  // showEditModel(obj.data);
+
+                  jsondata = JSON.stringify(currDatas)
+                  var index = layui.layer.open({
+                      area: ['600px', '715px'],
+                      fixed: false, //不固定
+                      maxmin: false,
+                      title : "修改当前模板内容",
+                      skin: 'layui-layer-rim',//加上边框
+                      type : 2,
+                      content : "admin_edit.html",
+                      success : function(layero, index){
+                          var body = layui.layer.getChildFrame('body', index);
+
+
+                          //
+                          // if(currDatas) {
+                          //
+                          //     //不显示出来的回显数据
+                          //     body.find("#money").val(currDatas.money);
+                          //
+                          // }
+
+
+                      },
+                      end : function() {//弹窗关闭后的回调函数
+                        //利用laypage实现局部刷新,以下两种方式都可以
+                        // $(".layui-laypage-btn").click()
+                        //直接刷新当前修改的行
+                        // $(".layui-laypage-btn")[0].click()
+                        // table.reload('systemLog', {});
+                      }
+                  })
+                  window.sessionStorage.setItem("index",index);
+                  //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+                  $(window).on("resize",function(){
+                      layui.layer.full(window.sessionStorage.getItem("index"));
+                  })
+
+              }else if (obj.event === 'delbtn') { // 删除
+                  doDel(obj);
+              }else if(obj.event === 'addbtn'){ //添加
+                jsondata = JSON.stringify(currDatas)
+                var index = layui.layer.open({
+                  area: ['1610px', '895px'],
+                  fixed: false, //不固定
+                  maxmin: true,
+                  shadeClose:true,
+                  title : "添加模块",
+                  skin: 'layui-layer-rim',//加上边框
+                  type : 2,
+                  content : "capture_add.html",
+                  success : function(layero, index){
+                    var body = layui.layer.getChildFrame('body', index);
+
+                    //
+                    // if(currDatas) {
+                    //
+                    //     //不显示出来的回显数据
+                    //     body.find("#money").val(currDatas.money);
+                    //
+                    // }
+
+                  },
+                  end : function() {//弹窗关闭后的回调函数
+                    //利用laypage实现局部刷新,以下两种方式都可以
+                    $(".layui-laypage-btn").click()
+                    //直接刷新当前修改的行
+                    // $(".layui-laypage-btn")[0].click()
+                    // table.reload('systemLog', {});
+                  }
+                })
+                window.sessionStorage.setItem("index",index);
+                //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+                $(window).on("resize",function(){
+                  layui.layer.full(window.sessionStorage.getItem("index"));
+                })
+              }
+
+
+          });
+
+          //清除所有数据
+          $("#clearAllData").click(function () {
+            layer.confirm('系统将清除所有数据，确认要清除吗？', {
+              icon:2,
+              title:'温馨提示',
+              skin: 'layui-layer-admin',
+              shade: .1
+            }, function (i) {
+              layer.close(i);
+
+              //删除模板
+              $.ajax({
+                url: requertUrl+"/delAll",
+                dataType: 'json',
+                type: 'GET',
+                success: function (dataArray) {
+
+                  // console.log("dataArray",dataArray)
+                  if (dataArray.code != 200) {
+
+                    // console.log(dataArray.msg)
+                    // layer.msg(dataArray.msg);
+
+                    return false;
+
+                  }
+                  layer.msg(dataArray.msg, {icon: 1});
+
+                  setTimeout(function () {
+                    table.reload('systemLog', {});
+                  }, 1300)
+
+
+                }
+              })
+
+            });
+          })
+
+          //读取数据
+          $("#readdata").click(function () {
+
+              var indexTableLoad = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+              });
+
+              var addressS = $("#address").val()
+              var splitArray  = addressS.split("?")[1].split("&")
+
+               partArrays = []
+               speedArrays = []
+               hpArrays = []
+               moraleArrays = []
+               skillArrays = []
+
+               partArraysStr = ""
+               speedArraysStr = ""
+               hpArraysStr = ""
+               moraleArraysStr = ""
+               skillArraysStr = ""
+
+              // console.log("addressS",splitArray)
+
+              splitArray.forEach((item)=>{
+                 console.log("item",item.split("="))
+
+                 if(item.split("=")[0] == "part" ){
+                   partArrays.push(item.split("=")[1])
+                 }
+
+                 if(item.split("=")[0]  == "speed" ){
+                   speedArrays.push(item.split("=")[1])
+                 }
+
+                 if(item.split("=")[0]  == "hp" ){
+                   hpArrays.push(item.split("=")[1])
+                 }
+
+                 if(item.split("=")[0]  == "morale" ){
+                   moraleArrays.push(item.split("=")[1])
+                 }
+
+                 if(item.split("=")[0]  == "skill" ){
+                   skillArrays.push(item.split("=")[1])
+                 }
+
+              })
+
+
+              console.log("11",partArrays,speedArrays,hpArrays,moraleArrays,skillArrays)
+
+              if(partArrays.length !== 0){
+                partArrays.forEach(item=>{
+                  partArraysStr = partArraysStr + item + "@"
+                })
+                partArraysStr = partArraysStr.slice(0,partArraysStr.length-1)
+              }
+
+              if(speedArrays.length !== 0){
+                speedArrays.forEach(item=>{
+                  speedArraysStr = speedArraysStr + item + "@"
+                })
+                speedArraysStr = speedArraysStr.slice(0,speedArraysStr.length-1)
+              }
+
+              if(hpArrays.length !== 0){
+                hpArrays.forEach(item=>{
+                  hpArraysStr = hpArraysStr + item + "@"
+                })
+                hpArraysStr = hpArraysStr.slice(0,hpArraysStr.length-1)
+              }
+
+              if(moraleArrays.length !== 0){
+                moraleArrays.forEach(item=>{
+                  moraleArraysStr = moraleArraysStr + item + "@"
+                })
+                moraleArraysStr = moraleArraysStr.slice(0,moraleArraysStr.length-1)
+              }
+
+              if(skillArrays.length !== 0){
+                skillArrays.forEach(item=>{
+                  skillArraysStr = skillArraysStr + item + "@"
+                })
+                skillArraysStr = skillArraysStr.slice(0,skillArraysStr.length-1)
+              }
+
+             console.log("222",partArraysStr,speedArraysStr,hpArraysStr,moraleArraysStr,skillArraysStr)
+
+            requestStr = "";
+
+            if(partArrays.length !== 0 && partArraysStr != "undefined"){
+              requestStr = requestStr + "parts=" + partArraysStr
+            }
+
+            if(speedArrays.length !== 0 && speedArraysStr != "undefined"){
+
+              requestStr = requestStr + "&speed=" + speedArraysStr
+            }
+
+            if(hpArrays.length !== 0 && hpArraysStr != "undefined"){
+
+              requestStr = requestStr + "&hp=" + hpArraysStr
+            }
+
+            if(moraleArrays.length !== 0 && moraleArraysStr != "undefined"){
+
+              requestStr = requestStr + "&morale=" + moraleArraysStr
+            }
+
+            if(skillArrays.length !== 0 && skillArraysStr != "undefined" ){
+
+              requestStr = requestStr + "&skill=" + skillArraysStr
+            }
+
+            console.log("requestStr",requestStr)
+
+
+            //执行重载
+            table.reload('systemLog', {
+              page: {
+                curr: 1 //重新从第 1 页开始
+              },
+              url : requertUrl+"/setInformation?"+requestStr,
+              parseData: function(res){ //res 即为原始返回的数据
+
+                // console.log(res)
+
+                $("#totalNum").text(res.result.data.axies.total)
+                return {
+                  "code":200,
+                  // "result": res.result.data.axies.results //解析数据列表
+                  "result": res.result.data.axies.results //解析数据列表
+
+                };
+              },
+              done: function(res, curr, count){
+                // console.log("res",res.result.data.axies.results)
+                // res = res.result.data.axies.results
+
+                layer.msg('查询成功~', {icon: 1});
+                layer.close(indexTableLoad)
+              }
+            });
+
+
+            return false
+          })
+
+          $("#readdata_hand").click(function () {
+            var indexTableLoad = layer.load(1, {
+              shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+
+            var data = form.val('classform');
+
+            classStr =""
+
+            if(data.Beast == "on"){
+              // console.log("进来")
+              classStr = classStr + "Beast" + "@"
+            }
+
+            if(data.Aquatic == "on"){
+              classStr = classStr + "Aquatic" + "@"
+            }
+
+            if(data.Plant == "on"){
+              classStr = classStr + "Plant" + "@"
+            }
+
+            if(data.Bird == "on"){
+              classStr = classStr + "Bird" + "@"
+            }
+
+            if(data.Bug == "on"){
+              classStr = classStr + "Bug" + "@"
+            }
+
+            if(data.Reptile == "on"){
+              classStr = classStr + "Reptile" + "@"
+            }
+
+            if(data.Mech == "on"){
+              classStr = classStr + "Mech" + "@"
+            }
+
+            if(data.Dawn == "on"){
+              classStr = classStr + "Dawn" + "@"
+            }
+
+            if(data.Dusk == "on"){
+              classStr = classStr + "Dusk" + "@"
+            }
+
+            // if(classStr == ""){
+            //
+            //   layer.msg('种类必须选择', {icon: 2});
+            //   layer.close(indexTableLoad)
+            //   return false
+            // }
+
+            // classes: classStr,
+
+            var requestStr_query = ""
+            var part_query = ""
+
+            if(classStr != ""){
+              classStr = classStr.substring(0,classStr.length-1);
+              requestStr_query = "classes="+classStr
+            }
+
+            if($("#ear_input").val() != ""){
+              part_query = part_query + $("#ear_input").val() +"@"
+            }
+
+            if($("#eye_input").val() != ""){
+              part_query = part_query + $("#eye_input").val() +"@"
+            }
+
+
+            if($("#back_input").val() != ""){
+              part_query = part_query + $("#back_input").val() +"@"
+            }
+
+            if($("#tail_input").val() != ""){
+              part_query = part_query + $("#tail_input").val() +"@"
+            }
+
+            if($("#mouth_input").val() != ""){
+              part_query = part_query + $("#mouth_input").val() +"@"
+            }
+
+
+            if($("#horn_input").val() != ""){
+              part_query = part_query + $("#horn_input").val() +"@"
+            }
+
+
+            if(part_query != ""){
+              part_query = part_query.substring(0,part_query.length-1);
+              requestStr_query =requestStr_query +"&part="+part_query
+            }
+
+
+            if(speedMinMax != ""){
+              requestStr_query = requestStr_query + "&speed=" +speedMinMax
+            }
+
+
+            if(speedMinMax != ""){
+              requestStr_query = requestStr_query + "&hp=" +hpMinMax
+            }
+
+
+            if(speedMinMax != ""){
+              requestStr_query = requestStr_query + "&morale=" +moraleMinMax
+            }
+
+
+            if(speedMinMax != ""){
+              requestStr_query = requestStr_query + "&skill=" +skillMinMax
+            }
+
+
+            // console.log("requestStr_query",requestStr_query)
+
+            //执行重载
+            table.reload('systemLog', {
+              page: {
+                curr: 1 //重新从第 1 页开始
+              },
+              url : requertUrl+"/setInformation?"+requestStr_query+"&limit=300000&page=1",
+              parseData: function(res){ //res 即为原始返回的数据
+
+                // console.log(res)
+
+                $("#totalNum").text(res.result.data.axies.total)
+                return {
+                  "code":200,
+                  // "result": res.result.data.axies.results //解析数据列表
+                  "result": res.result.data.axies.results //解析数据列表
+
+                };
+              },
+              done: function(res, curr, count){
+                // console.log("res",res.result.data.axies.results)
+                // res = res.result.data.axies.results
+
+                layer.msg('查询成功~', {icon: 1});
+                layer.close(indexTableLoad)
+              }
+            });
+
+
+            return false
+
+
+          })
+
+
+  });
+
+
+</script>
+</body>
+</html>

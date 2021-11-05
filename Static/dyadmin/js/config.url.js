@@ -24,6 +24,10 @@ global_requestDyGetSjlbUrl_js="/get_users";
 //改变手机设备的(封禁状态/是否假粉)
 global_requestDychange_status_js="/change_status"
 
+//更改手机设备配置
+global_requestupdate_data="/update_data";
+
+
 //开启私聊接口(目前这个接口废弃使用)
 global_requestDychannelSjlbUrl_js="/change__permissions_for_message";
 
@@ -47,6 +51,13 @@ global_requestDyget_total_all="/get_total_all";
 
 //获取粉丝统计数据接口
 global_requestDyget_total_list="/get_total_list";
+
+//批量添加UID模板数据接口
+global_requestDyget_dy_addUserId="/dy/addUserId";
+
+
+
+
 
 var getRootPath_webStr = getRootPath_web();
 

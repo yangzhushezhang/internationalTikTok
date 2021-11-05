@@ -103,8 +103,10 @@
 
 
 
-       <i class="mdi mdi-web" id="checkoutOldVeri"></i><span  class="icon-item" style="margin-left:-10px" id="checkoutOldVerSpan">切换旧版</span>
+<!--       <i class="mdi mdi-web" id="checkoutOldVeri"></i><span  class="icon-item" style="margin-left:-10px" id="checkoutOldVerSpan">切换旧版</span>-->
 
+          <i class="mdi mdi-web" id="douyinhoutais"></i><span  class="icon-item" style="margin-left:-10px" id="douyinhoutai">打开国内抖音后台</span>
+          <i class="mdi mdi-web" id="weishihoutais"></i><span  class="icon-item" style="margin-left:-10px" id="weishihoutai">打开微视后台</span>
 
           <!--切换主题配色-->
 		  <!-- <li class="dropdown dropdown-skin">
@@ -264,7 +266,63 @@
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/bootstrap-multitabs/multitabs.min.js"></script>
 <script type="text/javascript" src="./js/config.url.js"></script>
+<script type="text/javascript" src="./js/link_ip.js"></script>
 <script type="text/javascript" src="./js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="./js/index.min.js"></script>
+
+<script type="text/javascript">
+
+  // var mybck= $.cookie('tokenMyb');
+  // //alert(document.cookie);
+  // //console.log(mybck)
+  // if(mybck == "" || mybck == null){
+  //
+  //   window.top.location.href="./login.html";
+  //
+  //
+  // }else{
+  //
+  //
+  //
+  // }
+
+
+  //打开国内抖音
+  $("#douyinhoutai").click(function(){
+
+
+    window.top.location.href="http://"+js_douyin_ip+"/static/ginv2/login.html";
+
+  })
+
+  //打开国内抖音
+  $("#douyinhoutais").click(function(){
+
+
+    window.top.location.href="http://"+js_douyin_ip+"/static/ginv2/login.html";
+
+  })
+
+
+  //打开微视
+  $("#weishihoutai").click(function(){
+
+     window.top.location.href="http://"+js_weishi_ip+"/weishiadmin/index.html";
+
+  })
+
+
+  //打开微视
+  $("#weishihoutais").click(function(){
+
+
+    window.top.location.href="http://"+js_weishi_ip+"/weishiadmin/index.html";
+
+  })
+
+
+</script>
+
+
 </body>
 </html>

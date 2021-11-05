@@ -1,0 +1,214 @@
+{
+  "mouth":[
+    {
+      "name": "Axie Kiss(Death Mark)",
+      "value": "mouth-axie-kiss",
+      "simple": "Death Mark",
+      "label": "Axie Kiss"
+    },
+    {
+      "name": "Catfish(Swallow)",
+      "value": "mouth-catfish",
+      "simple": "Swallow",
+      "label": "Catfish"
+    },
+    {
+      "name": "Confident(Self Rally)",
+      "value": "mouth-confident",
+      "simple": "Self Rally",
+      "label": "Confident"
+    },
+    {
+      "name": "Cute Bunny(Terror Chomp)",
+      "value": "mouth-cute-bunny",
+      "simple": "Terror Chomp",
+      "label": "Cute Bunny"
+    },
+    {
+      "name": "Dango(Chomp)",
+      "value": "mouth-dango",
+      "simple": "Chomp",
+      "label": "Dango"
+    },
+    {
+      "name": "Doubletalk(Soothing Song)",
+      "value": "mouth-doubletalk",
+      "simple": "Soothing Song",
+      "label": "Doubletalk"
+    },
+    {
+      "name": "Feasting Mosquito(Feasting MosquitoBlood Taste)",
+      "value": "mouth-feasting-mosquito",
+      "simple": "Feasting MosquitoBlood Taste",
+      "label": "Feasting Mosquito"
+    },
+    {
+      "name": "Geisha(Crimson Water)",
+      "value": "mouth-geisha",
+      "simple": "Crimson Water",
+      "label": "Geisha"
+    },
+    {
+      "name": "Goda(Piercing Sound)",
+      "value": "mouth-goda",
+      "simple": "Piercing Sound",
+      "label": "Goda"
+    },
+    {
+      "name": "Herbivore(Vegan Diet)",
+      "value": "mouth-herbivore",
+      "simple": "Vegan Diet",
+      "label": "Herbivore"
+    },
+    {
+      "name": "Humorless(HumorlessVegetal Bite)",
+      "value": "mouth-humorless",
+      "simple": "HumorlessVegetal Bite",
+      "label": "Humorless"
+    },
+    {
+      "name": "Hungry Bird(lnsectivore)",
+      "value": "mouth-hungry-bird",
+      "simple": "lnsectivore",
+      "label": "Hungry Bird"
+    },
+    {
+      "name": "Kawaii(Terror Chomp)",
+      "value": "mouth-kawaii",
+      "simple": "Terror Chomp",
+      "label": "Kawaii"
+    },
+    {
+      "name": "Kotaro(Kotaro bite)",
+      "value": "mouth-kotaro",
+      "simple": "Kotaro bite",
+      "label": "Kotaro"
+    },
+    {
+      "name": "Lam(Angry Lam)",
+      "value": "mouth-lam",
+      "simple": "Angry Lam",
+      "label": "Lam"
+    },
+    {
+      "name": "Lam Handsome(Angry Lam)",
+      "value": "mouth-lam-handsome",
+      "simple": "Angry Lam",
+      "label": "Lam Handsome"
+    },
+    {
+      "name": "Little Owl(Dark Swoop)",
+      "value": "mouth-little-owl",
+      "simple": "Dark Swoop",
+      "label": "Little Owl"
+    },
+    {
+      "name": "Mosquito(Blood Taste)",
+      "value": "mouth-mosquito",
+      "simple": "Blood Taste",
+      "label": "Mosquito"
+    },
+    {
+      "name": "Mr. Doubletalk(Soothing Song)",
+      "value": "mouth-mr-doubletalk",
+      "simple": "Soothing Song",
+      "label": "Mr. Doubletalk"
+    },
+    {
+      "name": "Nut Cracker(Nut Crack)",
+      "value": "mouth-nut-cracker",
+      "simple": "Nut Crack",
+      "label": "Nut Cracker"
+    },
+    {
+      "name": "Peace Maker(Peace Treaty)",
+      "value": "mouth-peace-maker",
+      "simple": "Peace Treaty",
+      "label": "Peace Maker"
+    },
+    {
+      "name": "Pincer(Sunder Claw)",
+      "value": "mouth-pincer",
+      "simple": "Sunder Claw",
+      "label": "Pincer"
+    },
+    {
+      "name": "Piranha(Crimson Water)",
+      "value": "mouth-piranha",
+      "simple": "Crimson Water",
+      "label": "Piranha"
+    },
+    {
+      "name": "Razor Bite(Why So Serious)",
+      "value": "mouth-razor-bite",
+      "simple": "Why So Serious",
+      "label": "Razor Bite"
+    },
+    {
+      "name": "Risky Fish(Fish Hook)",
+      "value": "mouth-risky-fish",
+      "simple": "Fish Hook",
+      "label": "Risky Fish"
+    },
+    {
+      "name": "Rudolph(Drain Bite)",
+      "value": "mouth-rudolph",
+      "simple": "Drain Bite",
+      "label": "Rudolph"
+    },
+    {
+      "name": "Serious(Vegetal Bite)",
+      "value": "mouth-serious",
+      "simple": "Vegetal Bite",
+      "label": "Serious"
+    },
+    {
+      "name": "Silence Whisper(Forest Spirit)",
+      "value": "mouth-silence-whisper",
+      "simple": "Forest Spirit",
+      "label": "Silence Whisper"
+    },
+    {
+      "name": "Skull Cracker(Nut Crack)",
+      "value": "mouth-skull-cracker",
+      "simple": "Nut Crack",
+      "label": "Skull Cracker"
+    },
+    {
+      "name": "Square Teeth(Mite Bite)",
+      "value": "mouth-square-teeth",
+      "simple": "Mite Bite",
+      "label": "Square Teeth"
+    },
+    {
+      "name": "Tiny Carrot(Chomp)",
+      "value": "mouth-tiny-carrot",
+      "simple": "Chomp",
+      "label": "Tiny Carrot"
+    },
+    {
+      "name": "Tiny Turtle(Chomp)",
+      "value": "mouth-tiny-turtle",
+      "simple": "Chomp",
+      "label": "Tiny Turtle"
+    },
+    {
+      "name": "Toothless Bite(Sneaky Raid)",
+      "value": "mouth-toothless-bite",
+      "simple": "Sneaky Raid",
+      "label": "Toothless Bite"
+    },
+    {
+      "name": "Venom Bite(Sneaky Raid)",
+      "value": "mouth-venom-bite",
+      "simple": "Sneaky Raid",
+      "label": "Venom Bite"
+    },
+    {
+      "name": "Zigzag(Drain Bite)",
+      "value": "mouth-zigzag",
+      "simple": "Drain Bite",
+      "label": "Zigzag"
+    }
+  ]
+}

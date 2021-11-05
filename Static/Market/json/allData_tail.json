@@ -1,0 +1,146 @@
+{
+  "tail":[
+
+    { "name":"Ant(Chemical Warfare)", "value":"tail-ant",
+      "simple": "Chemical Warfare"
+    },
+    { "name":"Carrot(Carrot Hammer)", "value":"tail-carrot",
+      "simple": "Carrot Hammer"
+    },
+    { "name":"Cattail(Cattail Slap)", "value":"tail-cattail",
+      "simple": "Cattail Slap"
+    },
+    { "name":"Cloud(Puffy Smack)", "value":"tail-cloud",
+      "simple": "Puffy Smack"
+    },
+    { "name":"Cottontail(Luna Absorb)", "value":"tail-cottontail",
+      "simple": "Luna Absorb"
+    },
+    { "name":"December Surprise(Jar Barrage)", "value":"tail-december-surprise",
+      "simple": "Jar Barrage"
+    },
+    { "name":"Escaped Gecko(Critical Escape)", "value":"tail-escaped-gecko",
+      "simple": "Critical Escape"
+    },
+    { "name":"Feather Fan(Sunder Armor)", "value":"tail-feather-fan",
+      "simple": "Sunder Armor"
+    },
+    { "name":"Fir Trunk(Tiny Swing)", "value":"tail-fir-trunk",
+      "simple": "Tiny Swing"
+    },
+    { "name":"Fire Ant(Chemical Warfare)", "value":"tail-fire-ant",
+      "simple": "Chemical Warfare"
+    },
+    { "name":"Fish Snack(Anesthetic Bait)", "value":"tail-fish-snack",
+      "simple": "Anesthetic Bait"
+    },
+    { "name":"Gerbil(Gerbil Jump)", "value":"tail-gerbil",
+      "simple": "Gerbil Jump"
+    },
+    { "name":"Gila(Neuro Toxin)", "value":"tail-gila",
+      "simple": "Neuro Toxin"
+    },
+    { "name":"Granmas Fan(Cool Breeze)", "value":"tail-granmas-fan",
+      "simple": "Cool Breeze"
+    },
+    { "name":"Grass Snake(Venom Spray)", "value":"tail-grass-snake",
+      "simple": "Venom Spray"
+    },
+    { "name":"Gravel Ant(Numbing Lecretion)", "value":"tail-gravel-ant",
+      "simple": "Numbing Lecretion"
+    },
+    { "name":"Hare(Hare Dagger)", "value":"tail-hare",
+      "simple": "Hare Dagger"
+    },
+    { "name":"Hatsune(Leek Leak)", "value":"tail-hatsune",
+      "simple": "Leek Leak"
+    },
+    { "name":"Hot Butt(Spicy Surprise)", "value":"tail-hot-butt",
+      "simple": "Spicy Surprise"
+    },
+    { "name":"lguana(Scale Dart)", "value":"tail-iguana",
+      "simple": "Scale Dart"
+    },
+    { "name":"Koi(Upstream Swim)", "value":"tail-koi",
+      "simple": "Upstream Swim"
+    },
+    { "name":"Koinobori(Upstream Swim)", "value":"tail-koinobori",
+      "simple": "Upstream Swim"
+    },
+    { "name":"Kuro Koi(Upstream Swim)", "value":"tail-kuro-koi",
+      "simple": "Upstream Swim"
+    },
+    { "name":"Maki(Anesthetic Bait)", "value":"tail-maki",
+      "simple": "Anesthetic Bait"
+    },
+    { "name":"Namek Carrot(Carrot Hammer)", "value":"tail-namek-carrot",
+      "simple": "Carrot Hammer"
+    },
+    { "name":"Navaga(Flanking Smack)", "value":"tail-navaga",
+      "simple": "Flanking Smack"
+    },
+    { "name":"Nimo(Tail Slap)", "value":"tail-nimo",
+      "simple": "Tail Slap"
+    },
+    { "name":"Nut Cracker(Nut Throw)", "value":"tail-nut-cracker",
+      "simple": "Nut Throw"
+    },
+    { "name":"Omatsuri(Cool Breeze)", "value":"tail-omatsuri",
+      "simple": "Cool Breeze"
+    },
+    { "name":"Post Fight(All-out Shot)", "value":"tail-post-fight",
+      "simple": "All-out Shot"
+    },
+    { "name":"Potato Leaf(Aqua Deflect)", "value":"tail-potato-leaf",
+      "simple": "Aqua Deflect"
+    },
+    { "name":"Pupae(Grub Explode)", "value":"tail-pupae",
+      "simple": "Grub Explode"
+    },
+    { "name":"Ranchu(Water Sphere)", "value":"tail-ranchu",
+      "simple": "Water Sphere"
+    },
+    { "name":"Rice(Night Steal)", "value":"tail-rice",
+      "simple": "Night Steal"
+    },
+    { "name":"Sakura Cottontail(Luna Absorb)", "value":"tail-sakura-cottontail",
+      "simple": "Luna Absorb"
+    },
+    { "name":"Shiba(Rampant Howl)", "value":"tail-shiba",
+      "simple": "Rampant Howl"
+    },
+    { "name":"Shrimp(Chitin Jump)", "value":"tail-shrimp",
+      "simple": "Chitin Jump"
+    },
+    { "name":"Snake Jar(Jar Barrage)", "value":"tail-snake-jar",
+      "simple": "Jar Barrage"
+    },
+    { "name":"Snowy Swallow(Early Bird)", "value":"tail-snowy-swallow",
+      "simple": "Early Bird"
+    },
+    { "name":"Swallow(Early Bird)", "value":"tail-swallow",
+      "simple": "Early Bird"
+    },
+    { "name":"Tadpole(Black Bubble)", "value":"tail-tadpole",
+      "simple": "Black Bubble"
+    },
+    { "name":"The Last One(Risky Feather)", "value":"tail-the-last-one",
+      "simple": "Risky Feather"
+    },
+    { "name":"Thorny Caterpillar(Allergic Reaction)", "value":"tail-thorny-caterpillar",
+      "simple": "Allergic Reaction"
+    },
+    { "name":"Tiny Dino(Tiny Swing)", "value":"tail-tiny-dino",
+      "simple": "Tiny Swing"
+    },
+    { "name":"Twin Tail(Twin Needle)", "value":"tail-twin-tail",
+      "simple": "Twin Needle"
+    },
+    { "name":"Wall Gecko(Critical Escape)", "value":"tail-wall-gecko",
+      "simple": "Critical Escape"
+    },
+    { "name":"Yam(Gas Unleash)", "value":"tail-yam",
+      "simple": "Gas Unleash"
+    }
+  ]
+}

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>宝宝数据界面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        xblock {
+            display: block;
+            margin-bottom: 10px;
+            padding: 5px;
+            line-height: 22px;
+            border-radius: 0px 2px 2px 0px;
+            background-color: rgb(242, 242, 242);
+        }
+    </style>
+</head>
+
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+    <!--    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"-->
+    <!--       href="javascript:location.replace(location.href);" title="刷新">-->
+    <!--        <i class="layui-icon" style="line-height:30px">ဂ</i></a>-->
+</div>
+<div class="x-body">
+    <div class="x-body">
+        <div class="layui-row">
+            <!--            <form class="layui-form layui-col-md12 x-so">-->
+            <!--                &lt;!&ndash;                    <label for="start"></label><input class="layui-input" placeholder="开始日" name="start" id="start" lay-key="1">&ndash;&gt;-->
+            <!--                &lt;!&ndash;                    <label for="end"></label><input class="layui-input" placeholder="截止日" name="end" id="end" lay-key="2">&ndash;&gt;-->
+            <!--                <div class="layui-input-inline">-->
+            <!--                    <label>-->
+            <!--                        <select name="contrller">-->
+            <!--                            <option>运行状态</option>-->
+            <!--                            <option>正在运行</option>-->
+            <!--                            <option>未运行</option>-->
+            <!--                        </select>-->
+            <!--                    </label>-->
+            <!--                </div>-->
+            <!--                <div class="layui-input-inline">-->
+            <!--                    <label>-->
+            <!--                        <select name="contrller2">-->
+            <!--                            <option>手机型号选择</option>-->
+            <!--                            <option>1加手机</option>-->
+            <!--                            <option>华为荣耀</option>-->
+            <!--                            <option>华为P9</option>-->
+            <!--                            <option>雷电模拟器</option>-->
+            <!--                        </select>-->
+            <!--                    </label>-->
+            <!--                </div>-->
+
+
+            <!--&lt;!&ndash;                <label class="layui-form-label">复选框</label>&ndash;&gt;-->
+            <!--                <div class="layui-input-inline">-->
+            <!--                    <input type="checkbox" name="eyes" title="眼睛技能">-->
+            <!--                    <input type="checkbox" name="ears" title="耳朵技能">-->
+            <!--                    <input type="checkbox" name="back" title="背部技能">-->
+            <!--                    <input type="checkbox" name="moth" title="嘴巴技能">-->
+            <!--                    <input type="checkbox" name="tail" title="尾巴技能">-->
+            <!--                    <input type="checkbox" name="horn" title="角技能">-->
+            <!--                </div>-->
+
+
+            <!--                <label>-->
+            <!--                    <input type="text" name="types" placeholder="输入种类名称" autocomplete="off" class="layui-input">-->
+            <!--                </label>-->
+            <!--                <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon"></i></button>-->
+            <!--            </form>-->
+
+
+            <div class="layui-form layui-col-md12 x-so">
+                <div class="layui-input-inline">
+                    <label>
+                        <select name="contrller2">
+                            <option>价格排序</option>
+                            <option>高到低</option>
+                            <option>低到高</option>
+
+                        </select>
+                    </label>
+                </div>
+                <div class="layui-input-inline">
+                    <input type="checkbox" name="eyes" title="眼睛技能" value="eyes">
+                    <input type="checkbox" name="ears" title="耳朵技能" value="ears">
+                    <input type="checkbox" name="back" title="背部技能" value="back">
+                    <input type="checkbox" name="mouth" title="嘴巴技能" value="mouth">
+                    <input type="checkbox" name="tail" title="尾巴技能" value="tail">
+                    <input type="checkbox" name="horn" title="角技能" value="horn">
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" id="password" placeholder="请输入种类" class="layui-input">
+                </div>
+
+                <button type="button" class="layui-btn" id="sercah">搜索</button>
+            </div>
+
+        </div>
+
+
+        <table id="demo" lay-filter="test"></table>
+
+
+    </div>
+    <!-- 选择角色的按钮 -->
+    <div class="layui-row" id="popSearchRoleTest" style="display:none;">
+        <div class="layui-col-md11">
+            <form class="layui-form" lay-filter="formTestFilter2121">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="nickname" class="layui-input" style=" width: 300px;"
+                               readonly="readonly">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">百度AK：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="api_key" class="layui-input" style=" width: 300px;">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">百度SK：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="secret_key" class="layui-input" style=" width: 300px;">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关注任务：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="attention_num" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">私聊间隔：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="sendMessage_time" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <!--                        <button type="button" class="layui-btn layui-btn-normal" lay-filter="formDemo">提交</button>-->
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="layui-row" id="popSearchRoleTest2" style="display:none;">
+        <div class="layui-col-md11">
+            <form class="layui-form" lay-filter="formTestFilter2121">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">百度AK：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="api_key" class="layui-input" style=" width: 300px;">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">百度SK：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="secret_key" class="layui-input" style=" width: 300px;">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关注任务：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="attention_num" class="layui-input" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">私聊间隔：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="sendMessage_time" class="layui-input" value="3">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <!--                        <button type="button" class="layui-btn layui-btn-normal" lay-filter="formDemo">提交</button>-->
+                        <button class="layui-btn" lay-submit lay-filter="formDemo2">立即提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+
+    /*用户-停用*/
+    function member_stop(obj, id) {
+        layer.confirm('确认要停用吗？', function (index) {
+
+            if ($(obj).attr('title') == '启用') {
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title', '停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!', {icon: 5, time: 1000});
+
+            } else {
+                $(obj).attr('title', '启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!', {icon: 5, time: 1000});
+            }
+
+        });
+    }
+
+
+    layui.use(['table', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , height: 'full-20'
+            , skin: 'line '
+            , url: '/getAllWc' //数据接口
+            , page: true //开启分页
+            , limit: 100
+            , cols: [[ //表头
+                {checkbox: true, fixed: true}
+                , {field: 'id', title: 'ID', width: 80, sort: true, align: 'center'}
+                , {field: 'cw_id', title: '宝宝ID', width: 120, align: 'center', sort: true}
+                , {field: 'cw_class', title: '宝宝种类', width: 120, sort: true, align: 'center'}
+                , {field: 'cw_currentPriceUSD', title: '宝宝价格', width: 280, align: 'center'}
+
+
+                , {field: 'cw_Eyes_name', title: '眼睛', width: 280, align: 'center'}
+                , {field: 'cw_Eyes_abilities_name_0', title: '眼睛技能', width: 110, sort: true, align: 'center'}
+
+                , {field: 'cw_Ears_name', title: '耳朵', width: 110, sort: true, align: 'center'}
+                , {field: 'cw_Ears_abilities_name_0', title: '耳朵技能', width: 110, sort: true, align: 'center'}
+
+                , {field: 'cw_Back_name', title: '背部', width: 110, sort: true, align: 'center'}
+                , {field: 'cw_Back_abilities_name_0', title: '背部技能', width: 110, sort: true, align: 'center'}
+
+                , {field: 'cw_Mouth_name', title: '嘴巴', width: 110, sort: true, align: 'center'}
+                , {field: 'cw_Mouth_abilities_name_0', title: '嘴巴技能', width: 110, sort: true, align: 'center'}
+
+
+                , {field: 'cw_Horn_name', title: '角', width: 110, sort: true, align: 'center'}
+                , {field: 'cw_Horn_abilities_name_0', title: '角技能', width: 110, sort: true, align: 'center'}
+
+
+                , {field: 'cw_Tail_name', title: '尾巴', width: 110, sort: true, align: 'center'}
+                , {field: 'cw_Tail_abilities_name_0', title: '尾巴技能', width: 110, sort: true, align: 'center'}
+
+                , {
+                    field: 'created_at', title: '创建时间', width: 150, sort: true, align: 'center',
+                    templet: function (d) {
+                        return layui.util.toDateString(d.created_at * 1000, "yyyy-MM-dd HH:mm:ss");
+                    }
+
+                }
+            ]]
+
+        });
+
+
+        $("#sercah").click(function () {
+
+
+            ppp = ""
+            var input = document.getElementById('password')
+            if (input.value != "" && input.value != null) {
+                if (ppp === "") {
+                    ppp = ppp + "types=" + input.value
+                } else {
+                    ppp = ppp + "&types=" + input.value
+                }
+            }
+
+            var region = $("select[name='contrller2']").val();
+            if (region === "高到低") {
+                if (ppp != "") {
+                    ppp = ppp + "&price=height"
+                } else {
+                    ppp = ppp + "price=height"
+                }
+            }
+
+            if (region === "低到高") {
+                if (ppp != "") {
+                    ppp = ppp + "&price=low"
+                } else {
+                    ppp = ppp + "price=low"
+                }
+            }
+
+
+            var arr_box = [];
+            $('input[type=checkbox]:checked').each(function () {
+                arr_box.push($(this).val());
+            });
+            //数组
+            console.log(arr_box);
+
+            var ll = ""
+            for (var i = 0; i < arr_box.length; i++) {
+                if (i == arr_box.length - 1) {
+                    ll = ll + arr_box[i]
+                } else {
+                    ll = ll + arr_box[i] + "@"
+                }
+
+            }
+            if (ppp != "") {
+                ppp = ppp + "&abilities=" + ll
+            } else {
+                ppp = ppp + "abilities=" + ll
+            }
+
+
+            table.reload("demo", {
+                url: '/getAllWc?' + ppp,
+                // where: "data=1"
+            });
+
+
+        })
+
+
+    });
+
+
+</script>
+
+</body>
+
+</html>

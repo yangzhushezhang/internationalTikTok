@@ -1,0 +1,13 @@
+{
+  "class":[
+    { "name":"Beast", "value":"Beast"},
+    { "name":"Aquatic", "value":"Aquatic"},
+    { "name":"Plant", "value":"Plant"},
+    { "name":"Bird", "value":"Bird"},
+    { "name":"Bug", "value":"Bug"},
+    { "name":"Reptile", "value":"Reptile"},
+    { "name":"Mech", "value":"Mech"},
+    { "name":"Dawn", "value":"Dawn"},
+    { "name":"Dusk", "value":"Dusk"}
+  ]
+}

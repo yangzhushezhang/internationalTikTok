@@ -1,0 +1,298 @@
+{
+  "horn":[
+    {
+      "name": "5H04L-5T4R(Star Shuriken)",
+      "value": "horn-5h04l-5t4r",
+      "simple": "Star Shuriken",
+      "label": "5H04L-5T4R"
+    },
+    {
+      "name": "Anemone(Aquaponics)",
+      "value": "horn-anemone",
+      "simple": "Aquaponics",
+      "label": "Anemone"
+    },
+    {
+      "name": "Antenna(Bug Signal)",
+      "value": "horn-antenna",
+      "simple": "Bug Signal",
+      "label": "Antenna"
+    },
+    {
+      "name": "Arco(Acrobatic)",
+      "value": "horn-arco",
+      "simple": "Acrobatic",
+      "label": "Arco"
+    },
+    {
+      "name": "Babylonia(Shell Jab)",
+      "value": "horn-babylonia",
+      "simple": "Shell Jab",
+      "label": "Babylonia"
+    },
+    {
+      "name": "Bamboo Shoot(Bamboo Clan)",
+      "value": "horn-bamboo-shoot",
+      "simple": "Bamboo Clan",
+      "label": "Bamboo Shoot"
+    },
+    {
+      "name": "Beech(Wooden Stab)",
+      "value": "horn-beech",
+      "simple": "Wooden Stab",
+      "label": "Beech"
+    },
+    {
+      "name": "Bumpy(Overgrow Keratin)",
+      "value": "horn-bumpy",
+      "simple": "Overgrow Keratin",
+      "label": "Bumpy"
+    },
+    {
+      "name": "Cactus(Prickly Trap)",
+      "value": "horn-cactus",
+      "simple": "Prickly Trap",
+      "label": "Cactus"
+    },
+    {
+      "name": "Candy Babylonia(Shell Jab)",
+      "value": "horn-candy-babylonia",
+      "simple": "Shell Jab",
+      "label": "Candy Babylonia"
+    },
+    {
+      "name": "Caterpillars(Grub Surprise)",
+      "value": "horn-caterpillars",
+      "simple": "Grub Surprise",
+      "label": "Caterpillars"
+    },
+    {
+      "name": "Cerastes(Surprise Invasion)",
+      "value": "horn-cerastes",
+      "simple": "Surprise Invasion",
+      "label": "Cerastes"
+    },
+    {
+      "name": "Clamshell(Clam Slash)",
+      "value": "horn-clamshell",
+      "simple": "Clam Slash",
+      "label": "Clamshell"
+    },
+    {
+      "name": "Cuckoo(Cockadoodledoo)",
+      "value": "horn-cuckoo",
+      "simple": "Cockadoodledoo",
+      "label": "Cuckoo"
+    },
+    {
+      "name": "Dual Blade(Sinister Strike)",
+      "value": "horn-dual-blade",
+      "simple": "Sinister Strike",
+      "label": "Dual Blade"
+    },
+    {
+      "name": "Eggshell(Eggbomb)",
+      "value": "horn-eggshell",
+      "simple": "Eggbomb",
+      "label": "Eggshell"
+    },
+    {
+      "name": "Feather Spear(Feather Lunge)",
+      "value": "horn-feather-spear",
+      "simple": "Feather Lunge",
+      "label": "Feather Spear"
+    },
+    {
+      "name": "Golden Bamboo Shoot(Bamboo Clan)",
+      "value": "horn-golden-bamboo-shoot",
+      "simple": "Bamboo Clan",
+      "label": "Golden Bamboo Shoot"
+    },
+    {
+      "name": "Golden Shell(Eggbomb)",
+      "value": "horn-golden-shell",
+      "simple": "Eggbomb",
+      "label": "Golden Shell"
+    },
+    {
+      "name": "Imp(lvory Stab)",
+      "value": "horn-imp",
+      "simple": "lvory Stab",
+      "label": "Imp"
+    },
+    {
+      "name": "Incisor(Disarm)",
+      "value": "horn-incisor",
+      "simple": "Disarm",
+      "label": "Incisor"
+    },
+    {
+      "name": "Kendama(lvory Stab)",
+      "value": "horn-kendama",
+      "simple": "lvory Stab",
+      "label": "Kendama"
+    },
+    {
+      "name": "Kestrel(Headshot)",
+      "value": "horn-kestrel",
+      "simple": "Headshot",
+      "label": "Kestrel"
+    },
+    {
+      "name": "Lagging(Mystic Rush)",
+      "value": "horn-lagging",
+      "simple": "Mystic Rush",
+      "label": "Lagging"
+    },
+    {
+      "name": "Laggingggggg(Mystic Rush)",
+      "value": "horn-laggingggggg",
+      "simple": "Mystic Rush",
+      "label": "Laggingggggg"
+    },
+    {
+      "name": "Leaf Bug(Disguise)",
+      "value": "horn-leaf-bug",
+      "simple": "Disguise",
+      "label": "Leaf Bug"
+    },
+    {
+      "name": "Little Branch(Branch Charge)",
+      "value": "horn-little-branch",
+      "simple": "Branch Charge",
+      "label": "Little Branch"
+    },
+    {
+      "name": "Merry(Merry Legion)",
+      "value": "horn-merry",
+      "simple": "Merry Legion",
+      "label": "Merry"
+    },
+    {
+      "name": "Oranda(Hero's Bane)",
+      "value": "horn-oranda",
+      "simple": "Hero's Bane",
+      "label": "Oranda"
+    },
+    {
+      "name": "P4R451T3(Third Glance)",
+      "value": "horn-p4r451t3",
+      "simple": "Third Glance",
+      "label": "P4R451T3"
+    },
+    {
+      "name": "Parasite(Third Glance)",
+      "value": "horn-parasite",
+      "simple": "Third Glance",
+      "label": "Parasite"
+    },
+    {
+      "name": "Pinku Unko(Poo Fling)",
+      "value": "horn-pinku-unko",
+      "simple": "Poo Fling",
+      "label": "Pinku Unko"
+    },
+    {
+      "name": "Pliers(Dull Grip)",
+      "value": "horn-pliers",
+      "simple": "Dull Grip",
+      "label": "Pliers"
+    },
+    {
+      "name": "Pocky(Sugar Rush)",
+      "value": "horn-pocky",
+      "simple": "Sugar Rush",
+      "label": "Pocky"
+    },
+    {
+      "name": "Rose Bud(Healing Aroma)",
+      "value": "horn-rose-bud",
+      "simple": "Healing Aroma",
+      "label": "Rose Bud"
+    },
+    {
+      "name": "Santas Gift(Prickly Trap)",
+      "value": "horn-santas-gift",
+      "simple": "Prickly Trap",
+      "label": "Santas Gift"
+    },
+    {
+      "name": "Scaly Spear(Scaly Lunge)",
+      "value": "horn-scaly-spear",
+      "simple": "Scaly Lunge",
+      "label": "Scaly Spear"
+    },
+    {
+      "name": "Scaly Spoon(Tiny Catapult)",
+      "value": "horn-scaly-spoon",
+      "simple": "Tiny Catapult",
+      "label": "Scaly Spoon"
+    },
+    {
+      "name": "Shoal Star(Star Shuriken)",
+      "value": "horn-shoal-star",
+      "simple": "Star Shuriken",
+      "label": "Shoal Star"
+    },
+    {
+      "name": "Spruce Spear(Feather Lunge)",
+      "value": "horn-spruce-spear",
+      "simple": "Feather Lunge",
+      "label": "Spruce Spear"
+    },
+    {
+      "name": "Strawberry Shortcake(Sweet Party)",
+      "value": "horn-strawberry-shortcake",
+      "simple": "Sweet Party",
+      "label": "Strawberry Shortcake"
+    },
+    {
+      "name": "Teal Shell(Deep Sea Gore)",
+      "value": "horn-teal-shell",
+      "simple": "Deep Sea Gore",
+      "label": "Teal Shell"
+    },
+    {
+      "name": "Trump(Air Force One)",
+      "value": "horn-trump",
+      "simple": "Air Force One",
+      "label": "Trump"
+    },
+    {
+      "name": "Umaibo(Sugar Rush)",
+      "value": "horn-umaibo",
+      "simple": "Sugar Rush",
+      "label": "Umaibo"
+    },
+    {
+      "name": "Unko(Poo Fling)",
+      "value": "horn-unko",
+      "simple": "Poo Fling",
+      "label": "Unko"
+    },
+    {
+      "name": "Watermelon(Seed Bullet)",
+      "value": "horn-watermelon",
+      "simple": "Seed Bullet",
+      "label": "Watermelon"
+    },
+    {
+      "name": "Wing Horn(Smart Shot)",
+      "value": "horn-wing-horn",
+      "simple": "Smart Shot",
+      "label": "Wing Horn"
+    },
+    {
+      "name": "Winter Branch(Branch Charge)",
+      "value": "horn-winter-branch",
+      "simple": "Branch Charge",
+      "label": "Winter Branch"
+    },
+    {
+      "name": "Yorishiro(Wooden Stab)",
+      "value": "horn-yorishiro",
+      "simple": "Wooden Stab",
+      "label": "Yorishiro"
+    }
+  ]
+}

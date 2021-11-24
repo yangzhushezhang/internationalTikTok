@@ -1,20 +1,18 @@
 <?php
 
 
-$data = "jack'n";
 
 
+for ($i=0;$i<10;$i++){
 
 
-function transferred_meaning($data)
-{
+    if ($i==5){
 
-    if (strstr($data, "'")) {
-        $data = str_replace("'", "\'", $data);
+        var_dump(111);
+        return ;
     }
-    return $data;
-
 }
 
 
-var_dump(transferred_meaning($data));
+
+var_dump("????");

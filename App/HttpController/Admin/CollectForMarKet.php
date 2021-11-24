@@ -9,6 +9,7 @@
 namespace App\HttpController\Admin;
 
 
+use App\HttpController\Model\CwAddressModel;
 use App\HttpController\Model\CwCollectModel;
 use App\HttpController\Model\CwModelModel;
 use App\HttpController\Model\MatchingModel;
@@ -23,6 +24,7 @@ use EasySwoole\ORM\Exception\Exception;
 use EasySwoole\Pool\Exception\PoolEmpty;
 use EasySwoole\Redis\CommandHandel\LSet;
 use EasySwoole\RedisPool\RedisPool;
+use http\Env\Request;
 
 class CollectForMarKet extends Base
 {
@@ -379,8 +381,18 @@ class CollectForMarKet extends Base
             $data = '{"operationName": "GetAxieDetail", "variables": {"axieId": "' . $axieId . '"},
         "query": "query GetAxieDetail($axieId: ID!) {\n  axie(axieId: $axieId) {\n    ...AxieDetail\n    __typename\n  }\n}\n\nfragment AxieDetail on Axie {\n  id\n  image\n  class\n  chain\n  name\n  genes\n  owner\n  birthDate\n  bodyShape\n  class\n  sireId\n  sireClass\n  matronId\n  matronClass\n  stage\n  title\n  breedCount\n  level\n  figure {\n    atlas\n    model\n    image\n    __typename\n  }\n  parts {\n    ...AxiePart\n    __typename\n  }\n  stats {\n    ...AxieStats\n    __typename\n  }\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  battleInfo {\n    ...AxieBattleInfo\n    __typename\n  }\n  children {\n    id\n    name\n    class\n    image\n    title\n    stage\n    __typename\n  }\n  __typename\n}\n\nfragment AxieBattleInfo on AxieBattleInfo {\n  banned\n  banUntil\n  level\n  __typename\n}\n\nfragment AxiePart on AxiePart {\n  id\n  name\n  class\n  type\n  specialGenes\n  stage\n  abilities {\n    ...AxieCardAbility\n    __typename\n  }\n  __typename\n}\n\nfragment AxieCardAbility on AxieCardAbility {\n  id\n  name\n  attack\n  defense\n  energy\n  description\n  backgroundUrl\n  effectIconUrl\n  __typename\n}\n\nfragment AxieStats on AxieStats {\n  hp\n  speed\n  skill\n  morale\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  startingPrice\n  endingPrice\n  startingTimestamp\n  endingTimestamp\n  duration\n  timeLeft\n  currentPrice\n  currentPriceUSD\n  suggestedPrice\n  seller\n  listingIndex\n  state\n  __typename\n}\n"}';
 
-            $response = $client->post($data = $data);
-            $this->response()->write($response->getBody());
+
+            $response = $client->post($data);
+
+            $return = $response->getBody();
+
+            if ($return) {
+                $this->response()->write($return);
+                return;
+            }
+//            var_dump($return);
+
+            $this->response()->write(json_encode(['axieId' => $axieId], true));
         } catch (InvalidUrl $e) {
             $this->writeJson(-1, [], "请求异常:" . $e->getMessage());
         };
@@ -392,6 +404,9 @@ class CollectForMarKet extends Base
     function setWcModel()
     {
         try {
+
+
+            $count_nums = $this->request()->getQueryParam("count_nums");
             $remark = $this->request()->getQueryParam("remark");
             $class = $this->request()->getQueryParam("class");
             $ability = $this->request()->getQueryParam("ability");
@@ -401,10 +416,9 @@ class CollectForMarKet extends Base
                 $this->writeJson(-101, [], "缺少必要参数");
                 return false;
             }
-            return DbManager::getInstance()->invoke(function ($client) use ($remark, $class, $ability, $price, $eth_price) {
+            return DbManager::getInstance()->invoke(function ($client) use ($remark, $class, $ability, $price, $eth_price, $count_nums) {
                 $one = CwModelModel::invoke($client)->get(['remark' => $remark]);
                 if ($one) {
-
                     $this->writeJson(-101, [], "该模板备注已经存在了,修改模板备注名称!");
                     return false;
                 }
@@ -428,6 +442,7 @@ class CollectForMarKet extends Base
                     'mouth' => "1",
                     'horn' => "1",
                     'tail' => "1",
+                    'count_nums' => $count_nums
                 ];
 
                 $ability_array = explode("@", $ability);
@@ -468,9 +483,7 @@ class CollectForMarKet extends Base
                     'tail' => $add['tail'],
                 ]);
 
-
                 if ($one) {
-                    var_dump($one["id"]);
                     $this->writeJson(-101, [], "模板重复了!");
                     return false;
                 }
@@ -566,12 +579,20 @@ class CollectForMarKet extends Base
         $limit = $this->request()->getQueryParam('limit');
         $page = $this->request()->getQueryParam('page');
 
+
+        $today = $this->request()->getQueryParam('today');
+
+
         $model = CwModelModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order("created_at", "DESC");
 
-// 列表数据
+
+        if (isset($today)) {
+            $model->where('updated_at', $today, '>');
+        }
+
         $list = $model->all(null);
         $result = $model->lastQueryResult();
-// 总条数
+
         $total = $result->getTotalCount();
         $return_data = [
             'code' => 0,
@@ -589,60 +610,77 @@ class CollectForMarKet extends Base
     #修改模板
     function updateModel()
     {
-        $id = $this->request()->getQueryParam('id');
-        $eyes = $this->request()->getQueryParam('eyes');
-        $ears = $this->request()->getQueryParam('ears');
-        $back = $this->request()->getQueryParam('back');
-        $mouth = $this->request()->getQueryParam('mouth');
-        $horn = $this->request()->getQueryParam('horn');
-        $tail = $this->request()->getQueryParam('tail');
-        $price = $this->request()->getQueryParam('price');
-        $eth_price = $this->request()->getQueryParam('eth_price');
-        $remark = $this->request()->getQueryParam('remark');
-        $class = $this->request()->getQueryParam('class');
-
-        var_dump($eyes);
-        if (!isset($id)) {
-            $this->writeJson(-101, [], "缺少参数!");
-            return false;
-        }
-        $update = [
-            'updated_at' => time()
-        ];
-        if (isset($eyes)) {
-            $update['eyes'] = $eyes;
-        }
-        if (isset($class)) {
-            $update['kinds'] = $class;
-        }
-        if (isset($remark)) {
-            $update['remark'] = $remark;
-        }
-        if (isset($price)) {
-            $update['price'] = $price;
-        }
-        if (isset($eth_price)) {
-            $update['eth_price'] = $eth_price;
-        }
-        if (isset($ears)) {
-            $update['ears'] = $ears;
-        }
-        if (isset($back)) {
-            $update['back'] = $back;
-        }
-        if (isset($mouth)) {
-            $update['mouth'] = $mouth;
-        }
-        if (isset($horn)) {
-            $update['horn'] = $horn;
-        }
-        if (isset($tail)) {
-            $update['tail'] = $tail;
-        }
-
         try {
-            CwModelModel::create()->where(['id' => $id])->update($update);
-            $this->writeJson(200, [], "更新成功");
+            $id = $this->request()->getQueryParam('id');
+            if (!isset($id)) {
+                $this->writeJson(-101, [], "缺少参数!");
+                return false;
+            }
+            $update = [
+//                'updated_at' => time()
+            ];
+
+            $count_nums = $this->request()->getQueryParam('count_nums');
+            if (isset($count_nums)) {
+                $update['count_nums'] = $count_nums;
+                CwModelModel::create()->where(['id' => $id])->update($update);
+                $this->writeJson(200, [], "更新成功");
+                return false;
+            }
+
+            $eyes = $this->request()->getQueryParam('eyes');
+            $ears = $this->request()->getQueryParam('ears');
+            $back = $this->request()->getQueryParam('back');
+            $mouth = $this->request()->getQueryParam('mouth');
+            $horn = $this->request()->getQueryParam('horn');
+            $tail = $this->request()->getQueryParam('tail');
+            $price = $this->request()->getQueryParam('price');
+            $eth_price = $this->request()->getQueryParam('eth_price');
+            $remark = $this->request()->getQueryParam('remark');
+            $class = $this->request()->getQueryParam('class');
+
+            $update['updated_at'] = time();
+            if (isset($eyes)) {
+                $update['eyes'] = $eyes;
+            }
+            if (isset($class)) {
+                $update['kinds'] = $class;
+            }
+            if (isset($remark)) {
+                $update['remark'] = $remark;
+            }
+            if (isset($price)) {
+                $update['price'] = $price;
+            }
+            if (isset($eth_price)) {
+                $update['eth_price'] = $eth_price;
+            }
+            if (isset($ears)) {
+                $update['ears'] = $ears;
+            }
+            if (isset($back)) {
+                $update['back'] = $back;
+            }
+            if (isset($mouth)) {
+                $update['mouth'] = $mouth;
+            }
+            if (isset($horn)) {
+                $update['horn'] = $horn;
+            }
+            if (isset($tail)) {
+                $update['tail'] = $tail;
+            }
+
+            $one = CwModelModel::create()->get(['id' => $id]);
+            if ($one) {
+                (new LogHandel())->log('模板 id:' . $id . "原来的价格:" . $one['price'] . "--修改后价格: " . $price);
+                CwModelModel::create()->where(['id' => $id])->update($update);
+                $this->writeJson(200, [], "更新成功");
+            } else {
+                $this->writeJson(200, [], "更新失败");
+            }
+
+
         } catch (\Throwable $e) {
             $this->writeJson(-1, [], "异常:" . $e->getMessage());
         }
@@ -679,7 +717,9 @@ class CollectForMarKet extends Base
                     $mouth = $datum['mouth'];
                     $horn = $datum['horn'];
                     $tail = $datum['tail'];
-
+                    if (strstr($eyes, "?")) {
+                        $eyes = str_replace("?", "", $eyes);
+                    }
 
 //                    var_dump($horn);
                     $res = CwModelModel::create()
@@ -730,6 +770,14 @@ class CollectForMarKet extends Base
             $aa = DbManager::getInstance()->invoke(function ($client) use ($data, $return) {
                 $data = json_decode($data, true);
                 foreach ($data['data'] as $datum) {
+                    $kinds = "";
+                    $eyes = "";
+                    $ears = "";
+                    $back = "";
+                    $mouth = "";
+                    $horn = "";
+                    $tail = "";
+                    $price = 1000;
                     if (isset($datum['class'])) {
                         $kinds = $datum['class'];
                     }
@@ -788,33 +836,44 @@ class CollectForMarKet extends Base
                         ->where(' (back = 1 or back = "' . $back . '") ')
                         ->where(' (mouth = 1 or mouth = "' . $mouth . '") ')
                         ->where(' (tail = 1 or tail = "' . $tail . '") ')
-                        ->where(' (price = ' . $price . ' or price >' . $price . ') ')
+//                        ->where(' (price = ' . $price . ' or price >' . $price . ') ')
                         ->get();
 
 
                     if ($res) {
-                        #查询 是否 购买权限是否开启
-
-                        if ($res['switch'] == 1) {
-                            array_push($return['result'], [
-                                'id' => $id,
-                                'result' => true
-                            ]);
-                        } else {
+                        #如果 模板的价格  < 请求的价格
+                        if ($res['price'] < $price) {  #匹配上了  但是价格 不对
                             array_push($return['result'], [
                                 'id' => $id,
                                 'result' => false
                             ]);
-                        }
+                            (new LogHandel())->log("宠物id:" . $id . "匹配失败 该模板存在,价格不匹配!,上报价格:" . $price);
 
-                        CwModelModel::create()->where(['id' => $res['id']])->update(['times' => QueryBuilder::inc(1)]);
-                        (new LogHandel())->log("宠物id:" . $id . "匹配成功");
-                        $one = MatchingModel::create()->data(['cw_id' => $id, 'created_at' => time(), 'price' => $price, 'mode_price' => $res['price'], 'status' => -2, 'model_id' => $res['id']])->save();
-                        if ($one) {
-                            (new LogHandel())->log("宠物id:" . $id . "插入MatchingModel 成功!  插入的值 price: " . $price . "mod_price 的价格:" . $res['price']);
-                            $redis = RedisPool::defer("redis");
-                            $data = $redis->rPush("Search", $id . "@" . "--");#宠物id  时间戳 价格
+                        } else {
+                            #查询 是否 购买权限是否开启
+                            if ($res['switch'] == 1) {
+                                array_push($return['result'], [
+                                    'id' => $id,
+                                    'result' => true
+                                ]);
+                            } else {
+                                array_push($return['result'], [
+                                    'id' => $id,
+                                    'result' => false
+                                ]);
+                            }
 
+
+                            CwModelModel::create()->where(['id' => $res['id']])->update(['times' => QueryBuilder::inc(1)]);
+                            (new LogHandel())->log("宠物id:" . $id . "匹配成功");
+
+                            $one = MatchingModel::create()->data(['cw_id' => $id, 'created_at' => time(), 'price' => $price, 'mode_price' => $res['price'], 'status' => -2, 'model_id' => $res['id']])->save();
+                            if ($one) {
+                                (new LogHandel())->log("宠物id:" . $id . "插入MatchingModel 成功!  插入的值 price: " . $price . "mod_price 的价格:" . $res['price']);
+                                $redis = RedisPool::defer("redis");
+                                $data = $redis->rPush("Search", $id . "@" . "--");#宠物id  时间戳 价格
+
+                            }
                         }
 
                     } else {
@@ -822,7 +881,7 @@ class CollectForMarKet extends Base
                             'id' => $id,
                             'result' => false
                         ]);
-                        (new LogHandel())->log("宠物id:" . $id . "匹配失败");
+                        (new LogHandel())->log("宠物id:" . $id . "匹配失败 该模板不存在!");
                     }
                 }
                 // return $return;
@@ -949,7 +1008,6 @@ class CollectForMarKet extends Base
                     return false;
                 }
 
-
                 $kinds = $result['data']['axie']['class'];
                 $eyes = $result['data']['axie']['parts'][0]['name'];
                 $ears = $result['data']['axie']['parts'][1]['name'];
@@ -957,8 +1015,9 @@ class CollectForMarKet extends Base
                 $mouth = $result['data']['axie']['parts'][3]['name'];
                 $horn = $result['data']['axie']['parts'][4]['name'];
                 $tail = $result['data']['axie']['parts'][5]['name'];
-
-
+                if (strstr($eyes, "?")) {
+                    $eyes = str_replace("?", "", $eyes);
+                }
                 var_dump($kinds . "--" . $eyes . "--" . $ears . "--" . $back . "--" . $mouth . "--" . $horn . "--" . $tail);
 
                 $limit = $this->request()->getQueryParam('limit');
@@ -1035,23 +1094,38 @@ class CollectForMarKet extends Base
 
     function selecting()
     {
-        $one = MatchingModel::create()->order("created_at", "DESC")
-            ->all();
+        $limit = $this->request()->getQueryParam('limit');
+        $page = $this->request()->getQueryParam('page');
+        $model = MatchingModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order("created_at", "DESC");
 
 
-        foreach ($one as $k => $value) {
+        $list = $model->all();
 
+
+        foreach ($list as $k => $value) {
             $two = CwModelModel::create()->get(['id' => $value['model_id']]);
             if ($two) {
-                $one[$k]['cw_mode'] = $two->toArray();
+                $list[$k]['cw_mode'] = $two->toArray();
             } else {
-                $one[$k]['cw_mode'] = [];
+//                var_dump($value['model_id']);
+                $list[$k]['cw_mode'] = [];
             }
 
 
         }
+        $result = $model->lastQueryResult();
 
-        $this->writeJson(200, [], $one);
+// 总条数
+        $total = $result->getTotalCount();
+
+
+        $return_data = [
+            'code' => 200,
+            'msg' => '',
+            'count' => $total,
+            'data' => $list
+        ];
+        $this->response()->write(json_encode($return_data, true));
     }
 
 
@@ -1131,12 +1205,92 @@ class CollectForMarKet extends Base
 
     function transferred_meaning($data)
     {
-
         if (strstr($data, "'")) {
             $data = str_replace("'", "\'", $data);
         }
         return $data;
+    }
+
+    #添加异步任务  宠物的id 和地址
+    function add_cw_address()  #1  正在查询  2查询成功  3查询失败
+    {
+        try {
+
+            $data = $this->request()->getParsedBody('data');
+
+            if (!json_decode($data)) {
+                $this->writeJson(-101, [], '数据类型错误!');
+                return;
+            }
+            $data = json_decode($data, true);
+            foreach ($data['data'] as $datum) {
+
+                $one = CwAddressModel::create()->get(['axie_id' => $datum['key']]);
+                if ($one) {
+                    #更新数据
+                    CwAddressModel::create()->where(['id' => $one['id']])->update([
+                        'status' => 1,
+                        'old_address' => $datum['value'],
+                        'new_address' => '',
+                        'updated_at' => time(),
+                    ]);
+                } else {
+                    #插入
+//                    var_dump($datum['key'],$datum['value']);
+                    CwAddressModel::create()->data([
+                        'status' => 1,
+                        'old_address' => $datum['value'],
+                        'new_address' => '',
+                        'updated_at' => time(),
+                        'created_at' => time(),
+                        'axie_id' => $datum['key']
+                    ])->save();
+                }
+
+                #插入任 查询任务
+            }
+
+            $this->writeJson(200, [], "插入成功");
+
+        } catch (\Throwable $exception) {
+            $this->writeJson(-1, [], $exception->getMessage());
+            return;
+        }
+    }
+
+
+    function select_cw_address()
+    {
+
+        try {
+
+            $data = $this->request()->getParsedBody('data');
+            if (!json_decode($data)) {
+                $this->writeJson(-101, [], '数据类型错误!');
+                return;
+            }
+            $data = json_decode($data, true);
+
+
+            $return = [];
+            foreach ($data['data'] as $datum) {
+
+                $res = CwAddressModel::create()->get(['axie_id' => $datum['key']]);
+                if ($res) {
+                    array_push($return, $res);
+                }
+            }
+
+            $this->writeJson(0, $return, "获取成功");
+
+
+            CwAddressModel::create()->all([]);
+        } catch (\Throwable $exception) {
+            $this->writeJson(-1, [], $exception->getMessage());
+            return;
+        }
 
     }
+
 
 }

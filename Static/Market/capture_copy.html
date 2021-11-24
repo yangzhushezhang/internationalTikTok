@@ -189,8 +189,8 @@
 
               },
               height : "full-100",
-              limit : 15,
-              limits : [15,30,50,100],
+              limit : 1000,
+              limits : [15,30,50,100,1000,5000,10000],
               id : "systemLog",
               // response: {
               //   statusName: 'code' //规定数据状态的字段名称，默认：code
@@ -645,7 +645,7 @@
 
 
                       layer.close(indexLoad)
-                      layer.msg('查询失败,请重新查询！', {icon: 2});
+                      layer.msg('查询失败,axie服务器没响应,请重新查询！', {icon: 2});
 
 
                       return false

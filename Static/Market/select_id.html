@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>批量过滤读取</title>
+  <link href="assets/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="layui/css/layui.css">
+  <script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="js/xm-select.js"></script>
+    <script type="text/javascript" src="js/FileSaver.js"></script>
+  <style>
+
+    .layui-table-cell{
+        height: 70px;
+        line-height: 70px;
+    }
+
+    .abilities_part1{
+        position: relative;
+        display: inline-block;
+        margin: 20px 20px;
+    }
+
+    .abilities_name{
+        position: absolute;
+        top: 30px;
+        left: 120px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .abilities_detail{
+        position: absolute;
+        top: 270px;
+        left: 60px;
+        /*color: #fff;*/
+        white-space: pre-wrap;
+        width: 210px;
+
+        color: rgb(204, 204, 204);
+        font-weight: bold;
+    }
+
+    .abilities_image_small{
+        position: absolute;
+        top: 315px;
+        left: 18px;
+        width: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div style="padding: 20px;display: flex">
+
+  <div style="width: 35%;margin-right: 20px">
+    <form class="layui-form" action="">
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">批量ID</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入内容" class="layui-textarea" style="height: 800px;" id="ids"></textarea>
+        </div>
+      </div>
+    </form>
+
+
+    <button type="button" class="layui-btn" id="pushData" style="margin-left:110px;">
+      <i class="layui-icon layui-icon-upload-circle"></i>上传数据
+    </button>
+    <button type="button" class="layui-btn" id="getData" style="float: right;">
+      <i class="layui-icon layui-icon-template-1"></i>读取数据
+    </button>
+  </div>
+
+  <div style="width: 65%">
+    <table class="layui-hide" id="userTable" lay-filter="userTable" style="padding: 30px;"></table>
+  </div>
+
+
+
+</div>
+
+
+<script type="text/javascript" src="./js/conmon.js"></script>
+<!-- 引入 layui.js 的 <script> 标签最好放置在 html 末尾 -->
+<script src="layui/layui.js"></script>
+
+<!--数据表格操作工具栏-->
+<script type="text/html" id="orderListBar">
+<!--    <a class="layui-btn layui-btn-sm layui-btn-radius" lay-event="rechargebtn" ><i class="layui-icon layui-icon-rmb"></i>xxxx</a>-->
+    <a class="layui-btn layui-btn-sm  " lay-event="changebtn" style="background-color: #115195"><i class="layui-icon layui-icon-edit"></i>修改</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delbtn"><i class="layui-icon">&#x1006;</i>删除</a>
+</script>
+
+
+<script>
+  var jsondata;
+  var currDataJSON = {}
+  var localData = {}
+  layui.use(function(){
+          var layer = layui.layer
+          ,form = layui.form
+          ,laypage = layui.laypage
+          ,element = layui.element
+          ,laydate = layui.laydate
+          ,$ = layui.jquery
+          ,upload = layui.upload
+          ,util = layui.util;
+
+          var layuicode = layui.code
+          var table = layui.table;
+
+          var currTableDataS
+
+
+          //订单表
+          var tableIns = table.render({
+              elem: '#userTable',
+              data:[],
+              // url: requertUrl+"/selecting",
+              // url : requertUrl+"/setInformation",
+              // method: 'post',
+              // where:{token: $.cookie('tokenMyb'),status:1,addFans_status:2,add_group_status:1},//1是:当前访问的是审核通过的数据
+              cellMinWidth : 95,
+              page :  { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 10 //只显示 1 个连续页码
+                ,first: "首页" //不显示首页
+                ,last: "尾页"//不显示尾页
+
+              },
+              loading:false,
+              height : "full-120",
+              limit : 100,
+              limits : [15,30,50,100,200,3000],
+              id : "systemLog",
+              response: {
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                ,statusCode: "0", //规定成功的状态码，默认：0
+                // ,msgName: 'hint' //规定状态信息的字段名称，默认：msg
+                // ,countName: 'total', //规定数据总数的字段名称，默认：count
+                dataName: 'result' //规定数据列表的字段名称，默认：data
+              },
+              parseData: function(res){ //res 即为原始返回的数据
+                // console.log("11",{
+                //   "code":0,
+                //   "msg": res.msg, //解析数据列表
+                //   "result":res.result,
+                //   "count":res.result.length
+                // })
+                return {
+                  "code":0,
+                  "msg": res.msg, //解析数据列表
+                  "result":res.result,
+                  "count":res.result.length
+                };
+              },
+              cols : [[
+                // {type: "checkbox", fixed:"left"},
+                // {field: 'id', title: '编号', width:60, align:"center"},
+                // {field: 'xid', title: '编号', width:60, align:"center",templet: '#titleTpl'},
+                // {field: 'id', title: 'ID', sort: true,align:"center"}, //, style :'display: none'\
+                {field: 'axie_id', title: '宠物ID',width:125, sort: true,align:"center"},
+                {field: 'new_address', title: '地址',width:385, sort: true,align:"center"},
+                {field: 'price', title: '价格($)', sort: true,align:"center",templet: function (d) {
+
+                      var currRonin = d.old_address.split('ronin:')
+                    // console.log("currRonin",currRonin[1])
+                      var currRoninStr = '0x'+ currRonin[1]
+
+                      if(d.new_address === currRoninStr){
+                        if(d.price === 'null' || d.price === null){
+                            return '<button class="layui-btn layui-btn-sm" style="background-color:#FBC472">未上架</button>'
+                        }else{
+                          return '<button class="layui-btn layui-btn-sm" style="background-color:green">'+d.price +'</button>'
+                        }
+                      }else{
+                        if(d.status !== 1){
+                          return '<button class="layui-btn layui-btn-sm" style="background-color:red">已卖掉</button>'
+                        }
+                      }
+
+                  }},
+                {field: 'eth', title: 'eth价格', sort: true,align:"center",templet: function (d) {
+                     if(d.eth === null){
+                       return '0'
+                     }else{
+                       return '<button class="layui-btn layui-btn-sm" style="background-color:green">'+parseInt(d.eth)/1000000000000000000 +'</button>'
+                     }
+                  }},
+                {field: 'status', title: '状态', sort: true,align:"center",templet: function (d) {
+                    if(d.status === 1){
+                      return '<button class="layui-btn layui-btn-sm" style="background-color:#FBC472">'+'查询中'+'</button>'
+                    }else{
+                      return '<button class="layui-btn layui-btn-sm" style="background-color:darkblue">'+ '查询结束' +'</button>'
+                    }
+                }},
+
+                // {field: 'updated_at', title: '更新时间',sort: true,width:190, align:'center',templet: function (d) {
+                //     var unixTimestamp = new Date(d.updated_at * 1000)
+                //     return formatDateTime(unixTimestamp)
+                // }},
+                // {title: '操作', width:230, templet:'#orderListBar',fixed:"right",align:"center"}
+              ]],
+              done: function(res, curr, count){
+                currTableDataS = res
+
+                // console.log(res)
+                // console.log("res",res.result.data.axies.results)
+                // res = res.result.data.axies.results
+              }
+            });
+
+
+
+
+
+          var queryJson = {}
+          var queryJsonArray = []
+          $("#pushData").click(function () {
+
+              // console.log("ids",$("#ids").val())
+              var currIDS = $("#ids").val()
+              //去除首尾空格
+              currIDS = currIDS.replace(/(^\s*)|(\s*$)/g, "");
+              var currIDSArr = currIDS.split("\n")
+
+              // console.log("currIDSArr",currIDSArr.length)
+
+              queryJsonArray = []
+              currDataJSON.code = 0
+              currDataJSON.msg = "消息成功!"
+
+              var currDate =[]
+
+              for(var i=0;i<currIDSArr.length;i++){
+                 queryJson = {}
+                if (currIDSArr[i].indexOf('ronin') === -1) { //没有找到
+                  // currQuery = item
+                  queryJson.key = currIDSArr[i]
+                  queryJson.value = ''
+                  queryJsonArray.push(queryJson)
+                } else {
+                  // console.log("currIDSArr[i]",currIDSArr[i])
+                  var patt1 = /\S+/g
+                  var result = currIDSArr[i].match(patt1)
+                  queryJson.key = result[1]
+                  queryJson.value = result[0]
+                  queryJsonArray.push(queryJson)
+                }
+
+              }
+
+               // console.log("queryJsonArray",queryJsonArray)
+               var requestdata = "data="+JSON.stringify({"data":queryJsonArray})
+
+
+
+                $.ajax({
+                url: requertUrl+"/add_cw_address",
+                dataType: 'json',
+                type: 'POST',
+                data:requestdata,
+                // contentType:"application/x-www-form-urlencoded",
+                // contentType: "application/json; charset=utf-8",
+                // data: JSON.stringify(requestdata),
+                success: function (dataArray) {
+
+                  // console.log("dataArray",dataArray)
+                  if (dataArray.code == 200) {
+
+                      layer.msg(dataArray.msg, {icon: 1});
+                      return false;
+
+                  }else{
+
+
+
+                  }
+
+
+
+                }
+              })
+
+
+
+
+          })
+
+          var bet_tb_this;
+          $("#getData").click(function () {
+            queryJsonArray=[]
+            var currIDS = $("#ids").val()
+
+            var currIDSArr = currIDS.split("\n")
+
+            for(var i=0;i<currIDSArr.length;i++){
+              queryJson = {}
+              if (currIDSArr[i].indexOf('ronin') === -1) { //没有找到
+                // currQuery = item
+                queryJson.key = currIDSArr[i]
+                queryJson.value = ''
+                queryJsonArray.push(queryJson)
+              } else {
+                // console.log("currIDSArr[i]",currIDSArr[i])
+                var patt1 = /\S+/g
+                var result = currIDSArr[i].match(patt1)
+                queryJson.key = result[1]
+                queryJson.value = result[0]
+                queryJsonArray.push(queryJson)
+              }
+
+            }
+
+
+            //2.6.0之前清除保留之前的数据的最有用的方式
+            if (bet_tb_this != null) {
+              // console.log("book_tb_this--不为null",bet_tb_this)
+              bet_tb_this.where = {};  //置空where
+            }
+
+            //执行重载
+            table.reload('systemLog', {
+              // page: {
+              //   curr: 1 //重新从第 1 页开始
+              // },
+              method: 'post',
+              where: {
+                "data":JSON.stringify({"data":queryJsonArray})
+              },
+              url: requertUrl+"/select_cw_address",
+              done: function(res){
+                bet_tb_this = this;
+                // console.l  og("res",res)
+                // console.log("res",res.result.data.axies.results)
+                // res = res.result.data.axies.results
+              }
+            });
+          })
+
+  });
+</script>
+</body>
+</html>

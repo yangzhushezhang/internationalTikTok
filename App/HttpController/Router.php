@@ -213,15 +213,17 @@ class Router extends AbstractRouter
         #IsExistModel
         $routeCollector->get('/IsExistModel', '/Admin/CollectForMarKet/IsExistModel');
         #deleteModel
-        $routeCollector->get('/deleteModel', '/Admin/CollectForMarKet/deleteModel');
+       $routeCollector->get('/deleteModel', '/Admin/CollectForMarKet/deleteModel');
         #IfShopping
         $routeCollector->post('/IfShopping', '/Admin/CollectForMarKet/IfShopping');
         #GetTaskResult
         $routeCollector->get('/GetTaskResult', '/Admin/CollectForMarKet/GetTaskResult');
         #updateModel
         $routeCollector->get('/updateModel', '/Admin/CollectForMarKet/updateModel');
-        #ifShoppingInformation
-        $routeCollector->post('/ifShoppingInformation', '/Admin/CollectForMarKet/ifShoppingInformation');
+        #ifShoppingInformation  购买接口
+
+
+       $routeCollector->post('/ifShoppingInformation', '/Admin/CollectForMarKet/ifShoppingInformation');
         #importModel
         $routeCollector->post('/importModel', '/Admin/CollectForMarKet/importModel');
         # backModel
@@ -238,6 +240,11 @@ class Router extends AbstractRouter
         $routeCollector->get('/changeSwitch', '/Admin/CollectForMarKet/changeSwitch');
         #get_cw_modelOne
         $routeCollector->get('/get_cw_modelOne', '/Admin/CollectForMarKet/get_cw_modelOne');
+        #add_cw_address
+        $routeCollector->post('/add_cw_address', '/Admin/CollectForMarKet/add_cw_address');
+        #select_cw_address
+
+        $routeCollector->post('/select_cw_address', '/Admin/CollectForMarKet/select_cw_address');
 
         /*
          * eg path : /closure/index.html  ; /closure/ ;  /closure

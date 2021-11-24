@@ -17,6 +17,8 @@
 <form class="layui-form" style="width:80%;margin-top: 20px">
 	<input type="hidden" class="layui-input " id="datastr" >
 	<input type="hidden" class="layui-input " id="sqlID" >
+	<input type="hidden" class="layui-input " id="modelID" >
+
 
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label" >价格(USD)</label>
@@ -173,7 +175,7 @@
 
 
 			$.ajax({
-				url: requertUrl+"/setWcModel?remark="+$("#remark").val() +"&price="+curr_usd_price+"&eth_price="+curr_eth_price+"&class="+currParentDatas.class+"&ability="+currParentDatas.ability,
+				url: requertUrl+"/setWcModel?remark="+$("#remark").val() +"&price="+curr_usd_price+"&eth_price="+curr_eth_price+"&class="+currParentDatas.class+"&ability="+currParentDatas.ability+"&count_nums="+$("#modelID").val(),
 				type: "GET",
 				dataType:"json",
 				success: function (resultJson) {
@@ -216,7 +218,7 @@
 						}
 					})
 
-     
+
 					//获取模板列表添加到下拉框中
 					$.ajax({
 						url: requertUrl+"/getWcModel",

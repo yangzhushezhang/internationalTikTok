@@ -110,9 +110,13 @@ class EasySwooleEvent implements Event
 //        $processConfig->setProcessName('Shopping1'); 
 //        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess9($processConfig))->getProcess());
 //        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess10($processConfig))->getProcess());
+
+        /**
+         * CwAddressProcess.php
+         */
+        $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('CwAddressProcess');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\CwAddressProcess($processConfig))->getProcess());
 
 
         //        #注册进程 1

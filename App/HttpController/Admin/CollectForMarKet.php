@@ -582,12 +582,22 @@ class CollectForMarKet extends Base
 
         $today = $this->request()->getQueryParam('today');
 
+        $shop_max = $this->request()->getQueryParam('shop_max');
+
+        $match = $this->request()->getQueryParam('match');
+
 
         $model = CwModelModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order("created_at", "DESC");
 
-
+        
         if (isset($today)) {
             $model->where('updated_at', $today, '>');
+        }
+        if (isset($shop_max)) {
+            $model->where('count_nums', $shop_max, '>');
+        }
+        if (isset($match)) {  #
+            $model->where('times', $match, '>');
         }
 
         $list = $model->all(null);
@@ -847,7 +857,7 @@ class CollectForMarKet extends Base
                                 'id' => $id,
                                 'result' => false
                             ]);
-                            (new LogHandel())->log("宠物id:" . $id . "匹配失败 该模板存在,价格不匹配!,上报价格:" . $price);
+                            (new LogHandel())->log("宠物id:" . $id . "匹配失败 该模板存在,价格不匹配!,上报价格:" . $price . ",模板的价格:" . $res['price']);
 
                         } else {
                             #查询 是否 购买权限是否开启
@@ -865,9 +875,12 @@ class CollectForMarKet extends Base
 
 
                             CwModelModel::create()->where(['id' => $res['id']])->update(['times' => QueryBuilder::inc(1)]);
-                            (new LogHandel())->log("宠物id:" . $id . "匹配成功");
+                            $A = $res['price'] - $price;
+                            (new LogHandel())->log("宠物id:" . $id . "匹配成功,模板价格为:" . $res['price'] . "差价:" . $A);
 
-                            $one = MatchingModel::create()->data(['cw_id' => $id, 'created_at' => time(), 'price' => $price, 'mode_price' => $res['price'], 'status' => -2, 'model_id' => $res['id']])->save();
+                            $one = MatchingModel::create()
+                                ->data(['cw_id' => $id, 'created_at' => time(), 'price' => $price, 'mode_price' => $res['price'], 'status' => -2, 'model_id' => $res['id'], 'delay_index' => $A])
+                                ->save();
                             if ($one) {
                                 (new LogHandel())->log("宠物id:" . $id . "插入MatchingModel 成功!  插入的值 price: " . $price . "mod_price 的价格:" . $res['price']);
                                 $redis = RedisPool::defer("redis");

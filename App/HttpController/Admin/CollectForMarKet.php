@@ -589,7 +589,7 @@ class CollectForMarKet extends Base
 
         $model = CwModelModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order("created_at", "DESC");
 
-        
+
         if (isset($today)) {
             $model->where('updated_at', $today, '>');
         }
@@ -629,6 +629,9 @@ class CollectForMarKet extends Base
             $update = [
 //                'updated_at' => time()
             ];
+
+
+
 
             $count_nums = $this->request()->getQueryParam('count_nums');
             if (isset($count_nums)) {

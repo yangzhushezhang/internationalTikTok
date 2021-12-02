@@ -23,11 +23,6 @@ class Index extends Controller
     {
 
 
-        try {
-            var_dump("45454");
-        } catch (InvalidUrl $e) {
-            var_dump("特使异常");
-        }
 
 
     }

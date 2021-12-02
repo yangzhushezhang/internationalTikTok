@@ -220,7 +220,6 @@ class CollectForMarKet extends Base
 
         try {
 
-
             $classes = $this->request()->getRequestParam('classes');
             $parts = $this->request()->getRequestParam('parts');
             $speed = $this->request()->getRequestParam('speed');
@@ -328,18 +327,52 @@ class CollectForMarKet extends Base
 
 
 //            var_dump($parts);
-            $data = '{"operationName":"GetAxieBriefList","variables":{"from":0,"size":24,"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"region":null,"parts":' . $parts . ',"bodyShapes":null,"classes":' . $classes . ',"stages":null,"numMystic":null,"pureness":null,"title":null,"breedable":null,"breedCount":null,"hp":[],"skill":[],"speed":[' . $speed . '],"morale":[]}},"query":"query GetAxieBriefList($auctionType: AuctionType, $criteria: AxieSearchCriteria, $from: Int, $sort: SortBy, $size: Int, $owner: String) {\\n axies(auctionType: $auctionType, criteria: $criteria, from: $from, sort: $sort, size: $size, owner: $owner) {\\n total\\n results {\\n ...AxieBrief\\n __typename\\n }\\n __typename\\n }\\n}\\n\\nfragment AxieBrief on Axie {\\n id\\n name\\n stage\\n class\\n breedCount\\n image\\n title\\n battleInfo {\\n banned\\n __typename\\n }\\n auction {\\n currentPrice\\n currentPriceUSD\\n __typename\\n }\\n parts {\\n id\\n name\\n class\\n type\\n specialGenes\\n __typename\\n }\\n __typename\\n}\\n"}';
 
-            $response = $client->post($data = $data);
-
-
-//            $this->response()->write($response->getBody());
+            $limit = $this->request()->getQueryParam('limit');
+            $page = $this->request()->getQueryParam('page');
+            $form = $limit * ($page - 1);
+            $data = '{"operationName":"GetAxieBriefList","variables":{"from":' . $form . ',"size":' . $limit . ',"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"region":null,"parts":' . $parts . ',"bodyShapes":null,"classes":' . $classes . ',"stages":null,"numMystic":null,"pureness":null,"title":null,"breedable":null,"breedCount":null,"hp":[],"skill":[],"speed":[' . $speed . '],"morale":[]}},"query":"query GetAxieBriefList($auctionType: AuctionType, $criteria: AxieSearchCriteria, $from: Int, $sort: SortBy, $size: Int, $owner: String) {\\n axies(auctionType: $auctionType, criteria: $criteria, from: $from, sort: $sort, size: $size, owner: $owner) {\\n total\\n results {\\n ...AxieBrief\\n __typename\\n }\\n __typename\\n }\\n}\\n\\nfragment AxieBrief on Axie {\\n id\\n name\\n stage\\n class\\n breedCount\\n image\\n title\\n battleInfo {\\n banned\\n __typename\\n }\\n auction {\\n currentPrice\\n currentPriceUSD\\n __typename\\n }\\n parts {\\n id\\n name\\n class\\n type\\n specialGenes\\n __typename\\n }\\n __typename\\n}\\n"}';
+            $client->setTimeout(5);
+            $client->setConnectTimeout(10);
+            $response = $client->post($data);
             $data = json_decode($response->getBody(), true);
 
+
+            if ($data && isset($data['data']['axies']) && isset($data['data']['axies']['results'])) {
+                foreach ($data['data']['axies']['results'] as $k => $datum) {
+                    $kinds = $datum['class'];
+                    $eyes = $datum['parts'][0]['name'];
+                    $ears = $datum['parts'][1]['name'];
+                    $back = $datum['parts'][2]['name'];
+                    $mouth = $datum['parts'][3]['name'];
+                    $horn = $datum['parts'][4]['name'];
+                    $tail = $datum['parts'][5]['name'];
+                    $res = CwModelModel::create()
+                        ->where(' (kinds = 1 or kinds = "' . $kinds . '") ')
+                        ->where(' (eyes = 1 or eyes = "' . $eyes . '") ')
+                        ->where(' (ears = 1 or ears = "' . $ears . '") ')
+                        ->where(' (horn = 1 or horn = "' . $horn . '") ')
+                        ->where(' (back = 1 or back = "' . $back . '") ')
+                        ->where(' (mouth = 1 or mouth = "' . $mouth . '") ')
+                        ->where(' (tail = 1 or tail = "' . $tail . '") ')
+                        ->get();
+                    if ($res) {
+                        #魔板存在
+                        $data['data']['axies']['results'][$k]['ifExist'] = 1;
+                    } else {
+                        $data['data']['axies']['results'][$k]['ifExist'] = 0;
+                    }
+                }
+            }
+
+
             $this->writeJson(200, $data, "请求成功");
-        } catch (InvalidUrl $e) {
+
+
+        } catch (\Throwable $e) {
             $this->writeJson(-1, [], "请求异常:" . $e->getMessage());
-        };
+
+        }
 
     }
 
@@ -631,8 +664,6 @@ class CollectForMarKet extends Base
             ];
 
 
-
-
             $count_nums = $this->request()->getQueryParam('count_nums');
             if (isset($count_nums)) {
                 $update['count_nums'] = $count_nums;
@@ -855,10 +886,19 @@ class CollectForMarKet extends Base
 
                     if ($res) {
                         #如果 模板的价格  < 请求的价格
+                        $A = $res['price'] - $price;
+
+                        if ($A > 100) {
+                            $delay_index = 1;
+                        } else {
+                            $delay_index = 0;
+                        }
+
                         if ($res['price'] < $price) {  #匹配上了  但是价格 不对
                             array_push($return['result'], [
                                 'id' => $id,
-                                'result' => false
+                                'result' => false,
+                                'delay_index' => $delay_index
                             ]);
                             (new LogHandel())->log("宠物id:" . $id . "匹配失败 该模板存在,价格不匹配!,上报价格:" . $price . ",模板的价格:" . $res['price']);
 
@@ -867,20 +907,22 @@ class CollectForMarKet extends Base
                             if ($res['switch'] == 1) {
                                 array_push($return['result'], [
                                     'id' => $id,
-                                    'result' => true
+                                    'result' => true,
+                                    'delay_index' => $delay_index
                                 ]);
                             } else {
                                 array_push($return['result'], [
                                     'id' => $id,
-                                    'result' => false
+                                    'result' => false,
+                                    'delay_index' => $delay_index
                                 ]);
                             }
 
 
                             CwModelModel::create()->where(['id' => $res['id']])->update(['times' => QueryBuilder::inc(1)]);
-                            $A = $res['price'] - $price;
-                            (new LogHandel())->log("宠物id:" . $id . "匹配成功,模板价格为:" . $res['price'] . "差价:" . $A);
 
+
+                            (new LogHandel())->log("宠物id:" . $id . "匹配成功,模板价格为:" . $res['price'] . "差价:" . $A);
                             $one = MatchingModel::create()
                                 ->data(['cw_id' => $id, 'created_at' => time(), 'price' => $price, 'mode_price' => $res['price'], 'status' => -2, 'model_id' => $res['id'], 'delay_index' => $A])
                                 ->save();
@@ -895,7 +937,7 @@ class CollectForMarKet extends Base
                     } else {
                         array_push($return['result'], [
                             'id' => $id,
-                            'result' => false
+                            'result' => false,
                         ]);
                         (new LogHandel())->log("宠物id:" . $id . "匹配失败 该模板不存在!");
                     }

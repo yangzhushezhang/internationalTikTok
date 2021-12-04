@@ -56,6 +56,9 @@
 
 <div style="padding: 20px">
 
+    <input type="hidden" class="layui-input " id="curr_axieID" >
+    <input type="hidden" class="layui-input " id="modelIDNum" >
+
 
   <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>筛选条件</legend>
@@ -66,7 +69,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">能力展示(Abilities)</div>
-                <div class="layui-card-body" style="text-align:center">
+                <div class="layui-card-body">
                     <div style="margin: 0 auto">
                         <div class="abilities_part1">
                             <span class="abilities_name" id="abilities_title1"></span>
@@ -128,74 +131,39 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">操作面板</div>
-                <div class="layui-card-body">
-                    <form class="layui-form" action="" lay-filter="classform" style="display: flex;margin-top: 20px;">
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label" >USD价格</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" class="layui-input " id="price" placeholder="请在此输入价格">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label" style="margin-left: -70px;">费率</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" class="layui-input layui-disabled" value="3784" id="feilv" placeholder="请在此输入价格" disabled>
-<!--                                    <span style="display:inline-block;margin-top: 10px;color: red" id="currfl"> 当前费率是1(ETH):3784(USD)</span>-->
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="addTempDb" id="addTempDb"><i class="layui-icon layui-icon-edit"></i> 修改价格</button>
-                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="reloadWindowBtn" id="reloadWindowBtn" ><i class="layui-icon  layui-icon-refresh"></i> 重载当前窗口所有数据</button>
-                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="searchBtn" id="searchBtn" ><i class="layui-icon layui-icon-refresh-1"></i> 重载相似数据</button>
-                            </div>
-
-                        </div>
-
-                        <!--      <div class="layui-form-item" >-->
-
-                        <!--        <div class="layui-input-block1">-->
-                        <!--            <div class="layui-form-item layui-row layui-col-xs8">-->
-                        <!--                <label class="layui-form-label" >USD价格</label>-->
-                        <!--                <div class="layui-input-block">-->
-                        <!--                    <input type="text" class="layui-input " id="price" placeholder="请在此输入价格">-->
-                        <!--                </div>-->
-                        <!--            </div>-->
-                        <!--            <div class="layui-form-item layui-row layui-col-xs12">-->
-                        <!--                <label class="layui-form-label" >费率</label>-->
-                        <!--                <div class="layui-input-block">-->
-                        <!--                    <input type="text" class="layui-input" value="3784" id="feilv" placeholder="请在此输入价格">-->
-                        <!--                    <span style="display:inline-block;margin-top: 10px;color: red" id="currfl"> 当前费率是1(ETH):3784(USD)</span>-->
-                        <!--                </div>-->
-                        <!--            </div>-->
-                        <!--            <div class="layui-form-item layui-row layui-col-xs12">-->
-                        <!--                <button type="submit" class="layui-btn" lay-submit="" lay-filter="addTempDb" id="addTempDb"><i class="layui-icon layui-icon-addition"></i> 模板入库</button>-->
-                        <!--                <button type="submit" class="layui-btn" lay-submit="" lay-filter="reloadWindowBtn" id="reloadWindowBtn" ><i class="layui-icon  layui-icon-refresh"></i> 重载当前窗口所有数据</button>-->
-                        <!--                <button type="submit" class="layui-btn" lay-submit="" lay-filter="searchBtn" id="searchBtn" ><i class="layui-icon layui-icon-refresh-1"></i> 重载相似数据</button>-->
-                        <!--            </div>-->
-                        <!--           &lt;!&ndash;          <button type="submit" class="layui-btn" lay-submit="" lay-filter="editTempDb" id="editTempDb" style="float: right;margin-bottom: 10px"><i class="layui-icon layui-icon-edit"></i> 修改模板</button>&ndash;&gt;-->
-
-
-                        <!--            &lt;!&ndash;          <button type="submit" class="layui-btn layui-btn-primary">搜索(未实现)</button>&ndash;&gt;-->
-                        <!--        </div>-->
-                        <!--      </div>-->
-
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 
+    <form class="layui-form" action="" lay-filter="classform" style="display: flex;margin-top: 20px;">
+      <div class="layui-form-item" >
+        <div class="layui-input-block1">
 
+          <button type="submit" class="layui-btn" lay-submit="" lay-filter="addTempDb" id="addTempDb"><i class="layui-icon layui-icon-addition"></i> 模板入库</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="reloadWindowBtn" id="reloadWindowBtn" ><i class="layui-icon  layui-icon-refresh"></i> 重载当前窗口所有数据</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="searchBtn" id="searchBtn" ><i class="layui-icon layui-icon-refresh-1"></i> 重载相似数据</button>
+<!--          <button type="submit" class="layui-btn" lay-submit="" lay-filter="editTempDb" id="editTempDb" style="float: right;margin-bottom: 10px"><i class="layui-icon layui-icon-edit"></i> 修改模板</button>-->
+
+
+            <!--          <button type="submit" class="layui-btn layui-btn-primary">搜索(未实现)</button>-->
+        </div>
+      </div>
+      <div class="layui-form-item" >
+        <div class="layui-inline" >
+            <label class="layui-form-label">模板列表:</label>
+            <div class="layui-input-inline">
+                <select name="templateList" id="templateList"  lay-filter="templateList">
+                </select>
+            </div>
+
+        </div>
+
+      </div>
+    </form>
   </div>
 <!--    <pre id="configCode"></pre>-->
-<!--    <div style="margin: 20px;">-->
-<!--        <label class="layui-form-label" style="width: 300px;color: red;font-weight: bold;text-align: left" id="shuoming"></label>-->
-<!--        <textarea placeholder="此处显示模板内容" class="layui-textarea" id="templateContext" rows="10" style="color: red;"></textarea>-->
-<!--    </div>-->
+    <div style="margin: 20px;">
+        <label class="layui-form-label" style="width: 300px;color: red;font-weight: bold;text-align: left" id="shuoming"></label>
+        <textarea placeholder="此处显示模板内容" class="layui-textarea" id="templateContext" rows="10" style="color: red;"></textarea>
+    </div>
   <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>筛选结果</legend>
   </fieldset>
@@ -214,6 +182,8 @@
 <!-- 引入 layui.js 的 <script> 标签最好放置在 html 末尾 -->
 <script src="layui/layui.js"></script>
 <script>
+
+
     layui.use(function(){
      var layer = layui.layer
         ,form = layui.form
@@ -226,41 +196,22 @@
         var layuicode = layui.code
         var table = layui.table;
 
+        var totalNumValue = 0
+
         var currParentDatas = eval('('+parent.jsondata+')')
-        var updataDatas = currParentDatas.cw_mode
-        console.log("updataDatas",updataDatas)
-        $("#price").val(updataDatas.price)
-        var currQueryAxiesID = currParentDatas.cw_id
+        var currQueryAxiesID = currParentDatas.id
 
-        $.ajax({
-            url: "https://api1.binance.com/api/v3/ticker/price?symbol=ETHUSDT",
-            type: "GET",
-            dataType: "json",
-            success: function (resultJson) {
-                // console.log("resultJson",resultJson)
+        console.log("currParentDatas",currParentDatas)
 
-                if(resultJson.hasOwnProperty('price') && resultJson.hasOwnProperty('symbol')){
+        // var currQueryAxiesID = currParentDatas.axie_id
 
-                    $("#feilv").val(resultJson.price)
-
-                }else{
-
-                }
-            },
-            complete : function(XMLHttpRequest,status){ //请求完成后最终执行参数
-
-                // console.log("status",status)
-
-            }
-
-        })
 
 
         var indexLoad = layer.load(1, {
             shade: [0.1,'#fff'] //0.1透明度的白色背景
         });
 
-
+        console.log("curr_axieID_弹窗",currQueryAxiesID)
         //页面进来就读取数据
         $.ajax({
             url: requertUrl+"/getOneInformation?axieId="+currQueryAxiesID,
@@ -803,6 +754,7 @@
 
                                         if(res.result.data.hasOwnProperty('axies') && !res.result.data.hasOwnProperty('errors')){
                                             //这里有点小问题
+                                            totalNumValue = res.result.data.axies.total
                                             $("#totalNum").text(res.result.data.axies.total)
                                             // layer.close(indexTableLoad)
                                             return {
@@ -855,90 +807,88 @@
                 },1000)
 
 
-                //
-                //
-                // var requestdata = "w="+JSON.stringify({"data":[{"class":classStr,"eyes":queryEyesStr,"ears":queryEarsStr,"back":queryBackStr,"mouth":queryMouthStr,"horn":queryHornStr,"tail":queryTailStr}]})
-                //
-                // // console.log(requestdata)
-                // //查询模板是否存在
-                // $.ajax({
-                //     url: requertUrl+"/IfShopping",
-                //     dataType: 'json',
-                //     type: 'POST',
-                //     data:requestdata,
-                //     // contentType:"application/x-www-form-urlencoded",
-                //     // contentType: "application/json; charset=utf-8",
-                //     // data: JSON.stringify(requestdata),
-                //     success: function (dataArray) {
-                //
-                //         // console.log(dataArray)
-                //         if (dataArray.code != 200) {
-                //
-                //             // console.log(dataArray.msg)
-                //             // layer.msg(dataArray.msg);
-                //             $("#shuoming").text("模板不存在")
-                //             layer.msg("模板不存在！", {icon: 1});
-                //             $("#templateContext").val("")
-                //             return false;
-                //
-                //         }
-                //
-                //
-                //
-                //         layer.msg("此模板已经存在！", {icon: 2});
-                //
-                //         $("#shuoming").text("此模板已经存在！")
-                //         var currTempDatas = dataArray.result
-                //
-                //         // currTempDatas
-                //
-                //         $('#templateList').find('option:contains(' + currTempDatas.remark + ')').prop('selected',true);
-                //         //重新渲染 固定写法
-                //         form.render("select");
-                //
-                //
-                //         currDatas_template = currTempDatas
-                //
-                //         var filecontent = "# 以下信息为模板的信息" + "\n"
-                //         filecontent = filecontent + "类别 = " + currTempDatas.kinds + "\n"
-                //         filecontent = filecontent + "眼睛 = " + currTempDatas.eyes+ "\n"
-                //         filecontent = filecontent + "耳朵 = " + currTempDatas.ears + "\n"
-                //         filecontent = filecontent + "背 = " + currTempDatas.back + "\n"
-                //         filecontent = filecontent + "牙 = " + currTempDatas.mouth+ "\n"
-                //         filecontent = filecontent + "角 = " + currTempDatas.horn+ "\n"
-                //         filecontent = filecontent + "尾 = " + currTempDatas.tail+ "\n"
-                //         filecontent = filecontent + "价格(ETH) = " + currTempDatas.eth_price+ "\n"
-                //         filecontent = filecontent + "价格(USD) = " + currTempDatas.price+ "\n"
-                //
-                //         $("#templateContext").val(filecontent)
-                //
-                //
-                //
-                //         //如果模板已存在后就删除市场中的ID
-                //         $.ajax({
-                //         	url: requertUrl+"/delRec?id="+currParentDatas.id,
-                //         	dataType: 'json',
-                //         	type: 'GET',
-                //         	success: function (dataArray) {
-                //
-                //         		// console.log(dataArray)
-                //         		if (dataArray.code != 200) {
-                //
-                //         			// console.log(dataArray.msg)
-                //         			// layer.msg(dataArray.msg);
-                //
-                //         			return false;
-                //
-                //         		}
-                //
-                //                 layer.closeAll();
-                //                 // window.parent.location.reload();
-                //
-                //         	}
-                //         })
-                //
-                //     }
-                // })
+                var requestdata = "w="+JSON.stringify({"data":[{"class":classStr,"eyes":queryEyesStr,"ears":queryEarsStr,"back":queryBackStr,"mouth":queryMouthStr,"horn":queryHornStr,"tail":queryTailStr}]})
+
+                // console.log(requestdata)
+                //查询模板是否存在
+                $.ajax({
+                    url: requertUrl+"/IfShopping",
+                    dataType: 'json',
+                    type: 'POST',
+                    data:requestdata,
+                    // contentType:"application/x-www-form-urlencoded",
+                    // contentType: "application/json; charset=utf-8",
+                    // data: JSON.stringify(requestdata),
+                    success: function (dataArray) {
+
+                        // console.log(dataArray)
+                        if (dataArray.code != 200) {
+
+                            // console.log(dataArray.msg)
+                            // layer.msg(dataArray.msg);
+                            $("#shuoming").text("模板不存在")
+                            layer.msg("模板不存在！", {icon: 1});
+                            $("#templateContext").val("")
+                            return false;
+
+                        }
+
+
+
+                        layer.msg("此模板已经存在！", {icon: 2});
+
+                        $("#shuoming").text("此模板已经存在！")
+                        var currTempDatas = dataArray.result
+
+                        // currTempDatas
+
+                        $('#templateList').find('option:contains(' + currTempDatas.remark + ')').prop('selected',true);
+                        //重新渲染 固定写法
+                        form.render("select");
+
+
+                        currDatas_template = currTempDatas
+
+                        var filecontent = "# 以下信息为模板的信息" + "\n"
+                        filecontent = filecontent + "类别 = " + currTempDatas.kinds + "\n"
+                        filecontent = filecontent + "眼睛 = " + currTempDatas.eyes+ "\n"
+                        filecontent = filecontent + "耳朵 = " + currTempDatas.ears + "\n"
+                        filecontent = filecontent + "背 = " + currTempDatas.back + "\n"
+                        filecontent = filecontent + "牙 = " + currTempDatas.mouth+ "\n"
+                        filecontent = filecontent + "角 = " + currTempDatas.horn+ "\n"
+                        filecontent = filecontent + "尾 = " + currTempDatas.tail+ "\n"
+                        filecontent = filecontent + "价格(ETH) = " + currTempDatas.eth_price+ "\n"
+                        filecontent = filecontent + "价格(USD) = " + currTempDatas.price+ "\n"
+
+                        $("#templateContext").val(filecontent)
+
+
+
+                        //如果模板已存在后就删除市场中的ID
+                        $.ajax({
+                        	url: requertUrl+"/delRec?id="+currParentDatas.id,
+                        	dataType: 'json',
+                        	type: 'GET',
+                        	success: function (dataArray) {
+
+                        		// console.log(dataArray)
+                        		if (dataArray.code != 200) {
+
+                        			// console.log(dataArray.msg)
+                        			// layer.msg(dataArray.msg);
+
+                        			return false;
+
+                        		}
+
+                                layer.closeAll();
+                                // window.parent.location.reload();
+
+                        	}
+                        })
+
+                    }
+                })
 
             },
             error : function(XMLHttpRequest,status){ //请求失败执行函数
@@ -966,6 +916,54 @@
 
 
         });
+
+
+        //获取模板列表添加到下拉框中
+        $.ajax({
+            url: requertUrl+"/getWcModel",
+            dataType: 'json',
+            type: 'GET',
+            success: function (dataArray) {
+
+                // console.log(dataArray)
+                if (dataArray.code != 200) {
+
+                    // console.log(dataArray.msg)
+                    // layer.msg(dataArray.msg);
+
+                    return false;
+
+                }
+
+                allJsonOBJ = dataArray.msg
+
+                var returnDataArray = dataArray.msg
+                // currSelectReturnDataArray= returnDataArray
+                // var currAccountID = returnDataArray[0].id
+                // var currAccountTokenValue = returnDataArray[0]['token_value']
+                // currSelectReturnID = currAccountID
+                // currSelectReturnTokenValue= currAccountTokenValue
+                // console.log("returnDataArray",returnDataArray)
+
+                $("#templateList").empty();
+                $('#templateList').append(new Option("请选择模板","9999999"));
+                $.each(returnDataArray, function (index, item) {
+                    $('#templateList').append(new Option(item.remark, item.remark));// 下拉菜单里添加元素
+
+                });
+
+                // $("#templateList").attr("selected", "selected");
+
+                //重新渲染 固定写法
+                form.render("select");
+
+
+
+
+
+
+            }
+        })
 
 
 
@@ -1270,7 +1268,6 @@
             el: '#demo1',
             filterable: true,
             autoRow: true,
-            disabled: true,
             theme: {
                 color: '#6739b6',
             },
@@ -1556,210 +1553,434 @@
             ]
         })
 
-        var tableIns = table.render({
-            elem: '#test',
-            // url : 'aaa.json',
-            data:[],
-            // url : requertUrl+"/setInformation",
-            // method: 'post',
-            // where:{token: $.cookie('tokenMyb'),status:1,addFans_status:2,add_group_status:1},//1是:当前访问的是审核通过的数据
-            cellMinWidth : 95,
-            // page :  { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
-            //   layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-            //   //,curr: 5 //设定初始在第 5 页
-            //   ,groups: 10 //只显示 1 个连续页码
-            //   ,first: "首页" //不显示首页
-            //   ,last: "尾页"//不显示尾页
-            //
-            // },
-            height : "full-20",
-            // limit : 15,
-            // limits : [15,30,50,100],
-            id : "systemLog",
-            // loading:false,
-            response: {
-                statusName: 'code' //规定数据状态的字段名称，默认：code
-                ,statusCode: "200", //规定成功的状态码，默认：0
-                // ,msgName: 'hint' //规定状态信息的字段名称，默认：msg
-                // ,countName: 'total', //规定数据总数的字段名称，默认：count
-                dataName: 'result' //规定数据列表的字段名称，默认：data
-            },
-            parseData: function(res){ //res 即为原始返回的数据
+        //获取模板列表添加到下拉框中
+        $.ajax({
+            url: requertUrl+"/getWcModel",
+            dataType: 'json',
+            type: 'GET',
+            success: function (dataArray) {
 
-                // console.log(res)
-                return {
-                    "code":200,
-                    // "result": res.result.data.axies.results //解析数据列表
-                    "result": res.result.data.axies.results //解析数据列表
+                // console.log(dataArray)
+                if (dataArray.code != 200) {
 
-                };
-            },
-            cols : [[
-                {type: "checkbox", fixed:"left"},
-                // {field: 'id', title: '编号', width:60, align:"center"},
-                // {field: 'xid', title: '编号', width:60, align:"center",templet: '#titleTpl'},
-                {field: 'id', title: 'ID', sort: true,minWidth:'100',align:"center"}, //, style :'display: none'
-                {field: 'image', title: '宠物图像',sort: true,width:122, height:200, align:'center',templet: function(d){
+                    // console.log(dataArray.msg)
+                    // layer.msg(dataArray.msg);
 
-                        var imageName = d.image;
+                    return false;
 
-                        return '<div ><img src="'+imageName+'" ' + 'alt="" width="200px" height="60px"></a></div>';
+                }
 
-                    }},
-                {field: 'class', title: '种类', sort: true, align:'center',width:120,templet: function (d) {
-                        // console.log(d)
-                        return d.class
-                    }},
-                {field: 'Eyes', title: '眼(eyes)', sort: true, align:'center',width:150, templet: function (d) {
+                allJsonOBJ = dataArray.msg
+                // console.log(allJsonOBJ)
+                var returnDataArray = dataArray.msg
+                // currSelectReturnDataArray= returnDataArray
+                // var currAccountID = returnDataArray[0].id
+                // var currAccountTokenValue = returnDataArray[0]['token_value']
+                // currSelectReturnID = currAccountID
+                // currSelectReturnTokenValue= currAccountTokenValue
+                // console.log("returnDataArray",returnDataArray)
 
-                        let currData = d.parts[0]
-                        // console.log(currData,typeof currData)
-                        if(!currData ){
-                            return "无"
-                        }else{
-                            return d.parts[0].name
-                        }
+                $("#templateList").empty();
+                $('#templateList').append(new Option("请选择模板","9999999"));
+                $.each(returnDataArray, function (index, item) {
+                    $('#templateList').append(new Option(item.remark, item.remark));// 下拉菜单里添加元素
 
-                    }},
-                {field: 'Ears', title: '耳(ears)', sort: true, align:'center', templet: function (d) {
+                });
 
-                        let currData = d.parts[1]
-                        // console.log(currData,typeof currData)
-                        if(!currData ){
-                            return "无"
-                        }else{
-                            return d.parts[1].name
-                        }
+                // $("#templateList").attr("selected", "selected");
 
-                    }},
-                {field: 'Back', title: '背(back)', sort: true, align:'center', templet: function (d) {
-
-                        let currData = d.parts[1]
-                        // console.log(currData,typeof currData)
-                        if(!currData ){
-                            return "无"
-                        }else{
-                            return d.parts[2].name
-                        }
-
-                    }},
-                {field: 'Mouth', title: '牙(mouth)', sort: true, align:'center', templet: function (d) {
-
-                        let currData = d.parts[1]
-                        // console.log(currData,typeof currData)
-                        if(!currData ){
-                            return "无"
-                        }else{
-                            return d.parts[3].name
-                        }
-
-                    }},
-                {field: 'Horn', title: '角(horn)', sort: true, align:'center', templet: function (d) {
-
-                        let currData = d.parts[1]
-                        // console.log(currData,typeof currData)
-                        if(!currData ){
-                            return "无"
-                        }else{
-                            return d.parts[4].name
-                        }
-
-                    }},
-                {field: 'Tail', title: '尾(tail)', sort: true, align:'center', templet: function (d) {
-
-                        let currData = d.parts[1]
-                        // console.log(currData,typeof currData)
-                        if(!currData ){
-                            return "无"
-                        }else{
-                            return d.parts[5].name
-                        }
-
-                    }},
-                {field: 'content', title: '价格(USD)', sort: true,align:'center', templet: function (d) {
+                //重新渲染 固定写法
+                form.render("select");
 
 
-                        // console.log(d.auction.currentPriceUSD)
-
-                        return d.auction.currentPriceUSD
-
-                    }},
-                {field: 'content', title: '价格(ETH)', sort: true,align:'center', templet: function (d) {
 
 
-                        // console.log(d.auction.currentPriceUSD)
 
 
-                        // var input_curr_eth_price = parseFloat(d.auction.currentPriceUSD)
-                        // var input_curr_fl_price = parseFloat('3784')
-                        //
-                        // //美元价格
-                        // var  input_curr_usd_price = parseFloat(input_curr_eth_price /  input_curr_fl_price) // 输出结果为 2.4544
-
-
-                        return parseInt(d.auction.currentPrice)/1000000000000000000
-                    }},
-                // {field: 'created_at', title: '创建时间',sort: true, width: 190, align:'center',templet: function (d) {
-                //     var unixTimestamp = new Date(d.created_at * 1000)
-                //     return formatDateTime(unixTimestamp)
-                // }},
-                // {field: 'updated_at', title: '更新时间',sort: true,width:190, align:'center',templet: function (d) {
-                //     var unixTimestamp = new Date(d.updated_at * 1000)
-                //     return formatDateTime(unixTimestamp)
-                // }},
-
-                // {field: 'order_time',title: '订单时间', width:163,align:"center"},
-                // {field: 'order_time',title: '订单时间', width:118,align:"center",templet:function(d){
-                //         var to = d.order_time.substr(5,);
-                //         return to
-                //     }},
-                // {title: '', width:1, templet:'#orderListBar',fixed:"right",align:"center"}
-            ]],
-            done: function(res, curr, count){
-                // console.log("res",res.result.data.axies.results)
-                // res = res.result.data.axies.results
             }
-        });
+        })
+
+        //订单表
+        var tableIns = table.render({
+        elem: '#test',
+        // url : 'aaa.json',
+        data:[],
+        // url : requertUrl+"/setInformation",
+        // method: 'post',
+        // where:{token: $.cookie('tokenMyb'),status:1,addFans_status:2,add_group_status:1},//1是:当前访问的是审核通过的数据
+        cellMinWidth : 95,
+        // page :  { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+        //   layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+        //   //,curr: 5 //设定初始在第 5 页
+        //   ,groups: 10 //只显示 1 个连续页码
+        //   ,first: "首页" //不显示首页
+        //   ,last: "尾页"//不显示尾页
+        //
+        // },
+        height : "full-20",
+        // limit : 15,
+        // limits : [15,30,50,100],
+        id : "systemLog",
+        // loading:false,
+        response: {
+          statusName: 'code' //规定数据状态的字段名称，默认：code
+          ,statusCode: "200", //规定成功的状态码，默认：0
+          // ,msgName: 'hint' //规定状态信息的字段名称，默认：msg
+          // ,countName: 'total', //规定数据总数的字段名称，默认：count
+          dataName: 'result' //规定数据列表的字段名称，默认：data
+        },
+        parseData: function(res){ //res 即为原始返回的数据
+
+          // console.log(res)
+          return {
+            "code":200,
+            // "result": res.result.data.axies.results //解析数据列表
+            "result": res.result.data.axies.results //解析数据列表
+
+          };
+        },
+        cols : [[
+          {type: "checkbox", fixed:"left"},
+          // {field: 'id', title: '编号', width:60, align:"center"},
+          // {field: 'xid', title: '编号', width:60, align:"center",templet: '#titleTpl'},
+          {field: 'id', title: 'ID', sort: true,minWidth:'100',align:"center"}, //, style :'display: none'
+          {field: 'image', title: '宠物图像',sort: true,width:122, height:200, align:'center',templet: function(d){
+
+              var imageName = d.image;
+
+              return '<div ><img src="'+imageName+'" ' + 'alt="" width="200px" height="60px"></a></div>';
+
+          }},
+          {field: 'class', title: '种类', sort: true, align:'center',width:120,templet: function (d) {
+              // console.log(d)
+              return d.class
+          }},
+          {field: 'Eyes', title: '眼(eyes)', sort: true, align:'center',width:150, templet: function (d) {
+
+              let currData = d.parts[0]
+              // console.log(currData,typeof currData)
+              if(!currData ){
+                return "无"
+              }else{
+                return d.parts[0].name
+              }
+
+          }},
+          {field: 'Ears', title: '耳(ears)', sort: true, align:'center', templet: function (d) {
+
+              let currData = d.parts[1]
+              // console.log(currData,typeof currData)
+              if(!currData ){
+                return "无"
+              }else{
+                return d.parts[1].name
+              }
+
+          }},
+          {field: 'Back', title: '背(back)', sort: true, align:'center', templet: function (d) {
+
+              let currData = d.parts[1]
+              // console.log(currData,typeof currData)
+              if(!currData ){
+                return "无"
+              }else{
+                return d.parts[2].name
+              }
+
+            }},
+          {field: 'Mouth', title: '牙(mouth)', sort: true, align:'center', templet: function (d) {
+
+              let currData = d.parts[1]
+              // console.log(currData,typeof currData)
+              if(!currData ){
+                return "无"
+              }else{
+                return d.parts[3].name
+              }
+
+          }},
+          {field: 'Horn', title: '角(horn)', sort: true, align:'center', templet: function (d) {
+
+              let currData = d.parts[1]
+              // console.log(currData,typeof currData)
+              if(!currData ){
+                return "无"
+              }else{
+                return d.parts[4].name
+              }
+
+          }},
+          {field: 'Tail', title: '尾(tail)', sort: true, align:'center', templet: function (d) {
+
+              let currData = d.parts[1]
+              // console.log(currData,typeof currData)
+              if(!currData ){
+                return "无"
+              }else{
+                return d.parts[5].name
+              }
+
+          }},
+          {field: 'content', title: '价格(USD)', sort: true,align:'center', templet: function (d) {
+
+
+              // console.log(d.auction.currentPriceUSD)
+
+              return d.auction.currentPriceUSD
+
+          }},
+          {field: 'content', title: '价格(ETH)', sort: true,align:'center', templet: function (d) {
+
+
+                // console.log(d.auction.currentPriceUSD)
+
+
+                  // var input_curr_eth_price = parseFloat(d.auction.currentPriceUSD)
+                  // var input_curr_fl_price = parseFloat('3784')
+                  //
+                  // //美元价格
+                  // var  input_curr_usd_price = parseFloat(input_curr_eth_price /  input_curr_fl_price) // 输出结果为 2.4544
+
+
+                return parseInt(d.auction.currentPrice)/1000000000000000000
+          }},
+          // {field: 'created_at', title: '创建时间',sort: true, width: 190, align:'center',templet: function (d) {
+          //     var unixTimestamp = new Date(d.created_at * 1000)
+          //     return formatDateTime(unixTimestamp)
+          // }},
+          // {field: 'updated_at', title: '更新时间',sort: true,width:190, align:'center',templet: function (d) {
+          //     var unixTimestamp = new Date(d.updated_at * 1000)
+          //     return formatDateTime(unixTimestamp)
+          // }},
+
+          // {field: 'order_time',title: '订单时间', width:163,align:"center"},
+          // {field: 'order_time',title: '订单时间', width:118,align:"center",templet:function(d){
+          //         var to = d.order_time.substr(5,);
+          //         return to
+          //     }},
+          // {title: '', width:1, templet:'#orderListBar',fixed:"right",align:"center"}
+        ]],
+        done: function(res, curr, count){
+          // console.log("res",res.result.data.axies.results)
+          // res = res.result.data.axies.results
+        }
+      });
 
         //添加模板入库
         $("#addTempDb").click(function () {
 
-            var curr_fl_price = parseFloat($("#feilv").val())
-            var curr_eth_price = parseFloat($("#price").val()) / parseFloat(curr_fl_price)
 
-            $.ajax({
+            var data = form.val('classform');
 
-                url: requertUrl+"/updateModel?id="+updataDatas.id+"&remark="+updataDatas.remark +"&price="+$("#price").val()+"&eth_price="+curr_eth_price+"&class="+updataDatas.kinds+"&eyes="+updataDatas.eyes+"&ears="+updataDatas.ears+"&back="+updataDatas.back+"&mouth="+updataDatas.mouth+"&horn="+updataDatas.horn+"&tail="+updataDatas.tail,
-                type: "GET",
-                dataType:"json",
-                success: function (resultJson) {
-
-                    if(resultJson.code == -101){
+            // console.log(data)
 
 
-                        layer.msg(resultJson.msg, {icon:2});
-                        return false
-                    }
+            var classStrS =""
 
-                    layer.msg(resultJson.msg, {icon: 1});
+            if(data.Beast == "on"){
+                // console.log("进来")
+                classStrS = "Beast"
+            }
+
+            if(data.Aquatic == "on"){
+                classStrS =  "Aquatic"
+            }
+
+            if(data.Plant == "on"){
+                classStrS =  "Plant"
+            }
+
+            if(data.Bird == "on"){
+                classStrS =  "Bird"
+            }
+
+            if(data.Bug == "on"){
+                classStrS =  "Bug"
+            }
+
+            if(data.Reptile == "on"){
+                classStrS =  "Reptile"
+            }
+
+            if(data.Mech == "on"){
+                classStrS = "Mech"
+            }
+
+            if(data.Dawn == "on"){
+                classStrS =  "Dawn"
+            }
+
+            if(data.Dusk == "on"){
+                classStrS =  "Dusk"
+            }
+
+            if(classStrS == ""){
+
+                // layer.msg("请先选择宠物种类！")
+
+                classStrS = 1
+            }
+
+
+            var selectArr = demo2.getValue("name");
+            var selectArrValue = demo2.getValue("value");
+
+            // console.log(selectArr,selectArrValue)
+
+            // console.log("selectArrValue",selectArr)
+
+
+            var combeArray = []
+            for(var i=0;i<selectArr.length;i++){
+                combeArray.push({
+                    nameLabel:selectArr[i],
+                    keyValue:selectArrValue[i],
+                })
+            }
+            // console.log("combeArray",combeArray)
+            var combeJson = {eyes:'',ears:'',back:'',mouth:'',horn:'',tail:'',}
+
+
+            combeArray.find((item,index)=>{
+
+
+                // console.log("查询的值",item.keyValue)
+                // console.log("对应的值",selectArrValue[index])
+
+                if(item.keyValue == selectArrValue[index] && item.keyValue.indexOf('eyes-') != -1){
+
+                    eyeIDStrS = item.nameLabel
+                    // console.log("eyeIDStrS",eyeIDStrS,index)
+
+                    combeJson.eyes = eyeIDStrS
+
+
+                }else if(item.keyValue == selectArrValue[index] && item.keyValue.indexOf('ears-') != -1){
+
+                    earIDStrS = item.nameLabel
+                    // console.log("earIDStrS",earIDStrS,index)
+                    combeJson.ears = earIDStrS
 
 
 
-                    // setTimeout(function () {
-                    //     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                    //     parent.layer.close(index);
-                    //     //子页面刷新父页面的table表格
-                    //     window.parent.layui.table.reload('systemLog');
-                    //     // window.parent.location.reload();
-                    // }, 1300)
+                }else if(item.keyValue == selectArrValue[index] && item.keyValue.indexOf('back-') != -1){
+
+                    backIDStrS = item.nameLabel.split("(")[0]
+                    // backIDStrS = item.nameLabel.substring(item.nameLabel.indexOf("(") + 1,item.nameLabel.indexOf(")"))
+                    // console.log("backIDStrS",backIDStrS,index)
+                    combeJson.back = backIDStrS
+
+
+                }else if(item.keyValue == selectArrValue[index] && item.keyValue.indexOf('mouth-') != -1){
+                    mouthIDStrS = item.nameLabel.split("(")[0]
+                    // mouthIDStrS = item.nameLabel.substring(item.nameLabel.indexOf("(") + 1,item.nameLabel.indexOf(")"))
+                    // console.log("mouthIDStrS",mouthIDStrS,index)
+                    combeJson.mouth = mouthIDStrS
+
+
+                }else if(item.keyValue == selectArrValue[index] && item.keyValue.indexOf('horn-') != -1){
+                    hornIDStrS = item.nameLabel.split("(")[0]
+                    // hornIDStrS = item.nameLabel.substring(item.nameLabel.indexOf("(") + 1,item.nameLabel.indexOf(")"))
+                    // console.log("hornIDStrS",hornIDStrS,index)
+                    combeJson.horn= hornIDStrS
+
+
+                }else if(item.keyValue == selectArrValue[index] && item.keyValue.indexOf('tail-') != -1){
+
+                    // console.log("没进来?",index)
+                    tailIDStrS = item.nameLabel.split("(")[0]
+                    // tailIDStrS = item.nameLabel.substring(item.nameLabel.indexOf("(") + 1,item.nameLabel.indexOf(")"))
+                    // console.log("tailIDStrS",tailIDStrS)
+                    combeJson.tail = tailIDStrS
+
+                }else{
+
+                }
+
+            })
+
+            var currAbilityStr = ""
+
+            // combeJson.hasOwnProperty('')
+
+            if(combeJson.eyes != ""){
+                currAbilityStr = currAbilityStr +  "eyes-"+eyeIDStrS +"@"
+            }
+
+            if(combeJson.ears != ""){
+                currAbilityStr = currAbilityStr +  "ears-"+earIDStrS +"@"
+            }
+
+            if(combeJson.back != ""){
+                currAbilityStr = currAbilityStr +  "back-"+backIDStrS +"@"
+            }
+
+            if(combeJson.mouth != ""){
+                currAbilityStr = currAbilityStr +  "mouth-"+mouthIDStrS +"@"
+            }
+
+            if(combeJson.horn != ""){
+                currAbilityStr = currAbilityStr +  "horn-"+hornIDStrS +"@"
+            }
+
+            if(combeJson.tail != ""){
+                currAbilityStr = currAbilityStr +  "tail-"+tailIDStrS
+            }
+
+
+
+            // console.log(combeJson)
+
+            //
+            // // console.log(eyeIDStrS,earIDStrS,backIDStrS,mouthIDStrS,hornIDStrS,tailIDStrS)
+            //
+            // var currAbilityStr = "eyes-"+eyeIDStrS +"@"+"ears-"+earIDStrS +"@"+"back-"+backIDStrS +"@"+"mouth-"+mouthIDStrS +"@"+"horn-"+hornIDStrS +"@"+"tail-"+tailIDStrS
+            //
+            //
+
+            queryParamObj = {class:classStrS,ability:currAbilityStr}
+            var jsondata = JSON.stringify(queryParamObj)
+            // console.log(queryParamObj)
+
+
+            var currQuerySqlID = currParentDatas.id
+            // console.log("currQuerySqlID",currQuerySqlID)
+
+
+            var index = layer.open({
+                area: ['600px', '400px'],
+                fixed: false, //不固定
+                maxmin: false,
+                title : "添加新模板",
+                skin: 'layui-layer-rim',//加上边框
+                type : 2,
+                content : "capture_template_new_copy.html",
+                success : function(layero, index){
+
+
+                    var body = layer.getChildFrame('body', index);
+                    //不显示出来的回显数据
+                    body.find("#datastr").val(jsondata);
+                    body.find("#sqlID").val(currQuerySqlID);
+                    body.find("#modelID").val(totalNumValue);
 
                 },
+                end : function() {//弹窗关闭后的回调函数
 
+                    //重新渲染 固定写法
+                    form.render("select");
 
-            });
+                }
+            })
+            window.sessionStorage.setItem("index",index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(window.sessionStorage.getItem("index"));
+            })
 
 
             return false
+
         })
 
 
@@ -1928,6 +2149,117 @@
 
         })
 
+
+        /* 下拉框选中事件 */
+        form.on('select(templateList)', function (dataSelect) {
+
+            // console.log("选择ID",dataSelect)
+
+             currQueryID = dataSelect.value
+
+            if(currQueryID == "9999999"){
+                //
+                // $("#Beast").prop("checked", false);
+                //
+                // $("#Aquatic").prop("checked", false);
+                // $("#Plant").prop("checked", false);
+                // $("#Bird").prop("checked", false);
+                // $("#Bug").prop("checked", false);
+                // $("#Reptile").prop("checked", false);
+                // $("#Mech").prop("checked", false);
+                // $("#Dawn").prop("checked", false);
+                // $("#Dusk").prop("checked", false);
+                // form.render('checkbox')
+                // demo2.setValue([])
+
+                $("#templateContext").val("")
+
+                return false
+            }
+
+            var queryResult = allJsonOBJ.filter((item)=>{
+
+                // if(item.id == currQueryID ){
+                //     return item
+                // }
+
+                if(item.remark == currQueryID ){
+                    return item
+                }
+
+            })
+
+            // console.log("当前ID对应的数据json",queryResult[0])
+            currDatas_template =  queryResult[0]
+            var classStr = queryResult[0].kinds
+
+
+            var filecontent = "# 以下信息为模板的信息" + "\n"
+
+            if(classStr == "1"){
+
+                filecontent = filecontent + "类别 = " + "不限" + "\n"
+            }else{
+                filecontent = filecontent + "类别 = " + classStr + "\n"
+            }
+
+            if(queryResult[0].eyes == "1"){
+                filecontent = filecontent + "眼睛 = " + "不限" + "\n"
+            }else{
+                filecontent = filecontent + "眼睛 = " + queryResult[0].eyes+ "\n"
+            }
+
+            if(queryResult[0].ears == "1"){
+                filecontent = filecontent + "耳朵 = " + "不限" + "\n"
+            }else{
+                filecontent = filecontent + "耳朵 = " + queryResult[0].ears + "\n"
+            }
+
+
+            if(queryResult[0].back == "1"){
+                filecontent = filecontent + "背 = " + "不限" + "\n"
+            }else{
+                filecontent = filecontent + "背 = " + queryResult[0].back + "\n"
+            }
+
+
+            if(queryResult[0].mouth == "1"){
+                filecontent = filecontent + "牙 = " + "不限"+ "\n"
+            }else{
+                filecontent = filecontent + "牙 = " + queryResult[0].mouth+ "\n"
+            }
+
+
+            if(queryResult[0].horn == "1"){
+                filecontent = filecontent + "角 = " + "不限"+ "\n"
+            }else{
+                filecontent = filecontent + "角 = " + queryResult[0].horn+ "\n"
+            }
+
+
+            if(queryResult[0].tail == "1"){
+                filecontent = filecontent + "尾 = " + "不限"+ "\n"
+            }else{
+                filecontent = filecontent + "尾 = " + queryResult[0].tail+ "\n"
+            }
+            filecontent = filecontent + "价格(ETH) = " + queryResult[0].eth_price+ "\n"
+            filecontent = filecontent + "价格(USD) = " + queryResult[0].price+ "\n"
+
+
+            // filecontent = filecontent + "耳朵 = " + queryResult[0].ears.split("-")[1] + "\n"
+            // filecontent = filecontent + "背 = " + queryResult[0].back.split("-")[1] + "\n"
+            // filecontent = filecontent + "牙 = " + queryResult[0].mouth.split("-")[1]+ "\n"
+            // filecontent = filecontent + "角 = " + queryResult[0].horn.split("-")[1]+ "\n"
+            // filecontent = filecontent + "尾 = " + queryResult[0].tail.split("-")[1]
+
+
+            $("#templateContext").val(filecontent)
+
+
+
+            form.render('checkbox')
+
+        })
 
         //重载窗口所有数据
         $("#reloadWindowBtn").click(function () {
@@ -2355,6 +2687,7 @@
 
                                             if(res.result.data.hasOwnProperty('axies') && !res.result.data.hasOwnProperty('errors')){
                                                 //这里有点小问题
+                                                totalNumValue = res.result.data.axies.total
                                                 $("#totalNum").text(res.result.data.axies.total)
                                                 // layer.close(indexTableLoad)
                                                 return {
@@ -2617,6 +2950,7 @@
 
                                     if(res.result.data.hasOwnProperty('axies') && !res.result.data.hasOwnProperty('errors')){
                                         //这里有点小问题
+                                        totalNumValue = res.result.data.axies.total
                                         $("#totalNum").text(res.result.data.axies.total)
                                         // layer.close(indexTableLoad)
                                         return {
@@ -2670,6 +3004,8 @@
 
             return false
         })
+
+
 
     });
 

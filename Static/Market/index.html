@@ -259,16 +259,26 @@
 <!--  <div class="layui-inline" style="margin-left: 30px">-->
 <!--    <button type="submit" class="layui-btn" lay-submit="" lay-filter="goMasket" id="goMasket"><i class="layui-icon layui-icon-website"></i> 跳转市场</button>-->
 <!--  </div>-->
-  <table class="layui-hide" id="test" style="padding: 30px;"></table>
+  <table class="layui-hide" id="test" style="padding: 30px;" lay-filter="userTable"></table>
 
 
 </div>
 
-
-
 <script type="text/javascript" src="./js/conmon.js"></script>
 <!-- 引入 layui.js 的 <script> 标签最好放置在 html 末尾 -->
 <script src="layui/layui.js"></script>
+
+<!--数据表格操作工具栏-->
+<script type="text/html" id="orderListBar">
+    {{#  if(d.ifExist == 0){ }}
+    <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="addbtn" style="background-color: #1890ff"><i class="layui-icon layui-icon-addition"></i>模块添加</button>
+    {{#  } else if(d.ifExist == 1){  }}
+    <button class="layui-btn layui-btn-sm layui-btn-danger" disabled style="background-color: #cccccc"><i class="layui-icon layui-icon-close"></i>模块已存在</button>
+    {{#  } }}
+    <!--    <a class="layui-btn layui-btn-sm  " lay-event="changebtn" style="background-color: #115195"><i class="layui-icon layui-icon-edit"></i>修改</a>-->
+    <!--    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delbtn"><i class="layui-icon">&#x1006;</i>删除</a>-->
+</script>
+
 <script>
 layui.use(function(){
   var layer = layui.layer
@@ -314,6 +324,8 @@ layui.use(function(){
 
     var allJsonOBJ = null
     var currDatas_template
+
+    let axieIDNum
 
     var allData = [
         { name:"Blossom", value:"eyes-blossom"},
@@ -548,7 +560,7 @@ layui.use(function(){
         { name:"Fish Snack(Anesthetic Bait)", value:"tail-fish-snack"},
         { name:"Gerbil(Gerbil Jump)", value:"tail-gerbil"},
         { name:"Gila(Neuro Toxin)", value:"tail-gila"},
-        { name:"Granmas Fan(Cool Breeze)", value:"tail-granmas-fan"},
+        { name:"Granma's Fan(Cool Breeze)", value:"tail-granmas-fan"},
         { name:"Grass Snake(Venom Spray)", value:"tail-grass-snake"},
         { name:"Gravel Ant(Numbing Lecretion)", value:"tail-gravel-ant"},
         { name:"Hare(Hare Dagger)", value:"tail-hare"},
@@ -836,7 +848,7 @@ layui.use(function(){
             { name:"Fish Snack(Anesthetic Bait)", value:"tail-fish-snack"},
             { name:"Gerbil(Gerbil Jump)", value:"tail-gerbil"},
             { name:"Gila(Neuro Toxin)", value:"tail-gila"},
-            { name:"Granmas Fan(Cool Breeze)", value:"tail-granmas-fan"},
+            { name:"Granma's Fan(Cool Breeze)", value:"tail-granmas-fan"},
             { name:"Grass Snake(Venom Spray)", value:"tail-grass-snake"},
             { name:"Gravel Ant(Numbing Lecretion)", value:"tail-gravel-ant"},
             { name:"Hare(Hare Dagger)", value:"tail-hare"},
@@ -5865,8 +5877,8 @@ layui.use(function(){
     // },
 
     height : "full-20",
-    // limit : 15,
-    // limits : [15,30,50,100],
+    limit : 50,
+    limits : [15,30,50,100,200],
     id : "systemLog",
     response: {
       statusName: 'code' //规定数据状态的字段名称，默认：code
@@ -5881,8 +5893,8 @@ layui.use(function(){
       return {
         "code":200,
         // "result": res.result.data.axies.results //解析数据列表
-        "result": res.result.data.axies.results //解析数据列表
-
+        "result": res.result.data.axies.results, //解析数据列表
+        "count":res.result.data.axies.total
       };
     },
     cols : [[
@@ -5975,7 +5987,7 @@ layui.use(function(){
           return d.auction.currentPriceUSD
 
       }},
-      {field: 'content', title: '价格(ETH)', sort: true,align:'center', templet: function (d) {
+      {field: 'content_eth', title: '价格(ETH)', sort: true,align:'center', templet: function (d) {
 
 
             // console.log(d.auction.currentPriceUSD)
@@ -6004,7 +6016,7 @@ layui.use(function(){
       //         var to = d.order_time.substr(5,);
       //         return to
       //     }},
-      // {title: '', width:1, templet:'#orderListBar',fixed:"right",align:"center"}
+      {title: '操作', width:230, templet:'#orderListBar',fixed:"right",align:"center"}
     ]],
     done: function(res, curr, count){
       // console.log("res",res.result.data.axies.results)
@@ -6128,8 +6140,8 @@ layui.use(function(){
         return {
           "code":200,
           // "result": res.result.data.axies.results //解析数据列表
-          "result": res.result.data.axies.results //解析数据列表
-
+          "result": res.result.data.axies.results, //解析数据列表
+           "count":totalNumValue
         };
       },
         done: function(res, curr, count){
@@ -6790,8 +6802,8 @@ layui.use(function(){
           // queryID = idStrVal.substring(idStrVal.indexOf("https://marketplace.axieinfinity.com/axie/") + 1,idStrVal.indexOf("/"))
       }
 
+       axieIDNum = queryID
       // console.log("当前queryID",queryID)
-
 
       var indexLoad = layer.load(1, {
           shade: [0.1,'#fff'] //0.1透明度的白色背景
@@ -7355,8 +7367,8 @@ layui.use(function(){
                       return {
                           "code":200,
                           // "result": res.result.data.axies.results //解析数据列表
-                          "result": res.result.data.axies.results //解析数据列表
-
+                          "result": res.result.data.axies.results, //解析数据列表
+                          "count":totalNumValue
                       };
                   },
                   done: function(res, curr, count){
@@ -8032,6 +8044,164 @@ layui.use(function(){
 
     })
 
+
+    /* 表格工具条点击事件 */
+    table.on('tool(userTable)', function (obj) {
+
+
+        var currDatas  = obj.data;
+        // console.log("currDatas",currDatas)
+        if (obj.event === 'changebtn') { // 修改
+
+            jsondata = JSON.stringify(currDatas)
+            var index = layui.layer.open({
+                area: ['600px', '715px'],
+                fixed: false, //不固定
+                maxmin: false,
+                title : "修改当前模板内容",
+                skin: 'layui-layer-rim',//加上边框
+                type : 2,
+                content : "admin_edit.html",
+                success : function(layero, index){
+                    var body = layui.layer.getChildFrame('body', index);
+
+
+                    //
+                    // if(currDatas) {
+                    //
+                    //     //不显示出来的回显数据
+                    //     body.find("#money").val(currDatas.money);
+                    //
+                    // }
+
+
+                },
+                end : function() {//弹窗关闭后的回调函数
+                    //利用laypage实现局部刷新,以下两种方式都可以
+                    // $(".layui-laypage-btn").click()
+                    //直接刷新当前修改的行
+                    // $(".layui-laypage-btn")[0].click()
+                    // table.reload('systemLog', {});
+                }
+            })
+            window.sessionStorage.setItem("index",index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(window.sessionStorage.getItem("index"));
+            })
+
+        }else if (obj.event === 'delbtn') { // 删除
+            // doDel(obj);
+        }else if(obj.event === 'addbtn'){ //添加
+            jsondata = JSON.stringify(currDatas)
+            // jsondata = JSON.stringify({axie_id:axieIDNum})
+            var index = layer.open({
+                area: ['1610px', '895px'],
+                fixed: false, //不固定
+                maxmin: false,
+                title : "添加新模板",
+                skin: 'layui-layer-rim',//加上边框
+                type : 2,
+                content : "index_template_new.html",
+                success : function(layero, index){
+
+                    var body = layer.getChildFrame('body', index);
+                    // console.log("axieIDNum",axieIDNum)
+                    body.find("#curr_axieID").val(axieIDNum);
+                    body.find("#modelIDNum").val(totalNumValue);
+                },
+                end : function() {//弹窗关闭后的回调函数
+
+                    //重新渲染 固定写法
+                    form.render("select");
+
+                }
+            })
+            window.sessionStorage.setItem("index",index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(window.sessionStorage.getItem("index"));
+            })
+
+            // layer.confirm('系统将进行模块添加,确认添加吗？', {
+            //     icon:1,
+            //     title:'温馨提示',
+            //     skin: 'layui-layer-admin',
+            //     shade: .1
+            // }, function (i) {
+            //     layer.close(i);
+            //     // var loadIndex = layer.load(2);
+            //
+            //
+            //     $.ajax({
+            //         url: requertUrl+"/updateModel?id="+currDatas.id+"&remark="+currDatas.remark +"&price="+currDatas.content+"&eth_price="+currDatas.content_eth+"&class="+currDatas.class+"&eyes="+currDatas.eyes+"&ears="+currDatas.ears+"&back="+currDatas.back+"&mouth="+currDatas.mouth+"&horn="+currDatas.horn+"&tail="+currDatas.tail,
+            //         type: "GET",
+            //         dataType:"json",
+            //         success: function (resultJson) {
+            //
+            //             if(resultJson.code == -101){
+            //
+            //
+            //                 layer.msg(resultJson.msg, {icon:2});
+            //                 return false
+            //             }
+            //
+            //             layer.msg(resultJson.msg, {icon: 1});
+            //             setTimeout(function () {
+            //                 layer.closeAll()
+            //                 parent.location.reload();
+            //             }, 1300)
+            //
+            //         },
+            //
+            //
+            //     });
+            //
+            //
+            //
+            // });
+
+
+
+            // jsondata = JSON.stringify(currDatas)
+            // var index = layui.layer.open({
+            //     area: ['1610px', '895px'],
+            //     fixed: false, //不固定
+            //     maxmin: true,
+            //     shadeClose:true,
+            //     title : "添加模块",
+            //     skin: 'layui-layer-rim',//加上边框
+            //     type : 2,
+            //     content : "capture_add.html",
+            //     success : function(layero, index){
+            //         var body = layui.layer.getChildFrame('body', index);
+            //
+            //         //
+            //         // if(currDatas) {
+            //         //
+            //         //     //不显示出来的回显数据
+            //         //     body.find("#money").val(currDatas.money);
+            //         //
+            //         // }
+            //
+            //     },
+            //     end : function() {//弹窗关闭后的回调函数
+            //         //利用laypage实现局部刷新,以下两种方式都可以
+            //         $(".layui-laypage-btn").click()
+            //         //直接刷新当前修改的行
+            //         // $(".layui-laypage-btn")[0].click()
+            //         // table.reload('systemLog', {});
+            //     }
+            // })
+            // window.sessionStorage.setItem("index",index);
+            // //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            // $(window).on("resize",function(){
+            //     layui.layer.full(window.sessionStorage.getItem("index"));
+            // })
+        }
+
+
+    });
 
 
   // //监听提交

@@ -70,7 +70,6 @@ class SearchProcess extends AbstractProcess
 //                                var_dump("我进来了!");
                                 # 特殊处理
                                 $redis->rPush("GetSameProcess", $kinds . "=" . $eyes_id . "@" . $ears_id . "@" . $back_id . "@" . $mouth_id . "@" . $horn_id . "@" . $tail_id . "=" . $data_array[0] . "=" . "--");
-//                                $redis->rPush("GetSameProcess", $kinds . "=" . $eyes_id . "@" . $ears_id . "@" . $back_id . "@" . $mouth_id . "@" . $horn_id . "@" . $tail_id . "=" . $data);
 
 
                             }

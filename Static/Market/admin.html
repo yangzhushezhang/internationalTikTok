@@ -55,35 +55,77 @@
 </head>
 <body>
 
-<div style="padding: 20px">
-  <div class="layui-inline">
-    <label class="layui-form-label" style="width: 100px">宠物ID或链接</label>
-    <div class="layui-input-inline" style="width: 420px">
-      <input type="text" name="number" id="number" lay-verify="required|number" autocomplete="off" class="layui-input"  >
+<div style="padding: 20px" class="layui-bg-gray">
+  <div style="display: flex">
+    <div class="layui-card" style="width: 40%;display: inline-block">
+      <div class="layui-card-header">普通查询</div>
+      <div class="layui-card-body">
+        <div class="layui-inline">
+          <label class="layui-form-label" style="width: 100px">宠物ID或链接</label>
+          <div class="layui-input-inline" style="width: 420px">
+            <input type="text" name="number" id="number" lay-verify="required|number" autocomplete="off" class="layui-input"  >
+          </div>
+        </div>
+        <div class="layui-inline">
+          <button type="submit" class="layui-btn" lay-submit="" lay-filter="readdata" id="readdata" style="margin: 0 10px"><i class="layui-icon layui-icon-read"></i> 读取数据</button>
+        </div>
+        <div class="layui-inline" style="margin-left: 125px;margin-top: 20px">
+          <button type="button" class="layui-btn" id="todayModel">
+            <i class="layui-icon  layui-icon-date"></i>今日修改的模板
+          </button>
+          <button type="submit" class="layui-btn" lay-submit="" lay-filter="readdata" id="openSelect">
+            <i class="layui-icon layui-icon-website"></i> 打开匹配成功页面
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="layui-card" style="width: 40%;display: inline-block;margin-left: 5px">
+      <div class="layui-card-header">过滤查询</div>
+      <div class="layui-card-body">
+        <div style="margin-top: 10px">
+          <form class="layui-form">
+            <div class="layui-inline">
+              <label class="layui-form-label" style="width: 100px">筛选商城</label>
+              <div class="layui-input-inline" >
+                <input type="text" name="shop_max" id="shop_max" autocomplete="off" class="layui-input"  >
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label" style="width: 100px">筛选匹配</label>
+              <div class="layui-input-inline" >
+                <input type="text" name="match" id="match" autocomplete="off" class="layui-input"  >
+              </div>
+            </div>
+            <button type="button" class="layui-btn" id="whereQuery" lay-submit="" style="margin-top: 20px;margin-left: 130px">
+              <i class="layui-icon layui-icon-search"></i>过滤搜索
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-card" style="width: 20%;display: inline-block;margin-left: 5px;">
+      <div class="layui-card-header">导入导出文件</div>
+      <div class="layui-card-body">
+        <button type="button" class="layui-btn" id="test1" style="margin-left:10px;">
+          <i class="layui-icon">&#xe67c;</i>导入文件
+        </button>
+        <button type="button" class="layui-btn" id="exportFile" style="float: right">
+          <i class="layui-icon  layui-icon-export"></i>导出文件
+        </button>
+      </div>
     </div>
   </div>
-  <div class="layui-inline">
-    <button type="submit" class="layui-btn" lay-submit="" lay-filter="readdata" id="readdata" style="margin: 0 10px"><i class="layui-icon layui-icon-read"></i> 读取数据</button>
-  </div>
-  <div class="layui-inline">
-    <button type="submit" class="layui-btn" lay-submit="" lay-filter="readdata" id="openSelect"><i class="layui-icon layui-icon-website"></i> 打开匹配成功页面</button>
-  </div>
-  <button type="button" class="layui-btn" id="test1" style="margin-left:10px;">
-    <i class="layui-icon">&#xe67c;</i>导入文件
-  </button>
 
-  <button type="button" class="layui-btn" id="exportFile" style="float: right;">
-    <i class="layui-icon  layui-icon-export"></i>导出文件
-  </button>
+
 <!--  <button type="button" class="layui-btn" id="oldModel" >-->
 <!--    <i class="layui-icon  layui-icon-templeate-1"></i>原来模板-->
 <!--  </button>-->
-  <button type="button" class="layui-btn" id="todayModel">
-    <i class="layui-icon  layui-icon-date"></i>今日修改的模板
-  </button>
+
 
   <table class="layui-hide" id="userTable" lay-filter="userTable" style="padding: 30px;"></table>
-
 
 </div>
 
@@ -117,6 +159,14 @@
           var layuicode = layui.code
           var table = layui.table;
 
+          //自定义表单验证
+          form.verify({
+            Ndouble:[
+              /^[1-9]\d*$/
+              ,'只能输入整数哦'
+            ]
+          });
+
           var currTableDataS
           //订单表
           var tableIns = table.render({
@@ -135,7 +185,7 @@
 
               },
 
-              height : "full-120",
+              height : "full-245",
               limit : 50,
               limits : [15,30,50,100,2000,10000],
               id : "systemLog",
@@ -159,9 +209,9 @@
                 {type: "checkbox", fixed:"left"},
                 // {field: 'id', title: '编号', width:60, align:"center"},
                 // {field: 'xid', title: '编号', width:60, align:"center",templet: '#titleTpl'},
-                {field: 'id', title: 'ID', sort: true,minWidth:'100',align:"center"}, //, style :'display: none'\
+                {field: 'id', title: 'ID', sort: true,width:'80',align:"center"}, //, style :'display: none'\
                 {field: 'remark', title: '备注', sort: true,width:'100',align:"center"},
-                {field: 'kinds', title: '种类', sort: true, align:'center',width:120, templet: function (d) {
+                {field: 'kinds', title: '种类', sort: true, align:'center',width:100, templet: function (d) {
 
                         let currData = d.kinds
                         if( currData == "1" ){
@@ -172,7 +222,7 @@
                             // return '<button class="layui-btn  layui-btn-sm" style="background-color: #A5979C;border-color: #A5979C;">'+currData+'</button>'
                         }
                 }},
-                {field: 'eyes', title: '眼睛', sort: true, align:'center',width:150, templet: function (d) {
+                {field: 'eyes', title: '眼睛', sort: true, align:'center',width:105, templet: function (d) {
 
                     let currData = d.eyes
                     if( currData == "1" ){
@@ -667,7 +717,92 @@
 
           })
 
+          //过滤搜索
+          $("#whereQuery").click(function () {
+            // shop_max
+            // let reqUrl = "/getWcModel?page=1&limit=1000"
+            let reqUrl = "/getWcModel?"
 
+            // if (!(/(^[1-9]\d*$)/.test(num))) {
+            //   alert(‘输入的不是正整数’);
+            //   return false;
+            // }else {
+            //   alert(‘输入的是正整数’);
+            // }
+
+
+            if($('#shop_max').val() != ""){
+              reqUrl = reqUrl+ "shop_max="+$('#shop_max').val()
+            }
+
+            if($('#match').val() != ""){
+              reqUrl = reqUrl+ "&match="+$('#match').val()
+            }
+
+
+
+
+            // $.ajax({
+            //   // url: requertUrl+"/getWcModel?page=1&limit=1000&shop_max=10&match=100",
+            //   url:requertUrl+reqUrl,
+            //   dataType: 'json',
+            //   type: 'GET',
+            //   success: function (dataArray) {
+            //
+            //     console.log(dataArray)
+            //     if (dataArray.code != 200) {
+            //
+            //       // console.log(dataArray.msg)
+            //       // layer.msg(dataArray.msg);
+            //
+            //       return false;
+            //     }
+            //     //
+            //     // //执行重载
+            //     // table.reload('systemLog', {
+            //     //   data:dataArray.data,
+            //     //   // url : requertUrl+"/getWcModel?today="+currToday,
+            //     //   // ,where: {
+            //     //   //   classes: classStr,
+            //     //   //   parts:selectArr
+            //     //   // } ,
+            //     //   done: function(res, curr, count){
+            //     //
+            //     //   },
+            //     //   error:function(error,res){
+            //     //
+            //     //   },
+            //     // });
+            //
+            //     // // layer.closeAll();
+            //     // setTimeout(function () {
+            //     //   window.parent.parent.location.reload();
+            //     //   // window.parent.location.reload();
+            //     // }, 1300)
+            //
+            //   }
+            // })
+
+            //执行重载
+            table.reload('systemLog', {
+              page: {
+                curr: 1 //重新从第 1 页开始
+              },
+              url:requertUrl+reqUrl,
+              // url : requertUrl+"/getWcModel?today="+currToday,
+              // ,where: {
+              //   classes: classStr,
+              //   parts:selectArr
+              // } ,
+              done: function(res, curr, count){
+
+              },
+              error:function(error,res){
+
+              },
+            });
+
+          })
   });
 </script>
 </body>

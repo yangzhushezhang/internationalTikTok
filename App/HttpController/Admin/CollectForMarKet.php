@@ -437,8 +437,6 @@ class CollectForMarKet extends Base
     function setWcModel()
     {
         try {
-
-
             $count_nums = $this->request()->getQueryParam("count_nums");
             $remark = $this->request()->getQueryParam("remark");
             $class = $this->request()->getQueryParam("class");
@@ -529,6 +527,7 @@ class CollectForMarKet extends Base
                     return false;
                 }
                 $this->writeJson(200, [], "保存模板成功");
+                return  true ;
 
 
                 #删除
@@ -540,16 +539,13 @@ class CollectForMarKet extends Base
                 $horn = $add['horn'];
                 $tail = $add['tail'];
                 $res = CwModelModel::create()->func(function ($builder) use ($ears, $eyes, $kinds, $back, $mouth, $horn, $tail) {
-//                                $builder->raw("SELECT * FROM cw_model WHERE (eyes= '$eyes' or eyes=1) " );
                     $builder->raw("SELECT * FROM cw_model WHERE (eyes= '$eyes' or eyes=1) AND (ears='$ears' OR ears=1) AND (back='$back' OR back=1)  AND (mouth='$mouth' OR mouth=1) AND (horn='$horn' OR horn=1) AND (tail='$tail' OR tail=1)  AND (kinds='$kinds' OR kinds=1)");
                     return true;
                 });
 
-
                 return true;
 
             });
-
         } catch (\Throwable $e) {
             $this->writeJson(-101, [], "异常:" . $e->getMessage());
             return false;

@@ -186,6 +186,13 @@
 
 					layer.msg(resultJson.msg, {icon: 1});
 
+					setTimeout(function () {
+						var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+						parent.layer.close(index);
+						// window.parent.location.reload();
+						parent.layui.table.reload('systemLog');
+					}, 1300)
+
 
 					//获取模板列表添加到下拉框中
 					$.ajax({
@@ -222,6 +229,7 @@
 								var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 								parent.layer.close(index);
 								// window.parent.location.reload();
+								// parent.layui.table.reload('systemLog');
 							}, 1300)
 
 

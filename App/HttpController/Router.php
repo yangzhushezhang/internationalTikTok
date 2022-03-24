@@ -213,7 +213,7 @@ class Router extends AbstractRouter
         #IsExistModel
         $routeCollector->get('/IsExistModel', '/Admin/CollectForMarKet/IsExistModel');
         #deleteModel
-       $routeCollector->get('/deleteModel', '/Admin/CollectForMarKet/deleteModel');
+        $routeCollector->get('/deleteModel', '/Admin/CollectForMarKet/deleteModel');
         #IfShopping
         $routeCollector->post('/IfShopping', '/Admin/CollectForMarKet/IfShopping');
         #GetTaskResult
@@ -223,7 +223,7 @@ class Router extends AbstractRouter
         #ifShoppingInformation  购买接口
 
 
-       $routeCollector->post('/ifShoppingInformation', '/Admin/CollectForMarKet/ifShoppingInformation');
+        $routeCollector->post('/ifShoppingInformation', '/Admin/CollectForMarKet/ifShoppingInformation');
         #importModel
         $routeCollector->post('/importModel', '/Admin/CollectForMarKet/importModel');
         # backModel
@@ -242,9 +242,25 @@ class Router extends AbstractRouter
         $routeCollector->get('/get_cw_modelOne', '/Admin/CollectForMarKet/get_cw_modelOne');
         #add_cw_address
         $routeCollector->post('/add_cw_address', '/Admin/CollectForMarKet/add_cw_address');
-        #select_cw_address
-
+        #select_cw_addres
         $routeCollector->post('/select_cw_address', '/Admin/CollectForMarKet/select_cw_address');
+        #GetBaPrice TestController.php
+        $routeCollector->get('/GetBaPrice', '/Admin/TestController/GetBaPrice');
+        /**
+         *
+         * 采集视频 活粉 api
+         */
+
+        //set_uid UidController.php
+
+        $routeCollector->get('/set_uid', '/Admin/UidController/set_uid');
+        $routeCollector->post('/set_uid', '/Admin/UidController/set_uid');
+        //set_fans
+        $routeCollector->get('/set_fans', '/Admin/UidController/set_fans');
+        #SetLastTimeOfVido
+        $routeCollector->get('/SetLastTimeOfVido', '/Admin/UidController/SetLastTimeOfVido');
+        #setCookies
+        $routeCollector->post('/setCookies', '/Admin/UidController/setCookies');
 
         /*
          * eg path : /closure/index.html  ; /closure/ ;  /closure

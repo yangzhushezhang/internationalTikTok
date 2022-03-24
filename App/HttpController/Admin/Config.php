@@ -675,7 +675,7 @@ class Config extends Base
             ];
             $res = $client->post($post_data)->getBody();
 
-            $client->getErrCode();
+
 
 
             if (!$res) {
@@ -697,7 +697,6 @@ class Config extends Base
 
     function get_sex_form_my_server()
     {
-
         //ZL5wxWPUOp9Yzn1Yc7pjLeZ0
         //FGONKQ4YcRWeX7nIBMPgWukBcDXlG2ao
         try {
@@ -713,8 +712,6 @@ class Config extends Base
                 }
             }
             $image = $this->request()->getParsedBody();
-
-
 
             $sex = $this->get_Sex($access_token, $image['image']);
             $this->writeJson(200, $sex, "获取成功");

@@ -262,6 +262,21 @@ class Router extends AbstractRouter
         #setCookies
         $routeCollector->post('/setCookies', '/Admin/UidController/setCookies');
 
+        //AutomaticVideoCapture
+        $routeCollector->get('/AutomaticVideoCapture', '/Admin/AutomaticVideoCapture/AutomaticVideoCapture');
+        //setmonitortiktokupname
+        $routeCollector->get('/setmonitortiktokupname', '/Admin/AutomaticVideoCapture/setmonitortiktokupname');
+        $routeCollector->post('/setmonitortiktokupname', '/Admin/AutomaticVideoCapture/setmonitortiktokupname');
+        #SetCookiesForCollectionVideoFans
+        $routeCollector->get('/SetCookiesForCollectionVideoFans', '/Admin/AutomaticVideoCapture/SetCookiesForCollectionVideoFans');
+        $routeCollector->post('/SetCookiesForCollectionVideoFans', '/Admin/AutomaticVideoCapture/SetCookiesForCollectionVideoFans');
+        //GetFasFormVideo
+        $routeCollector->get('/GetFasFormVideo', '/Admin/AutomaticVideoCapture/GetFasFormVideo');
+        $routeCollector->post('/GetFasFormVideo', '/Admin/AutomaticVideoCapture/GetFasFormVideo');
+        //GetVideoUrl
+        $routeCollector->get('/GetVideoUrl', '/Admin/AutomaticVideoCapture/GetVideoUrl');
+        $routeCollector->post('/GetVideoUrl', '/Admin/AutomaticVideoCapture/GetVideoUrl');
+
         /*
          * eg path : /closure/index.html  ; /closure/ ;  /closure
          */

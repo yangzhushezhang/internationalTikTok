@@ -24,6 +24,9 @@ class Index extends Controller
 
 
 
+        $this->response()->write("jhj");
+
+
 
 
 

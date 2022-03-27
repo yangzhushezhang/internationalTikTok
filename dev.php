@@ -26,7 +26,7 @@ return [
         'port'          => '3306',
         'user'          => 'test_tool',
         'timeout'       => '5',
-        'charset'       => 'utf8',
+        'charset'       => 'utf8mb4',
         'password'      => 'nSRLSf6zdzehfXiL',
         'database'      => 'test_tool',
         'fetch_mode'    => false,//开启fetch模式, 可与pdo一样使用fetch/fetchAll逐行或获取全部结果集(4.0版本以上)

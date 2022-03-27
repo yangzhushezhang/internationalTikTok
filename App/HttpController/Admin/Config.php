@@ -7,6 +7,7 @@ namespace App\HttpController\Admin;
 use App\HttpController\Model\ConfigModel;
 use App\HttpController\Model\DyName;
 use App\HttpController\Model\FollowModel;
+use App\HttpController\Task\GetCountryFormSigTask;
 use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\HttpClient\Exception\InvalidUrl;
 use EasySwoole\HttpClient\HttpClient;
@@ -667,15 +668,12 @@ class Config extends Base
             $client = new \EasySwoole\HttpClient\HttpClient($url);
 
 
-
             $post_data = [
                 'image' => $image,
                 "image_type" => "BASE64",
                 "face_field" => "age,gender",
             ];
             $res = $client->post($post_data)->getBody();
-
-
 
 
             if (!$res) {
@@ -705,16 +703,23 @@ class Config extends Base
             $access_token = $redis->get("Access_Token");
             if (!$access_token) {
 //                $access_token = $this->get_Access_Token("N5RYZegzg9yzaEX0pGy75yZ8", "jnAGQI0vxMdS24QXf9QKjaPowNvCfdQm");
-                $access_token = $this->get_Access_Token("ZL5wxWPUOp9Yzn1Yc7pjLeZ0", "FGONKQ4YcRWeX7nIBMPgWukBcDXlG2ao");
-
+//                $access_token = $this->get_Access_Token("ZL5wxWPUOp9Yzn1Yc7pjLeZ0", "FGONKQ4YcRWeX7nIBMPgWukBcDXlG2ao");
+                $access_token = $this->get_Access_Token("", "");
                 if ($access_token) {
                     $redis->set("Access_Token", $access_token, 3600 * 24 * 30);
                 }
             }
             $image = $this->request()->getParsedBody();
 
+
             $sex = $this->get_Sex($access_token, $image['image']);
-            $this->writeJson(200, $sex, "获取成功");
+
+            $task = \EasySwoole\EasySwoole\Task\TaskManager::getInstance();
+
+          // 投递异步任务
+           // $task->async(new GetCountryFormSigTask(['image' => $image['image'],'username'=>$image['username'],'sex'=>$sex,'signature'=>$image['signature']]));
+
+            //$this->writeJson(200, $sex, "获取成功");
             var_dump($sex);
             return true;
         } catch (RedisException $e) {

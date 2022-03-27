@@ -114,25 +114,49 @@ class EasySwooleEvent implements Event
         /**
          * CwAddressProcess.php
          */
-        $processConfig = new \EasySwoole\Component\Process\Config();
-        $processConfig->setProcessName('CwAddressProcess');
-        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\CwAddressProcess($processConfig))->getProcess());
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('CwAddressProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\CwAddressProcess($processConfig))->getProcess());
+//
+//
+//        //        #注册进程 1
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('GetSameProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\GetSameProcess($processConfig))->getProcess());
+//
+////        #注册进程 1
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('RecentlySoldProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\RecentlySoldProcess($processConfig))->getProcess());
+//                #注册进程 1
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('SearchProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\SearchProcess($processConfig))->getProcess());
 
 
-        //        #注册进程 1
-        $processConfig = new \EasySwoole\Component\Process\Config();
-        $processConfig->setProcessName('GetSameProcess');
-        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\GetSameProcess($processConfig))->getProcess());
 
-//        #注册进程 1
-        $processConfig = new \EasySwoole\Component\Process\Config();
-        $processConfig->setProcessName('RecentlySoldProcess');
-        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\RecentlySoldProcess($processConfig))->getProcess());
-                #注册进程 1
-        $processConfig = new \EasySwoole\Component\Process\Config();
-        $processConfig->setProcessName('SearchProcess');
-        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\SearchProcess($processConfig))->getProcess());
 
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('GetUidProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\GetUidProcess($processConfig))->getProcess());
+//
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('SetUidTProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\SetUidTProcess($processConfig))->getProcess());
+
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('AutomaticVideoCaptureProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticVideoCaptureProcess($processConfig))->getProcess());
+//
+//
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('AutomaticFanCollectionProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticFanCollectionProcess($processConfig))->getProcess());
+
+        //AutomaticGetVideoIdProcess
+                $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('AutomaticGetVideoIdProcess');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticGetVideoIdProcess($processConfig))->getProcess());
 
 
     }

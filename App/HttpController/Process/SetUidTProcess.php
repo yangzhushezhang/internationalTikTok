@@ -51,7 +51,6 @@ class SetUidTProcess extends AbstractProcess
                                 $result = $client1->get();
                                 $html = $result->getBody();
                                 preg_match("/u=(\d+)/", $html, $matches);
-
                                 if ($matches[1]) {
                                     //更新入库
                                     UidTModel::invoke($client)->where(['id' => $re['id']])->update(['uid' => $matches[1]]);

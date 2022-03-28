@@ -9,6 +9,11 @@ use App\Log\LogHandel;
 use EasySwoole\Component\Process\AbstractProcess;
 use EasySwoole\ORM\DbManager;
 
+/***
+ * Class AutomaticGetVideoIdProcess
+ * @package App\HttpController\Process
+ *   获取链接 视频 id
+ */
 class AutomaticGetVideoIdProcess extends AbstractProcess
 {
 
@@ -17,13 +22,10 @@ class AutomaticGetVideoIdProcess extends AbstractProcess
     {
         go(function () {
             while (true) {
-
                 DbManager::getInstance()->invoke(function ($client) {
                     $res = MonitorVideoModel::invoke($client)->where('vID', NULL, 'IS')->all();
                     if ($res) {
                         foreach ($res as $re) {
-
-
                             $vID = $this->GetUidFormURL($re['url']);
                             if ($vID) {
                                 //视频id 暂时别写
@@ -33,14 +35,10 @@ class AutomaticGetVideoIdProcess extends AbstractProcess
                                 $one = MonitorVideoModel::invoke($client)->get(['vID' => $vID]);
                                 if ($one) {
                                     MonitorVideoModel::invoke($client)->destroy(['id' => $re['id']]);
-
                                 } else {
                                     MonitorVideoModel::invoke($client)->where(['id' => $re['id']])->update(['vID' => $vID]);
-
                                 }
                             }
-
-
                             \co::sleep(4);  //4 秒一个号 分钟进行一次采集
                         }
                     }

@@ -265,11 +265,39 @@ class AutomaticVideoCapture extends Base
                 $page = $this->request()->getRequestParam('page');         // 当前页码
                 $limit = $this->request()->getRequestParam('limit');        // 每页多少条数据
                 $status = $this->request()->getRequestParam('status');
+
+                $sex = $this->request()->getQueryParam('sex');
+                $country = $this->request()->getQueryParam('country');
+
+                $Vid = $this->request()->getQueryParam('Vid');
                 $model = MonitorFansModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order('created', 'ASC');
+                if (isset($Vid) && !empty($Vid)) {
+                    $one = MonitorVideoModel::create()->get(['vID' => $Vid]);
+                    if (!$one) {
+                        $this->writeJson(-101, [], "查询的来源地址不存在!");
+                        return false;
+                    }
+                    $model = $model->where(['video_id' => $one['id']]);
+                }
+
+
+                if (isset($sex) && !empty($sex)) {
+                    $model = $model->where(['sex' => $sex]);
+                }
+
+                if (isset($country) && !empty($country)) {
+                    $model = $model->where(['country' => $country]);
+                }
+
+
                 $list = $model->all();
-//                foreach ($list as $value) {
-//
-//                }
+                foreach ($list as $k => $value) {
+                    //查询视频id
+                    $one = MonitorVideoModel::create()->get(['id' => $value['video_id']]);
+                    if ($one) {
+                        $list[$k]['video_id'] = $one['vID'];
+                    }
+                }
                 $result = $model->lastQueryResult();
                 // 总条数
                 $total = $result->getTotalCount();
@@ -302,7 +330,11 @@ class AutomaticVideoCapture extends Base
                 $limit = $this->request()->getRequestParam('limit');        // 每页多少条数据
                 $status = $this->request()->getRequestParam('status');
                 $kinds = $this->request()->getRequestParam('kinds');
+                $country = $this->request()->getQueryParam('country');
                 $model = MonitorVideoModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order('created', 'ASC');
+                if (isset($country) && !empty($country)) {
+                    $model = $model->where(['country' => $country]);
+                }
                 $list = $model->all(['kinds' => $kinds, 'status' => $status]);  //1 是可以使用的cookie  2 cookies 失效
                 $result = $model->lastQueryResult();
                 // 总条数
@@ -317,11 +349,9 @@ class AutomaticVideoCapture extends Base
                 return true;
             }
             if ($action == "phone") {  //手机上传链接
-
                 $content = $this->request()->getBody()->getContents();
                 //    $data = json_decode($this->request()->getBody()->getContents(),true);
                 $data = json_decode($content, true);
-
                 $nickname = $data['nickname'];
                 $county = $data['county'];
                 $url = $data['url'];

@@ -704,7 +704,7 @@ class Config extends Base
             if (!$access_token) {
 //                $access_token = $this->get_Access_Token("N5RYZegzg9yzaEX0pGy75yZ8", "jnAGQI0vxMdS24QXf9QKjaPowNvCfdQm");
 //                $access_token = $this->get_Access_Token("ZL5wxWPUOp9Yzn1Yc7pjLeZ0", "FGONKQ4YcRWeX7nIBMPgWukBcDXlG2ao");
-                $access_token = $this->get_Access_Token("", "");
+                $access_token = $this->get_Access_Token(client_id, client_secret);
                 if ($access_token) {
                     $redis->set("Access_Token", $access_token, 3600 * 24 * 30);
                 }
@@ -716,8 +716,8 @@ class Config extends Base
 
             $task = \EasySwoole\EasySwoole\Task\TaskManager::getInstance();
 
-          // 投递异步任务
-           // $task->async(new GetCountryFormSigTask(['image' => $image['image'],'username'=>$image['username'],'sex'=>$sex,'signature'=>$image['signature']]));
+            // 投递异步任务
+            // $task->async(new GetCountryFormSigTask(['image' => $image['image'],'username'=>$image['username'],'sex'=>$sex,'signature'=>$image['signature']]));
 
             //$this->writeJson(200, $sex, "获取成功");
             var_dump($sex);

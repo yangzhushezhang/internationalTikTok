@@ -8,6 +8,9 @@ use App\HttpController\Model\CookiesModel;
 use App\HttpController\Model\MonitorFansModel;
 use App\HttpController\Model\MonitorVideoModel;
 use EasySwoole\Component\Process\AbstractProcess;
+use EasySwoole\HttpClient\Exception\InvalidUrl;
+use EasySwoole\Redis\Exception\RedisException;
+use EasySwoole\RedisPool\RedisPool;
 
 /**
  * Class AutomaticFanCollectionProcess
@@ -66,9 +69,11 @@ class AutomaticFanCollectionProcess extends AbstractProcess
                                                     'send_text' => $comment['text'],
                                                     'image_url' => $comment['user']['avatar_thumb']['url_list'][0],
                                                     'created' => time(),
-                                                    'video_id' => $re['id']
+                                                    'video_id' => $re['id'],
+                                                    'comment_time' => $comment['create_time'],
+                                                    'country' => $re['country']
                                                 ];
-
+//                                                $add['sex'] = $this->img_url_to_base64($comment['user']['avatar_thumb']['url_list'][0]);
                                                 $one = MonitorFansModel::create()->get(['uid' => $comment['user']['uid']]);
                                                 if (!$one) {
                                                     $res = MonitorFansModel::create()->data($add)->save();
@@ -103,6 +108,8 @@ class AutomaticFanCollectionProcess extends AbstractProcess
             }
         });
     }
+
+
 
 
 

@@ -19,20 +19,20 @@ class FaceRecognitionProcess extends AbstractProcess
     {
         var_dump("FaceRecognitionProcess 进程启动");
         go(function () {
-
             while (true) {
                 DbManager::getInstance()->invoke(function ($client) {
                     $res = MonitorFansModel::invoke($client)->where('sex', NULL, 'IS')->all();
                     if ($res) {
                         foreach ($res as $re) {
                             $sex = $this->img_url_to_base64($re['image_url']);
-//                        var_dump($sex);
-                            MonitorFansModel::invoke($client)->where(['id' => $re['id']])->update(['sex' => $sex]);
-                            \co::sleep(2);
+                            if ($sex != "异常") {
+                                MonitorFansModel::invoke($client)->where(['id' => $re['id']])->update(['sex' => $sex]);
+                            }
+                            \co::sleep(1);
                         }
                     }
                 });
-                \co::sleep(5);
+                \co::sleep(2);
             }
         });
 
@@ -50,10 +50,10 @@ class FaceRecognitionProcess extends AbstractProcess
             $imageInfo = getimagesize($imgUrl);
             $imageBase64 = chunk_split(base64_encode(file_get_contents($imgUrl)));
             return $this->get_sex_form_my_server($imageBase64);
-//            return '';
+
         } catch (\Throwable $exception) {
 //            var_dump("图片获取失败");
-            return 0;
+            return "异常";
         }
     }
 
@@ -107,7 +107,7 @@ class FaceRecognitionProcess extends AbstractProcess
             return $sex;
         } catch (RedisException $e) {
             var_dump($e->getMessage());
-            return false;
+            return "异常";
         }
     }
 
@@ -132,7 +132,7 @@ class FaceRecognitionProcess extends AbstractProcess
             }
             return $data['result']['face_list'][0]['gender']['type'];
         } catch (InvalidUrl $e) {
-            return "";
+            return "异常";
         }
     }
 

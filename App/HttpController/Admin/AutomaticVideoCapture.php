@@ -11,6 +11,7 @@ use App\HttpController\Model\MonitoriktokupnameModel;
 use App\HttpController\Model\MonitorVideoModel;
 use EasySwoole\HttpClient\Exception\InvalidUrl;
 use EasySwoole\ORM\Exception\Exception;
+use TencentCloud\Tcaplusdb\V20190823\Models\IdlFileInfo;
 
 class AutomaticVideoCapture extends Base
 {
@@ -290,7 +291,7 @@ class AutomaticVideoCapture extends Base
                 }
 
 
-                $list = $model->all();
+                $list = $model->all(['status' => $status]);
                 foreach ($list as $k => $value) {
                     //查询视频id
                     $one = MonitorVideoModel::create()->get(['id' => $value['video_id']]);
@@ -309,6 +310,40 @@ class AutomaticVideoCapture extends Base
                 ];
                 $this->response()->write(json_encode($return_data));
                 return true;
+            }
+
+
+            if ($action == "phone") {
+                $country = $this->request()->getQueryParam('country');
+                $sex = $this->request()->getQueryParam('sex');
+                $nickname = $this->request()->getQueryParam('nickname');
+
+                $commit_time = $this->request()->getQueryParam('commitTime');
+
+
+                $mode = MonitorFansModel::create();
+                if (isset($country) && !empty($country)) {
+                    $mode = $mode->where(['country' => $country]);
+                }
+
+                if (isset($commit_time) && $commit_time != -1) {
+                    $mode = $mode->where('comment_time', $commit_time, '>');
+                }
+
+
+                if (isset($sex) && !empty($sex)) {
+                    $mode = $mode->where(['sex' => $sex]);
+                }
+                $one = $mode->get(['status' => 0]);
+                if (!$one) {
+                    $this->writeJson(-101, [], "粉丝用完了..");
+                    return false;
+                }
+
+                //更新链接 状态
+                MonitorFansModel::create()->where(['id' => $one['id']])->update(['status' => 1, 'nickname' => $nickname]);
+                $this->writeJson(200, [], $one['uid']);
+                return false;
             }
         } catch (\Throwable $exception) {
             $this->writeJson(-1, "", $exception->getMessage());

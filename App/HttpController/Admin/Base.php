@@ -35,7 +35,7 @@ class Base extends Controller
             #禁止重定向
             $client->enableFollowLocation(0);
             #正则 id
-            $pattern = "/\d{19}/";
+            $pattern = "/(@.*)\/video\/(\d{19})/";
             $response = $client->get();
             if (!$response) {
                 var_dump($response);
@@ -45,17 +45,21 @@ class Base extends Controller
 
 
             $data = $response->getBody();
+            var_dump($data);
             if (!$data) {
                 var_dump($data);
                 $log->log('获取抖音的url id 失败 $data 返回为false');
                 return false;
             }
             preg_match($pattern, $data, $match);
+
+//            var_dump($match);
+
             if (!isset($match[0])) {
                 $log->log('获取抖音的url id 失败');
                 return false;
             }
-            return $match[0];
+            return $match;
         } catch (\Throwable $exception) {
             $log->log('获取抖音的url id 异常' . $exception);
             var_dump($exception);

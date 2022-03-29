@@ -311,8 +311,6 @@ class AutomaticVideoCapture extends Base
                 $this->response()->write(json_encode($return_data));
                 return true;
             }
-
-
             if ($action == "phone") {
                 $country = $this->request()->getQueryParam('country');
                 $sex = $this->request()->getQueryParam('sex');
@@ -390,6 +388,8 @@ class AutomaticVideoCapture extends Base
                 $nickname = $data['nickname'];
                 $county = $data['county'];
                 $url = $data['url'];
+
+                var_dump($data);
                 $one = MonitorVideoModel::create()->get(['url' => $url]);
 
                 if ($one) {
@@ -399,32 +399,30 @@ class AutomaticVideoCapture extends Base
 
                 //获取 链接的 视频id
                 $content = $this->GetUidFormURL($url);
-
-                var_dump($content);
-
                 $add = [
                     'url' => $url,
                     'kinds' => 2,
                     'status' => 5,
                     'country' => $county,
                     'nickname' => $nickname,
-                    'created' => time()
+                    'created' => time(),
+                    'commit_num'=>$data['commit']
                 ];
-                if ($content) {
+
+                if ($content  && count($content)==3) {
                     //视频id 暂时别写
                     //查看这个视频 url 是否存在了
-                    $add['vID'] = $content;;
+                    $add['vID'] = $content[2];
+                    $add['up_name'] = $content[1];
 
                     //添加之前
-                    $one = MonitorVideoModel::create()->get(['vID' => $content]);
+                    $one = MonitorVideoModel::create()->get(['vID' =>  $add['vID']]);
                     if (!$one) {
                         MonitorVideoModel::create()->data($add)->save();  //不存在
                     }
                 } else {
                     MonitorVideoModel::create()->data($add)->save();
                 }
-
-
                 $this->writeJson(200, [], "");
 
             }

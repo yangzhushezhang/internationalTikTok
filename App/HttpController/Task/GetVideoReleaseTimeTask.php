@@ -45,11 +45,27 @@ class GetVideoReleaseTimeTask implements TaskInterface
             $data = $c->get();
             $content = $data->getBody();
             $isMatched = preg_match('/<span> · <\/span>(.*)<\/a><\/div>/', $content, $matches);
+            $times = 0;
             if ($isMatched > 0) {
-                var_dump($matches[1]);  #时间以后再做判断
+                if (strstr($matches[1], "天前")) {
+                    $date = trim(str_replace("天前", "", $matches[1]));
+                    $times = time() - $date * 60 * 60 * 24;
+                } else if (strstr($matches[1], "週前")) {
+                    $date = trim(str_replace("週前", "", $matches[1]));
+                    $times = time() - $date * 60 * 60 * 24 * 7;
+                } else {
+                    $data_array = explode("-", $matches[1]);
+                    if (count($data_array) == 2) {  //今年
+                        $y = Date("Y", time());
+                        $times = strtotime($y . "-" . $matches[1]);
+                    } else if (count($data_array) == 3) {  //不是今年数据
+                        $times = strtotime($matches[1]);
+                    } else {  //直接入库
+                        $times = $matches[1];
+                    }
+                }
+                MonitorVideoModel::create()->where(['id' => $this->data['id']])->update(['release_time' => $times]);
             }
-
-            MonitorVideoModel::create()->where(['up_id' => $this->data['up_id'], 'vID' => $this->data['vid']])->update(['status' => 3]);
 
         } catch (\Throwable $e) {
             var_dump($e->getMessage());

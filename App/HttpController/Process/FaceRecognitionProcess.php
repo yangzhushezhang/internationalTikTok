@@ -12,6 +12,12 @@ use EasySwoole\ORM\DbManager;
 use EasySwoole\Redis\Exception\RedisException;
 use EasySwoole\RedisPool\RedisPool;
 
+/**
+ * Class FaceRecognitionProcess
+ * @package App\HttpController\Process
+ *
+ * 人脸识别进程
+ */
 class FaceRecognitionProcess extends AbstractProcess
 {
 

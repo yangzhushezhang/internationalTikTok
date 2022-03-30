@@ -47,12 +47,17 @@ class GetVideoReleaseTimeTask implements TaskInterface
             $isMatched = preg_match('/<span> · <\/span>(.*)<\/a><\/div>/', $content, $matches);
             $times = 0;
             if ($isMatched > 0) {
+
                 if (strstr($matches[1], "天前")) {
                     $date = trim(str_replace("天前", "", $matches[1]));
                     $times = time() - $date * 60 * 60 * 24;
                 } else if (strstr($matches[1], "週前")) {
                     $date = trim(str_replace("週前", "", $matches[1]));
                     $times = time() - $date * 60 * 60 * 24 * 7;
+
+                } else if (strstr($matches[1], "小時前")) {  //小時前
+                    $date = trim(str_replace("週前", "", $matches[1]));
+                    $times = time() - $date * 60 * 60;
                 } else {
                     $data_array = explode("-", $matches[1]);
                     if (count($data_array) == 2) {  //今年

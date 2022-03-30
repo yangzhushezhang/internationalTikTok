@@ -1,52 +1,47 @@
 <?php
 
 
-namespace App\HttpController\Process;
+namespace App\HttpController\Task;
 
 
 use App\HttpController\Model\MonitorFansModel;
-use App\HttpController\Model\MonitorVideoModel;
-use App\HttpController\Task\RecognizeFacesTask;
-use EasySwoole\Component\Process\AbstractProcess;
 use EasySwoole\HttpClient\Exception\InvalidUrl;
-use EasySwoole\ORM\DbManager;
+use EasySwoole\Mysqli\Exception\Exception;
 use EasySwoole\Redis\Exception\RedisException;
 use EasySwoole\RedisPool\RedisPool;
+use EasySwoole\Task\AbstractInterface\TaskInterface;
+
 
 /**
- * Class FaceRecognitionProcess
- * @package App\HttpController\Process
- *
- * 人脸识别进程
+ * Class RecognizeFacesTask
+ * @package App\HttpController\Task
+ * 异步人脸识别
  */
-class FaceRecognitionProcess extends AbstractProcess
+class RecognizeFacesTask implements TaskInterface
 {
+    protected $data;
 
-    protected function run($arg)
+    public function __construct($data)
     {
-        var_dump("FaceRecognitionProcess 进程启动");
-        go(function () {
-            while (true) {
-                DbManager::getInstance()->invoke(function ($client) {
-                    $res = MonitorFansModel::invoke($client)->where('sex', NULL, 'IS')->limit(2)->all();   // 10 可以修改  标识多少并发
-                    if ($res) {
-                        foreach ($res as $re) {
-                            $task = \EasySwoole\EasySwoole\Task\TaskManager::getInstance();
-//                            投递异步任务
-                            $task->async(new RecognizeFacesTask(['id' => $re['id'], 'image_url' => $re['image_url']]));
-//                            $sex = $this->img_url_to_base64($re['image_url']);
-//                            if ($sex != "异常") {
-////                                MonitorFansModel::invoke($client)->where(['id' => $re['id']])->update(['sex' => $sex]);
-////                            }
+        $this->data = $data;
+    }
 
-
-                        }
-                    }
-                });
-                \co::sleep(1);
+    function run(int $taskId, int $workerIndex)
+    {
+        // TODO: Implement run() method.
+        $sex = $this->img_url_to_base64($this->data['image_url']);
+        if ($sex != "异常") {
+            try {
+                var_dump("性别:".$sex);
+                MonitorFansModel::create()->where(['id' => $this->data['id']])->update(['sex' => $sex]);
+            } catch (\Throwable $e) {
             }
-        });
+        }
+    }
 
+    function onException(\Throwable $throwable, int $taskId, int $workerIndex)
+    {
+        // TODO: Implement onException() method.
     }
 
 
@@ -146,5 +141,4 @@ class FaceRecognitionProcess extends AbstractProcess
             return "异常";
         }
     }
-
 }

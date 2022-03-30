@@ -406,7 +406,7 @@ class AutomaticVideoCapture extends Base
                     'country' => $county,
                     'nickname' => $nickname,
                     'created' => time(),
-                    'commit_num'=>$data['commit']
+//                    'commit_num'=>$data['commit']
                 ];
 
                 if ($content  && count($content)==3) {

@@ -109,7 +109,7 @@ class RecognizeFacesTask implements TaskInterface
                 }
             }
             $sex = $this->get_Sex($access_token, $imageBase64);
-            var_dump($sex);
+//            var_dump($sex);
             return $sex;
         } catch (RedisException $e) {
             var_dump($e->getMessage());

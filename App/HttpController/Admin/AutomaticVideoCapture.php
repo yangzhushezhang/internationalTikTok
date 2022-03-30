@@ -11,6 +11,7 @@ use App\HttpController\Model\MonitoriktokupnameModel;
 use App\HttpController\Model\MonitorVideoModel;
 use EasySwoole\HttpClient\Exception\InvalidUrl;
 use EasySwoole\ORM\Exception\Exception;
+use EasySwoole\RedisPool\RedisPool;
 use TencentCloud\Tcaplusdb\V20190823\Models\IdlFileInfo;
 
 class AutomaticVideoCapture extends Base
@@ -266,12 +267,11 @@ class AutomaticVideoCapture extends Base
                 $page = $this->request()->getRequestParam('page');         // 当前页码
                 $limit = $this->request()->getRequestParam('limit');        // 每页多少条数据
                 $status = $this->request()->getRequestParam('status');
-
                 $sex = $this->request()->getQueryParam('sex');
                 $country = $this->request()->getQueryParam('country');
-
                 $Vid = $this->request()->getQueryParam('Vid');
-                $model = MonitorFansModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order('created', 'ASC');
+                $updated = $this->request()->getQueryParam('updated');
+                $model = MonitorFansModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order('updated_at', 'ASC');
                 if (isset($Vid) && !empty($Vid)) {
                     $one = MonitorVideoModel::create()->get(['vID' => $Vid]);
                     if (!$one) {
@@ -288,6 +288,11 @@ class AutomaticVideoCapture extends Base
 
                 if (isset($country) && !empty($country)) {
                     $model = $model->where(['country' => $country]);
+                }
+
+                if (isset($updated) && !empty($updated)) {
+                    $model = $model->where(['updated' => $updated]);
+
                 }
 
 
@@ -338,8 +343,17 @@ class AutomaticVideoCapture extends Base
                     return false;
                 }
 
+
+                $redis = RedisPool::defer('redis');
+
+                if ($redis->get($one['uid'])) {
+                    $this->writeJson(-101, [], "获取失败,重复获取");
+                    return false;
+                }
+
+                $redis->set($one['uid'], '11');
                 //更新链接 状态
-                MonitorFansModel::create()->where(['id' => $one['id']])->update(['status' => 1, 'nickname' => $nickname]);
+                MonitorFansModel::create()->where(['id' => $one['id']])->update(['status' => 1, 'nickname' => $nickname, 'updated' => date("Y-m-d", time()), 'updated_at' => time()]);
                 $this->writeJson(200, [], $one['uid']);
                 return false;
             }
@@ -409,14 +423,14 @@ class AutomaticVideoCapture extends Base
 //                    'commit_num'=>$data['commit']
                 ];
 
-                if ($content  && count($content)==3) {
+                if ($content && count($content) == 3) {
                     //视频id 暂时别写
                     //查看这个视频 url 是否存在了
                     $add['vID'] = $content[2];
                     $add['up_name'] = $content[1];
 
                     //添加之前
-                    $one = MonitorVideoModel::create()->get(['vID' =>  $add['vID']]);
+                    $one = MonitorVideoModel::create()->get(['vID' => $add['vID']]);
                     if (!$one) {
                         MonitorVideoModel::create()->data($add)->save();  //不存在
                     }

@@ -156,21 +156,21 @@ class EasySwooleEvent implements Event
         ///////////
 
 
-        $processConfig = new \EasySwoole\Component\Process\Config();
-        $processConfig->setProcessName('AutomaticFanCollectionProcess');
-        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticFanCollectionProcess($processConfig))->getProcess());
-        //AutomaticGetVideoIdProcess
-         $processConfig = new \EasySwoole\Component\Process\Config();
-        $processConfig->setProcessName('AutomaticGetVideoIdProcess');
-        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticGetVideoIdProcess($processConfig))->getProcess());
-        //FaceRecognitionProcess
-        $processConfig = new \EasySwoole\Component\Process\Config();
-        $processConfig->setProcessName('FaceRecognitionProcess');
-        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\FaceRecognitionProcess($processConfig))->getProcess());
-        //AutomaticVideoUrlIsNullProcess
-        $processConfig = new \EasySwoole\Component\Process\Config();
-        $processConfig->setProcessName('AutomaticVideoUrlIsNullProcess');
-        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticVideoUrlIsNullProcess($processConfig))->getProcess());
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('AutomaticFanCollectionProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticFanCollectionProcess($processConfig))->getProcess());
+//        //AutomaticGetVideoIdProcess
+//         $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('AutomaticGetVideoIdProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticGetVideoIdProcess($processConfig))->getProcess());
+//        //FaceRecognitionProcess
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('FaceRecognitionProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\FaceRecognitionProcess($processConfig))->getProcess());
+//        //AutomaticVideoUrlIsNullProcess
+//        $processConfig = new \EasySwoole\Component\Process\Config();
+//        $processConfig->setProcessName('AutomaticVideoUrlIsNullProcess');
+//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticVideoUrlIsNullProcess($processConfig))->getProcess());
 
     }
 }

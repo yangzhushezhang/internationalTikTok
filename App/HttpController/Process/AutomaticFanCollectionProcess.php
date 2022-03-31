@@ -22,16 +22,22 @@ class AutomaticFanCollectionProcess extends AbstractProcess
 
     protected function run($arg)
     {
+        var_dump("AutomaticFanCollectionProcess 进程启动...");
         go(function () {
             while (true) {
                 //获取可以采集的视频id
-                $res = MonitorVideoModel::create()->limit(1)->all(['status' => 3]);  //5个进程
+                $res = MonitorVideoModel::create()->limit(5)->all(['status' => 3]);  //5个进程
+                $redis = RedisPool::defer('redis');
                 if ($res) {
                     foreach ($res as $re) {  #  遍历每个 视频 id
+                        if ($redis->get($re['vID'])) {  # 已经被使用过
+                            continue;
+                        }
+                        $redis->set($re['vID'], "get");
                         //随机获取 cookie
                         $two = CookiesModel::create()->order('updated', 'ASC')->get(['status' => 1]);
                         if ($two) {
-                            go(function () use ($two, $re) {
+                            go(function () use ($two, $re, $redis) {
                                 CookiesModel::create()->where(['id' => $two['id']])->update(['updated' => time()]); //更新时间
                                 $start = 0;
                                 for ($i = 0; $i < 2000; $i++) {  #10000/50
@@ -76,6 +82,10 @@ class AutomaticFanCollectionProcess extends AbstractProcess
                                                         'country' => $re['country']
                                                     ];
 //                                                $add['sex'] = $this->img_url_to_base64($comment['user']['avatar_thumb']['url_list'][0]);
+                                                    if ($redis->get("Fans_" . $comment['user']['uid'])) {
+                                                        continue;
+                                                    }
+                                                    $redis->set("Fans_" . $comment['user']['uid'], "status");
                                                     $one = MonitorFansModel::create()->get(['uid' => $comment['user']['uid']]);
                                                     if (!$one) {
                                                         $res = MonitorFansModel::create()->data($add)->save();
@@ -111,9 +121,6 @@ class AutomaticFanCollectionProcess extends AbstractProcess
             }
         });
     }
-
-
-
 
 
 }

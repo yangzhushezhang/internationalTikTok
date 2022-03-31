@@ -271,6 +271,8 @@ class AutomaticVideoCapture extends Base
                 $country = $this->request()->getQueryParam('country');
                 $Vid = $this->request()->getQueryParam('Vid');
                 $updated = $this->request()->getQueryParam('updated');
+
+                $nickname = $this->request()->getQueryParam('nickname');
                 $model = MonitorFansModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order('updated_at', 'ASC');
                 if (isset($Vid) && !empty($Vid)) {
                     $one = MonitorVideoModel::create()->get(['vID' => $Vid]);
@@ -292,6 +294,11 @@ class AutomaticVideoCapture extends Base
 
                 if (isset($updated) && !empty($updated)) {
                     $model = $model->where(['updated' => $updated]);
+
+                }
+
+                if (isset($nickname) && !empty($nickname)) {
+                    $model = $model->where(['nickname' => $nickname]);
 
                 }
 
@@ -343,10 +350,9 @@ class AutomaticVideoCapture extends Base
                     return false;
                 }
 
-
                 $redis = RedisPool::defer('redis');
-
-                if ($redis->get($one['uid'])) {
+                if ($redis->get($one['uid'])) {  #删除这个 链接
+                    MonitorFansModel::create()->destroy(['id' => $one['id']]);
                     $this->writeJson(-101, [], "获取失败,重复获取");
                     return false;
                 }
@@ -403,13 +409,13 @@ class AutomaticVideoCapture extends Base
                 $county = $data['county'];
                 $url = $data['url'];
 
-                var_dump($data);
                 $one = MonitorVideoModel::create()->get(['url' => $url]);
-
                 if ($one) {
                     $this->writeJson(200, [], "不要重复添加");
                     return false;
                 }
+
+                //class="tiktok-1y2yo26-StrongText e1bs7gq22">(\d+)  正则 匹配 视频的评论数
 
                 //获取 链接的 视频id
                 $content = $this->GetUidFormURL($url);
@@ -420,8 +426,9 @@ class AutomaticVideoCapture extends Base
                     'country' => $county,
                     'nickname' => $nickname,
                     'created' => time(),
-//                    'commit_num'=>$data['commit']
+                    'commit_num' => $data['commit']
                 ];
+
 
                 if ($content && count($content) == 3) {
                     //视频id 暂时别写

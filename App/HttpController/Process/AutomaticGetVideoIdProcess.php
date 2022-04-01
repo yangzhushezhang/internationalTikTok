@@ -17,7 +17,6 @@ use EasySwoole\ORM\DbManager;
 class AutomaticGetVideoIdProcess extends AbstractProcess
 {
 
-
     protected function run($arg)
     {
         go(function () {
@@ -51,7 +50,6 @@ class AutomaticGetVideoIdProcess extends AbstractProcess
 
         });
     }
-
 
     function GetUidFormURL($url)
     {

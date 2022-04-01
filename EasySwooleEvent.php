@@ -156,9 +156,9 @@ class EasySwooleEvent implements Event
         ///////////
 
 
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('AutomaticFanCollectionProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticFanCollectionProcess($processConfig))->getProcess());
+        $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('AutomaticFanCollectionProcess');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticFanCollectionProcess($processConfig))->getProcess());
 //        //AutomaticGetVideoIdProcess
 //         $processConfig = new \EasySwoole\Component\Process\Config();
 //        $processConfig->setProcessName('AutomaticGetVideoIdProcess');

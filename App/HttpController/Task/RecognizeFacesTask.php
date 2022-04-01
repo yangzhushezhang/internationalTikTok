@@ -56,7 +56,6 @@ class RecognizeFacesTask implements TaskInterface
             $imageInfo = getimagesize($imgUrl);
             $imageBase64 = chunk_split(base64_encode(file_get_contents($imgUrl)));
             return $this->get_sex_form_my_server($imageBase64);
-
         } catch (\Throwable $exception) {
 //            var_dump("图片获取失败");
             return "异常";

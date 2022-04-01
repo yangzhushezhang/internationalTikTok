@@ -31,7 +31,6 @@ class Init extends AbstractProcess
                 \co::sleep(15 * 60); # 一小时执行一次
             }
         });
-
         go(function () {
             var_dump("GetFansNumsProcess 初始化进程启动...");
             while (true) {
@@ -47,7 +46,6 @@ class Init extends AbstractProcess
                 \co::sleep(15 * 60); # 半小时
             }
         });
-
         go(function () {
             var_dump("AutomaticVideoUrlIsNullProcess 初始化进程启动...");
             while (true) {
@@ -63,14 +61,17 @@ class Init extends AbstractProcess
                 \co::sleep(15 * 60); # 一小时执行一次
             }
         });
-
-
-
-
-
-
-
-
-
+        go(function () {
+            DbManager::getInstance()->invoke(function ($client) {
+                $res = MonitorVideoModel::invoke($client)->where(['status' => 6])->all();
+                if ($res) {
+                    $redis = RedisPool::defer('redis');
+                    foreach ($res as $re) {
+                        $redis->rPush("AutomaticFanCollectionProcess", json_encode($re->toRawArray()));
+                        $res = MonitorVideoModel::invoke($client)->where(['id' => $re['id']])->update(['status' => 3]);;
+                    }
+                }
+            });
+        });
     }
 }

@@ -6,6 +6,7 @@ namespace App\HttpController\Admin;
 
 use App\HttpController\Model\CookiesModel;
 use App\HttpController\Model\Dy_url;
+use App\HttpController\Model\JournalModel;
 use App\HttpController\Model\MonitorFansModel;
 use App\HttpController\Model\MonitoriktokupnameModel;
 use App\HttpController\Model\MonitorVideoModel;
@@ -501,6 +502,12 @@ class AutomaticVideoCapture extends Base
                     return false;
                 }
                 $two = MonitorVideoModel::create()->where(['id' => $id])->update(['status' => $status]);
+
+
+                if ($status == 3) {  #审核-未使用
+                    $redis = RedisPool::defer('redis');
+                    $redis->rPush("AutomaticFanCollectionProcess", json_encode($one));
+                }
                 if (!$two) {
                     $this->writeJson(-101, [], "修改失败");
                     return false;
@@ -584,6 +591,69 @@ class AutomaticVideoCapture extends Base
             return false;
         }
 
+
+    }
+
+
+    /**
+     *  一键重置
+     */
+    function OneKey()
+    {
+        try {
+            $status = $this->request()->getQueryParam('status');
+            $res = MonitorVideoModel::create()->all(['status' => $status]);  #  已审核已使用
+            $redis = RedisPool::defer('redis');
+            foreach ($res as $re) {
+                MonitorVideoModel::create()->where(['id' => $re['id']])->update(['status' => 3]);
+                $redis->rPush("AutomaticFanCollectionProcess", json_encode($re));
+            }
+            $this->writeJson(200, [], "重置成功");
+        } catch (\Throwable $exception) {
+            $this->writeJson(-1, [], $exception->getMessage());
+            return false;
+        }
+    }
+
+
+    /**
+     * @return bool
+     * 日志
+     */
+    function Journal()
+    {
+
+        try {
+            $action = $this->request()->getRequestParam('action');
+            if ($action == "GET") {
+                $page = $this->request()->getRequestParam('page');         // 当前页码
+                $limit = $this->request()->getRequestParam('limit');        // 每页多少条数据
+                $kinds = $this->request()->getRequestParam('kinds');
+                $vid = $this->request()->getRequestParam('vid');
+                $uid = $this->request()->getRequestParam('uid');
+                $model = JournalModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order('created', 'ASC');
+                if (isset($vid) && !empty($vid)) {
+                    $model = $model->where(['vid' => $vid]);
+                }
+                if (isset($uid) && !empty($uid)) {
+                    $model = $model->where(['uid' => $uid]);
+                }
+                $list = $model->all(['kinds' => $kinds]);  //1 是可以使用的cookie  2 cookies 失效
+                $result = $model->lastQueryResult();
+                // 总条数
+                $total = $result->getTotalCount();
+                $return_data = [
+                    "code" => 0,
+                    "msg" => '',
+                    'count' => $total,
+                    'data' => $list
+                ];
+                $this->response()->write(json_encode($return_data));
+                return true;
+            }
+        } catch (\Throwable $exception) {
+            $this->writeJson(-1, [], $exception->getMessage());
+        }
 
     }
 

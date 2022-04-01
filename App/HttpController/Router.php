@@ -278,6 +278,10 @@ class Router extends AbstractRouter
         $routeCollector->post('/GetVideoUrl', '/Admin/AutomaticVideoCapture/GetVideoUrl');
         #Config
         $routeCollector->get('/Config', '/Admin/AutomaticVideoCapture/Config');
+        #OneKey
+        $routeCollector->get('/OneKey', '/Admin/AutomaticVideoCapture/OneKey');
+        #Journal
+        $routeCollector->get('/Journal', '/Admin/AutomaticVideoCapture/Journal');
 
         /*
          * eg path : /closure/index.html  ; /closure/ ;  /closure

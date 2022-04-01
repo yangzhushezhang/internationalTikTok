@@ -9,12 +9,13 @@ use App\HttpController\Task\GetVideoReleaseTimeTask;
 use App\Log\LogHandel;
 use EasySwoole\Component\Process\AbstractProcess;
 use EasySwoole\ORM\DbManager;
+use EasySwoole\RedisPool\RedisPool;
 
 
 /**
  * Class AutomaticVideoUrlIsNullProcess
  * @package App\HttpController\Process
- * 进程 检查  视频链接 是 评论时间
+ * 进程 检查  视频链接 是 评论时间  --
  */
 class AutomaticVideoUrlIsNullProcess extends AbstractProcess
 {
@@ -23,54 +24,41 @@ class AutomaticVideoUrlIsNullProcess extends AbstractProcess
     protected function run($arg)
     {
         go(function () {
-            var_dump('AutomaticVideoUrlIsNullProcess 进程运行');
-
+            var_dump('AutomaticVideoUrlIsNullProcess 进程启动...');
             while (true) {
                 try {
-                    DbManager::getInstance()->invoke(function ($client) {
-                        $res = MonitorVideoModel::invoke($client)->where('release_time', NULL, 'IS')->all();
-                        if ($res) {
-                            foreach ($res as $re) {
-
-                                //判断up_name  是否为空
+                    \EasySwoole\RedisPool\RedisPool::invoke(function (\EasySwoole\Redis\Redis $redis) {
+                        $data = $redis->lPop("AutomaticVideoUrlIsNullProcess");
+                        if ($data) {
+                            $re = json_decode($data, true);
+                            DbManager::getInstance()->invoke(function ($client) use ($re) {
                                 if (!empty($re['up_name'])) {
                                     $task = \EasySwoole\EasySwoole\Task\TaskManager::getInstance();
                                     $task->async(new GetVideoReleaseTimeTask(['id' => $re['id'], 'vid' => $re['vID'], 'username' => $re['up_name']]));
                                 } else {
                                     $content = $this->GetUidFormURL($re['url']);
                                     if ($content && count($content) == 3) {
-                                        //获取 up_name
-//                                        $add['vID'] = $content[2];
-//                                        $add['up_name'] = $content[1];
-                                        //先更新下数据
                                         MonitorVideoModel::invoke($client)->where(['id' => $re['id']])->update(['up_name' => $content[1]]);
                                         $task = \EasySwoole\EasySwoole\Task\TaskManager::getInstance();
                                         $task->async(new GetVideoReleaseTimeTask(['id' => $re['id'], 'vid' => $re['vID'], 'username' => $content[1]]));
                                     }
-
                                 }
-
-
-                                \co::sleep(1);  //4 秒一个号 分钟进行一次采集
-
-                            }
-
+                            });
+                            \co::sleep(1);
                         }
-
-
-//                        $this->GetUidFormURL('https://vm.tiktok.com/ZTdaU4Yn1/');
-
-                    });
-
+                    }, "redis");
                 } catch (\Throwable $e) {
-
+                    var_dump("AutomaticVideoUrlIsNullProcess 进程 异常:" . $e->getMessage());
                 }
-
                 \co::sleep(60);  //4 秒一个号 分钟进行一次采集
-
             }
 
         });
+
+
+
+
+
     }
 
 

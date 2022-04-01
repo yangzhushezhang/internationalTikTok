@@ -11,3 +11,6 @@ date_default_timezone_set("America/New_York");
 
 define("client_id", "ZL5wxWPUOp9Yzn1Yc7pjLeZ0");
 define("client_secret", "FGONKQ4YcRWeX7nIBMPgWukBcDXlG2ao");
+define("DEVICE", 1);
+define("AutomaticFanCollectionProcessNum", 5);   #采集粉丝的进程数量
+define("FaceRecognitionProcessNum", 2);#  人脸识别的并发

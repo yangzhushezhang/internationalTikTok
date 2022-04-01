@@ -56,126 +56,49 @@ class EasySwooleEvent implements Event
         } catch (RedisPoolException $e) {
         }
 
-
-//        #注册进程
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('GetGroupTestA');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Telegram\GetGroupTestA($processConfig))->getProcess());
-//
-//
-//        #注册进程
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('GetGroupTestB');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Telegram\GetGroupTestB($processConfig))->getProcess());
-
-
-        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess1($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess2($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess3($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess4($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess5($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess6($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess7($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess8($processConfig))->getProcess());
-//        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('Shopping1'); 
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ShoppingProcess9($processConfig))->getProcess());
-//        #注册进程 1
+        /***
+         * Init.php (主服务器进程 只允许 主服务器开----)  ###
+         */
+        $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('Init');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\Init($processConfig))->getProcess());
 
         /**
-         * CwAddressProcess.php
+         * FaceRecognitionProcess  (人脸是被进程--  只允许 主服务器开----) ###
          */
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('CwAddressProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\CwAddressProcess($processConfig))->getProcess());
-//
-//
-//        //        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('GetSameProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\GetSameProcess($processConfig))->getProcess());
-//
-////        #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('RecentlySoldProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\RecentlySoldProcess($processConfig))->getProcess());
-//                #注册进程 1
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('SearchProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\SearchProcess($processConfig))->getProcess());
+        $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('FaceRecognitionProcess');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\FaceRecognitionProcess($processConfig))->getProcess());
 
 
+        /**
+         *  最关键进程  采集粉丝    #多个服务器开启
+         */
+        $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('AutomaticFanCollectionProcess');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticFanCollectionProcess($processConfig))->getProcess());
 
 
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('GetUidProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\GetUidProcess($processConfig))->getProcess());
-//
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('SetUidTProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\SetUidTProcess($processConfig))->getProcess());
+        /**
+         * AutomaticGetVideoIdProcess  (查漏进程 补充视频id)  #多个服务器开
+         */
+        $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('AutomaticGetVideoIdProcess');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticGetVideoIdProcess($processConfig))->getProcess());
 
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('AutomaticVideoCaptureProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticVideoCaptureProcess($processConfig))->getProcess());
-//
-//
-
-
-
-
-        ///////////
-
-
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('AutomaticFanCollectionProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticFanCollectionProcess($processConfig))->getProcess());
-//        //AutomaticGetVideoIdProcess
-//         $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('AutomaticGetVideoIdProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticGetVideoIdProcess($processConfig))->getProcess());
-//        //FaceRecognitionProcess
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('FaceRecognitionProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\FaceRecognitionProcess($processConfig))->getProcess());
-//        //AutomaticVideoUrlIsNullProcess
-//        $processConfig = new \EasySwoole\Component\Process\Config();
-//        $processConfig->setProcessName('AutomaticVideoUrlIsNullProcess');
-//        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticVideoUrlIsNullProcess($processConfig))->getProcess());
-
-        //GetFansNumsProcess.php
+        /**
+         * AutomaticVideoUrlIsNullProcess (获取视频的发布时间--暂时这样 )     #多个服务器开
+         */
+        $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('AutomaticVideoUrlIsNullProcess');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\AutomaticVideoUrlIsNullProcess($processConfig))->getProcess());
+        /***
+         * GetFansNumsProcess (粉丝详情补充进程)  #多个服务器开
+         */
         $processConfig = new \EasySwoole\Component\Process\Config();
         $processConfig->setProcessName('GetFansNumsProcess');
         ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\GetFansNumsProcess($processConfig))->getProcess());
+
 
     }
 }

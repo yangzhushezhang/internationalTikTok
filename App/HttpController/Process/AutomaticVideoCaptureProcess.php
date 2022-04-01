@@ -12,12 +12,20 @@ use EasySwoole\EasySwoole\Bridge\DefaultCommand\Process;
 use EasySwoole\HttpClient\Exception\InvalidUrl;
 use TencentCloud\Ocr\V20181119\Models\FormulaOCRRequest;
 
+/**
+ * Class AutomaticVideoCaptureProcess
+ * @package App\HttpController\Process
+ *
+ *
+ * 获取  up 主的 视频 然后 对最大的获取日期   ==(废弃)
+ */
 class AutomaticVideoCaptureProcess extends AbstractProcess
 {
 
 
     protected function run($arg)
     {
+
 
         go(function () {
 

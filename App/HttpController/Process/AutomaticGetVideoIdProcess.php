@@ -8,29 +8,27 @@ use App\HttpController\Model\MonitorVideoModel;
 use App\Log\LogHandel;
 use EasySwoole\Component\Process\AbstractProcess;
 use EasySwoole\ORM\DbManager;
+use EasySwoole\RedisPool\RedisPool;
 
 /***
  * Class AutomaticGetVideoIdProcess
  * @package App\HttpController\Process
- *   获取链接 视频 id
+ *   获取链接 视频 id   ()   --   手机采集上来的 链接 不一定全部或能 获取视频的 id  所有这个是 查漏的进程
  */
 class AutomaticGetVideoIdProcess extends AbstractProcess
 {
-
     protected function run($arg)
     {
+        var_dump("AutomaticGetVideoIdProcess 进程启动...");
         go(function () {
             while (true) {
-                DbManager::getInstance()->invoke(function ($client) {
-                    $res = MonitorVideoModel::invoke($client)->where('vID', NULL, 'IS')->all();
-                    if ($res) {
-                        foreach ($res as $re) {
+                \EasySwoole\RedisPool\RedisPool::invoke(function (\EasySwoole\Redis\Redis $redis) {
+                    $data = $redis->lPop("AutomaticGetVideoIdProcess");
+                    if ($data) {
+                        $re = json_decode($data, true);
+                        DbManager::getInstance()->invoke(function ($client) use ($re) {
                             $vID = $this->GetUidFormURL($re['url']);
                             if ($vID) {
-                                //视频id 暂时别写
-                                //查看这个视频 url 是否存在了
-//                                $add['vID'] = $content;;
-                                //判断这个 id 是否存在
                                 $one = MonitorVideoModel::invoke($client)->get(['vID' => $vID]);
                                 if ($one) {
                                     MonitorVideoModel::invoke($client)->destroy(['id' => $re['id']]);
@@ -38,17 +36,17 @@ class AutomaticGetVideoIdProcess extends AbstractProcess
                                     MonitorVideoModel::invoke($client)->where(['id' => $re['id']])->update(['vID' => $vID]);
                                 }
                             }
-                            \co::sleep(4);  //4 秒一个号 分钟进行一次采集
-                        }
+                        });
+                        \co::sleep(1); # 一小时执行一次
                     }
-
-                });
-
-                \co::sleep(60);  //10 分钟进行一次采集
-
+                }, "redis");
             }
-
         });
+
+
+
+
+
     }
 
     function GetUidFormURL($url)

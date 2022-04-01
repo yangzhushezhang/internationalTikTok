@@ -27,7 +27,6 @@ class SetUidTProcess extends AbstractProcess
                         foreach ($res as $re) {
 
                             try {
-
                                 $headers = [
                                     'authority' => 'www.tiktok.com',
                                     'sec-ch-ua' => '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',

@@ -276,6 +276,8 @@ class Router extends AbstractRouter
         //GetVideoUrl
         $routeCollector->get('/GetVideoUrl', '/Admin/AutomaticVideoCapture/GetVideoUrl');
         $routeCollector->post('/GetVideoUrl', '/Admin/AutomaticVideoCapture/GetVideoUrl');
+        #Config
+        $routeCollector->get('/Config', '/Admin/AutomaticVideoCapture/Config');
 
         /*
          * eg path : /closure/index.html  ; /closure/ ;  /closure

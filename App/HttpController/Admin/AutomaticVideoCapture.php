@@ -19,6 +19,9 @@ class AutomaticVideoCapture extends Base
 {
 
 
+    /***
+     * @return bool
+     */
     function AutomaticVideoCapture()
     {
         try {
@@ -248,7 +251,6 @@ class AutomaticVideoCapture extends Base
                 $this->writeJson(200, [], "删除成功");
                 return false;
             }
-
             if ($action == "Check") {  # 测试cookie 是否 有效
                 $id = $this->request()->getQueryParam('id');
                 $res = CookiesModel::create()->get(['id' => $id]);
@@ -290,8 +292,6 @@ class AutomaticVideoCapture extends Base
 
 
             }
-
-
         } catch (\Throwable $exception) {
             $this->writeJson(-1, [], $exception->getMessage());
         }
@@ -548,6 +548,43 @@ class AutomaticVideoCapture extends Base
             var_dump($exception->getMessage());
             $this->writeJson(-1, [], $exception->getMessage());
         }
+    }
+
+
+    /**
+     *   人脸识别 设置
+     */
+    function Config()
+    {
+        $action = $this->request()->getQueryParam('action');
+        $redis = RedisPool::defer('redis');
+
+        if ($action == "GET") {
+            if (!$redis->hExists("CONFIG_FACE", "switch")) {  #1 关  2 开  开关
+                $redis->hMSet("CONFIG_FACE", ["switch" => 1, "face_accuracy" => "0.9"]);
+            }
+            $this->writeJson(200, $redis->hGetAll("CONFIG_FACE"));
+            return false;
+        }
+
+
+        if ($action == "SET") {
+            $switch = $this->request()->getQueryParam('switch');
+            $face_accuracy = $this->request()->getQueryParam('face_accuracy');
+            if (isset($face_accuracy) && !empty($face_accuracy)) {
+                $redis->hSet("CONFIG_FACE", "face_accuracy", $face_accuracy);
+                $this->writeJson(200, "设置精度成功");
+                return false;
+            }
+            if (isset($switch) && !empty($switch)) {
+                $redis->hSet("CONFIG_FACE", "switch", $switch);
+                $this->writeJson(200, "设置成功");
+                return false;
+            }
+            return false;
+        }
+
+
     }
 
 

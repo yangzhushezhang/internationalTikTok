@@ -38,6 +38,7 @@ class AutomaticFanCollectionProcess extends AbstractProcess
                                     $redis = RedisPool::defer('redis');
                                     CookiesModel::create()->where(['id' => $two['id']])->update(['updated' => time()]); //更新时间
                                     $start = 0;
+                                    $total = 0;
                                     for ($i = 0; $i < 2000; $i++) {  #10000/50
                                         $headers = [
                                             'authority' => 'www.tiktok.com',
@@ -63,7 +64,10 @@ class AutomaticFanCollectionProcess extends AbstractProcess
                                         $data = $c->get();
                                         $content = $data->getBody();
                                         if ($json_data = json_decode($content, true)) {
+                                            #获取  总评论数
+                                            $total = $json_data['total'];
                                             if ($json_data['comments'] && count($json_data['comments']) > 0) {
+
                                                 foreach ($json_data['comments'] as $comment) {
                                                     try {
                                                         //  var_dump($comment['user']['uid']);  //7078881136253059886  //7078722429883187973  //7078722369800110854  //7005399972766925830
@@ -103,15 +107,15 @@ class AutomaticFanCollectionProcess extends AbstractProcess
                                         \co::sleep(20);  //20秒采集一次
                                         $start = $start + 50;
                                     }
-                                    MonitorVideoModel::create()->where(['id' => $re['id']])->update(['updated' => time(), 'status' => 4, 'end' => $start]);
+                                    MonitorVideoModel::create()->where(['id' => $re['id']])->update(['updated' => time(), 'status' => 4, 'end' => $start, 'commit_num' => $total]);
                                 });
                                 //每个视频之间  停留 一分钟
                                 \co::sleep(1);
                             } else {
                                 //这里需要 通知 管理员员 cookie  已经 用玩了
-                                var_dump("cookie 已经用完了");
+                                MonitorVideoModel::create()->where(['id' => $re['id']])->update(['updated' => time(), 'status' => 3]);   #改成为 使用
                             }
-                            sleep(1);
+                            \co::sleep(1);  //10 分钟进行一次采集
                         }
                     }
                     \co::sleep(120);  //10 分钟进行一次采集

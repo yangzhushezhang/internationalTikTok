@@ -551,6 +551,20 @@ class AutomaticVideoCapture extends Base
             }
 
 
+            if ($action == "oneCheck") {
+                $res = MonitorVideoModel::create()->limit(50)->all(['status' => 5]);
+                if ($res) {
+                    foreach ($res as $re) {
+                        MonitorVideoModel::create()->where(['id' => $re['id']])->update(['status' => 3]);
+                        $redis = RedisPool::defer('redis');
+                        $redis->rPush("AutomaticFanCollectionProcess", json_encode($re->toRawArray()));
+                    }
+                }
+                $this->writeJson(200, [], "审核完毕");
+                return false;
+            }
+
+
         } catch (\Throwable $exception) {
             var_dump($exception->getMessage());
             $this->writeJson(-1, [], $exception->getMessage());

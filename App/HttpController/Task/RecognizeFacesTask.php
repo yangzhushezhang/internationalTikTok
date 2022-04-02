@@ -60,10 +60,10 @@ class RecognizeFacesTask implements TaskInterface
     function img_url_to_base64($imgUrl)
     {
         try {
-            #$imgUrl = "https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/33059b31cad83dbcca4e0d2869dee348.jpg?x-expires=1648900800&x-signature=dBgMowM23myAG4hBsOAJUOB%2B52M%3D";
-            #判断都想是否过期 \d{10}
-            preg_match_all('/\d{10}/', $imgUrl, $pat_array);   //正则视频 id
-            if (!isset($pat_array[0][0]) || $pat_array[0][0] < time()) {
+            #$imgUrl = "https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/314700676089b707c8ae4ece5b057a5a~c5_100x100.jpg?x-expires=1648915200&x-signature=8QvaMnsjRA9QsK09ljbbXLx4VkQ%3D";
+            #判断都想是否过期 \d{10}   1648915200
+            preg_match_all('/x-expires=(\d{10})/', $imgUrl, $pat_array);   //正则视频 id
+            if (!isset($pat_array[1][0]) || $pat_array[1][0] < time()) {
                 # 没有正则到 直接删除这条链接
                 return ["a" => 1, 'b' => 1, 'c' => 1];
             }

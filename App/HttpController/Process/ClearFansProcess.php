@@ -26,8 +26,8 @@ class ClearFansProcess extends AbstractProcess
                     $res = MonitorFansModel::invoke($client)->limit(10000)->where('sex', NULL, 'IS')->all();
                     $redis = RedisPool::defer('redis');
                     foreach ($res as $re) {
-                        preg_match_all('/\d{10}/', $re['image_url'], $pat_array);   //正则视频 id
-                        if (!isset($pat_array[0][0]) || $pat_array[0][0] < time()) {  # 已经过期了 直接
+                        preg_match_all('/x-expires=(\d{10})/', $re['image_url'], $pat_array);   //正则视频 id
+                        if (!isset($pat_array[1][0]) || $pat_array[1][0] < time()) {
                             # 没有正则到 直接删除这条链接
                             MonitorFansModel::invoke($client)->destroy(['id' => $re['id']]);
                             $redis->del("Fans_" . $re['unique_id']);

@@ -113,10 +113,10 @@ class AutomaticFanCollectionTask implements TaskInterface
                 (new JournalModel())->Add(DEVICE, 1, "链接返还,没有获取到cookie", '', $vid = $this->data['vID']);
             }
         } catch (\Throwable $exception) {
-            var_dump($exception->getMessage());
+//            var_dump($exception->getMessage());
             //异常 修改
-            (new JournalModel())->Add(DEVICE, 1, "异常", '', $vid = $this->data['vID']);
-            MonitorVideoModel::create()->where(['id' => $this->data['id']])->update(['status' => 4]);#   使用完毕
+            (new JournalModel())->Add(DEVICE, 1, "异常:".$exception->getMessage(), '', $vid = $this->data['vID']);
+            MonitorVideoModel::create()->where(['id' => $this->data['id']])->update(['status' => 3]);#   使用完毕
         }
     }
 

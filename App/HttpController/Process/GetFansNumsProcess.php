@@ -20,12 +20,12 @@ class GetFansNumsProcess extends AbstractProcess
 {
     protected function run($arg)
     {
-
         var_dump("GetFansNumsProcess 正在运行");
         go(function () {
             while (true) {
                 \EasySwoole\RedisPool\RedisPool::invoke(function (\EasySwoole\Redis\Redis $redis) {
                     $data = $redis->lPop("GetFansNumsProcess");
+                    $data=false;
                     if ($data) {
                         $re = json_decode($data, true);
                         DbManager::getInstance()->invoke(function ($client) use ($redis, $re) {

@@ -552,7 +552,13 @@ class AutomaticVideoCapture extends Base
 
 
             if ($action == "oneCheck") {
-                $res = MonitorVideoModel::create()->limit(50)->all(['status' => 5]);
+                $country = $this->request()->getQueryParam('country');
+
+                $model = MonitorVideoModel::create()->limit(50);
+                if (isset($country) && !empty($country)) {
+                    $model = $model->where(['country' => $country]);
+                }
+                $res = $model->all(['status' => 5]);
                 if ($res) {
                     foreach ($res as $re) {
                         MonitorVideoModel::create()->where(['id' => $re['id']])->update(['status' => 3]);

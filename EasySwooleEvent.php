@@ -100,5 +100,11 @@ class EasySwooleEvent implements Event
         ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\GetFansNumsProcess($processConfig))->getProcess());
 
 
+        /**
+         * ClearFansProcess  (粉丝清除功能 ---) ###主服务器开
+         */
+        $processConfig = new \EasySwoole\Component\Process\Config();
+        $processConfig->setProcessName('ClearFansProcess');
+        ServerManager::getInstance()->getSwooleServer()->addProcess((new \App\HttpController\Process\ClearFansProcess($processConfig))->getProcess());
     }
 }

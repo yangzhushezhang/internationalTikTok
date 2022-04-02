@@ -32,11 +32,13 @@ class RecognizeFacesTask implements TaskInterface
             // TODO: Implement run() method.
             $sex = $this->img_url_to_base64($this->data['image_url']);
             if (count($sex) == 2) {
-                var_dump("性别:".$sex['sex']);
+                var_dump("性别:" . $sex['sex']);
                 MonitorFansModel::create()->where(['id' => $this->data['id']])->update(['sex' => $sex['sex'], 'face_accuracy' => $sex['probability']]);
             } else if (count($sex) == 3) {
                 #删除
                 var_dump("删除");
+                $redis = RedisPool::defer('redis');
+                $redis->del("Fans_" . $this->data['unique_id']);
                 MonitorFansModel::create()->destroy(['id' => $this->data['id']]);
             } else {
                 MonitorFansModel::create()->where(['id' => $this->data['id']])->update(['sex' => '', 'face_accuracy' => 1]);

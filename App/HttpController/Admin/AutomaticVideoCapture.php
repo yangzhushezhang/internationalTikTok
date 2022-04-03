@@ -372,8 +372,11 @@ class AutomaticVideoCapture extends Base
                 $country = $this->request()->getQueryParam('country');
                 $sex = $this->request()->getQueryParam('sex');
                 $nickname = $this->request()->getQueryParam('nickname');
-
                 $commit_time = $this->request()->getQueryParam('commitTime');
+                $face_possibility = $this->request()->getQueryParam('face_possibility');
+                $attention_nums = $this->request()->getQueryParam('attention_nums');
+                $fans_nums = $this->request()->getQueryParam('fans_nums');
+                $privacy = $this->request()->getQueryParam('privacy');
 
 
                 $mode = MonitorFansModel::create();
@@ -385,6 +388,19 @@ class AutomaticVideoCapture extends Base
                     $mode = $mode->where('comment_time', $commit_time, '>');
                 }
 
+
+                if (isset($face_possibility) && $face_possibility != -1) {  #脸的识别度 大于等于  0.8
+                    $mode = $mode->where('face_possibility', $face_possibility, '>=');
+                }
+                if (isset($attention_nums) && $attention_nums != -1) {  #关注数量
+                    $mode = $mode->where('attention_nums', $attention_nums, '>=');
+                }
+                if (isset($fans_nums) && $fans_nums != -1) {  #关注数量
+                    $mode = $mode->where('fans_nums', $fans_nums, '>=');
+                }
+                if (isset($privacy) && $privacy != -1) {  #是否是私密账号
+                    $mode = $mode->where('privacy', $privacy, '=');
+                }
 
                 if (isset($sex) && !empty($sex)) {
                     $mode = $mode->where(['sex' => $sex]);

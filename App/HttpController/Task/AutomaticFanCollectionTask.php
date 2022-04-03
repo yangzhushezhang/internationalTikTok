@@ -32,12 +32,13 @@ class AutomaticFanCollectionTask implements TaskInterface
 
     function run(int $taskId, int $workerIndex)
     {
+        $redis = RedisPool::defer("redis");
+
         try {
             #修改 视频链接的状态
             MonitorVideoModel::create()->where(['id' => $this->data['id']])->update(['status' => 6]);# 正在使用中
             (new JournalModel())->Add(DEVICE, 1, "获取了视频链接", '', $this->data['vID']);
             $two = CookiesModel::create()->order('updated', 'ASC')->get(['status' => 1]);
-            $redis = RedisPool::defer("redis");
             var_dump("准备采集:" . $this->data['vID']);
             if ($two) {
                 CookiesModel::create()->where(['id' => $two['id']])->update(['updated' => time()]); //更新时间
@@ -89,13 +90,8 @@ class AutomaticFanCollectionTask implements TaskInterface
                                     continue;
                                 }
                                 $redis->set("Fans_" . $comment['user']['uid'], "status");
-                                $one = MonitorFansModel::create()->get(['uid' => $comment['user']['uid']]);
-                                if (!$one) {
-                                    $res = MonitorFansModel::create()->data($add)->save();
-                                    (new JournalModel())->Add(DEVICE, 2, "采集粉丝入库", $uid = $add['uid']);
-//                                    $redis->rPush("GetFansNumsProcess", json_encode($add));  #  对粉丝补充详情
-//                                    $redis->rPush("FaceRecognitionProcess", json_encode($add));  #对粉丝人脸识别
-                                }
+                                $res = MonitorFansModel::create()->data($add)->save();
+                                (new JournalModel())->Add(DEVICE, 2, "采集粉丝入库", $uid = $add['uid']);
                             }
                         } else { #已经没有粉丝了 跳出循环
                             var_dump("视频 id:" . $this->data['vID'] . "采集完毕");
@@ -113,10 +109,10 @@ class AutomaticFanCollectionTask implements TaskInterface
                 (new JournalModel())->Add(DEVICE, 1, "链接返还,没有获取到cookie", '', $vid = $this->data['vID']);
             }
         } catch (\Throwable $exception) {
-//            var_dump($exception->getMessage());
             //异常 修改
-            (new JournalModel())->Add(DEVICE, 1, "异常:".$exception->getMessage(), '', $vid = $this->data['vID']);
-            MonitorVideoModel::create()->where(['id' => $this->data['id']])->update(['status' => 3]);#   使用完毕
+            (new JournalModel())->Add(DEVICE, 1, "异常:" . $exception->getMessage(), '', $vid = $this->data['vID']);
+            MonitorVideoModel::create()->where(['id' => $this->data['id']])->update(['status' => 3]);#   改到未使用
+            $redis->set("AutomaticFanCollectionProcess", json_encode($this->data));
         }
     }
 

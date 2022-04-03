@@ -47,12 +47,10 @@ class RecognizeFacesTask implements TaskInterface
             var_dump($e->getMessage());
         }
     }
-
     function onException(\Throwable $throwable, int $taskId, int $workerIndex)
     {
         // TODO: Implement onException() method.
     }
-
 
     /**
      * 图片链接转换为 base64 文件流

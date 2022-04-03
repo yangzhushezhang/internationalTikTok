@@ -395,8 +395,15 @@ class AutomaticVideoCapture extends Base
                 if (isset($attention_nums) && $attention_nums != -1) {  #关注数量
                     $mode = $mode->where('attention_nums', $attention_nums, '>=');
                 }
-                if (isset($fans_nums) && $fans_nums != -1) {  #关注数量
-                    $mode = $mode->where('fans_nums', $fans_nums, '>=');
+                if (isset($fans_nums) && $fans_nums != -1) {  #关注数量  最小 和最大
+
+                    $fansNums = explode('-', $fans_nums);
+                    if (count($fans_nums) == 2) {
+                        $mode = $mode->where('fans_nums', $fansNums[0], '>=');
+                        $mode = $mode->where('fans_nums', $fansNums[1], '=<');
+                    }
+
+
                 }
                 if (isset($privacy) && $privacy != -1) {  #是否是私密账号
                     $mode = $mode->where('privacy', $privacy, '=');

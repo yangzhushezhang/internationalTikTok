@@ -4,6 +4,7 @@
 namespace App\HttpController\Admin;
 
 
+use App\HttpController\Model\MonitorVideoModel;
 use App\HttpController\Model\WhatsAppModel;
 use App\HttpController\Task\SetWhatsAppPhoneTask;
 use EasySwoole\ORM\Exception\Exception;
@@ -43,23 +44,43 @@ class WhatsAppController extends Base
                 return false;
             }
 
+
             if ($action == "check") {   //审核
-                $status = $this->request()->getQueryParam('action');
+                $status = $this->request()->getQueryParam('status');
                 $id = $this->request()->getQueryParam('id');
-
-
                 if (!isset($id)) {
                     $this->writeJson(-101, [], "非法请求");
                     return false;
-
                 }
-
-
-                $res = WhatsAppModel::create()->where(['id' => $id])->update(['status' => $status]);
+                WhatsAppModel::create()->where(['id' => $id])->update(['status' => $status]);
                 $this->writeJson(200, [], "审核成功");
                 return false;
             }
 
+
+            if ($action == "GET") {
+                $page = $this->request()->getRequestParam('page');         // 当前页码
+                $limit = $this->request()->getRequestParam('limit');        // 每页多少条数据
+                $status = $this->request()->getRequestParam('status');
+                $model = WhatsAppModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order('created', 'ASC');
+                if (isset($country) && !empty($country)) {
+                    $model = $model->where(['country' => $country]);
+                }
+                $list = $model->all(['status' => $status]);  //1 是可以使用的cookie  2 cookies 失效
+                $result = $model->lastQueryResult();
+                // 总条数
+                $total = $result->getTotalCount();
+                $return_data = [
+                    "code" => 0,
+                    "msg" => '',
+                    'count' => $total,
+                    'data' => $list
+                ];
+                $this->response()->write(json_encode($return_data));
+                return true;
+
+
+            }
 
             if ($action == "ToLead") {  #导入
 

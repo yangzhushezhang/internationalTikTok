@@ -29,6 +29,7 @@ class RecognizeFacesTask implements TaskInterface
     function run(int $taskId, int $workerIndex)
     {
         try {
+
             // TODO: Implement run() method.
             $sex = $this->img_url_to_base64($this->data['image_url']);
             if (count($sex) == 2) {

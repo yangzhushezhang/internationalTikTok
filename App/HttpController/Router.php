@@ -283,6 +283,16 @@ class Router extends AbstractRouter
         #Journal
         $routeCollector->get('/Journal', '/Admin/AutomaticVideoCapture/Journal');
 
+
+        /***
+         *
+         * whatsApp
+         *  WhatsAppController.php
+         */
+        #getPhone
+        $routeCollector->get('/getPhone', '/Admin/WhatsAppController/getPhone');
+        $routeCollector->post('/getPhone', '/Admin/WhatsAppController/getPhone');
+
         /*
          * eg path : /closure/index.html  ; /closure/ ;  /closure
          */

@@ -33,7 +33,6 @@ class AutomaticFanCollectionTask implements TaskInterface
     function run(int $taskId, int $workerIndex)
     {
         $redis = RedisPool::defer("redis");
-
         try {
             #修改 视频链接的状态
             MonitorVideoModel::create()->where(['id' => $this->data['id']])->update(['status' => 6]);# 正在使用中
@@ -112,7 +111,7 @@ class AutomaticFanCollectionTask implements TaskInterface
             //异常 修改
             (new JournalModel())->Add(DEVICE, 1, "异常:" . $exception->getMessage(), '', $vid = $this->data['vID']);
             MonitorVideoModel::create()->where(['id' => $this->data['id']])->update(['status' => 3]);#   改到未使用
-            $redis->set("AutomaticFanCollectionProcess", json_encode($this->data));
+            $redis->rPush("AutomaticFanCollectionProcess", json_encode($this->data));
         }
     }
 

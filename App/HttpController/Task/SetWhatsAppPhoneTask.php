@@ -20,6 +20,7 @@ class SetWhatsAppPhoneTask implements TaskInterface
     function run(int $taskId, int $workerIndex)
     {
         try {
+            $count = 0;
             foreach ($this->data['data'] as $k => $datum) {
                 if (count($datum) > 0) {
                     $add = ['created' => time()];
@@ -34,14 +35,19 @@ class SetWhatsAppPhoneTask implements TaskInterface
                             $add['image_url'] = $value;
                         }
                     }
-                    #判断数据是否重复
-                    $res = WhatsAppModel::create()->get(['phone' => $add['phone']]);
-                    if (!$res) {
-                        $one = WhatsAppModel::create()->data($add)->save();
-                        var_dump($one);
-                    } else {
-                        var_dump("不要重复添加");
+
+
+                    if ($add['phone'] != "账号") {
+                        #判断数据是否重复
+                        $res = WhatsAppModel::create()->get(['phone' => $add['phone']]);
+                        if (!$res) {
+                            $one = WhatsAppModel::create()->data($add)->save();
+
+                        } else {
+                            var_dump("不要重复添加");
+                        }
                     }
+
                 }
             }
         } catch (\Throwable $exception) {

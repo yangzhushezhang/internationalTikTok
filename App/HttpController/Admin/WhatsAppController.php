@@ -20,6 +20,9 @@ class WhatsAppController extends Base
 {
 
 
+    /**
+     * @return bool
+     */
     function getPhone()
     {
         try {
@@ -28,7 +31,13 @@ class WhatsAppController extends Base
             if ($action == "phone") {  # 手机去获取手机号  redis 参与  1 未审核 2审核未使用 3审核已使用
                 $redis = RedisPool::defer('redis');
                 $nickname = $this->request()->getQueryParam('nickname');
-                $res = WhatsAppModel::create()->get(['status' => 2]);
+                $username = $this->request()->getQueryParam('username');
+                if (isset($username) && $nickname != -1) {
+                    $res = WhatsAppModel::create()->get(['status' => 2, 'username' => $username]);
+                } else {
+                    $res = WhatsAppModel::create()->get(['status' => 2]);
+                }
+
                 if ($res) {
                     if ($redis->get("WhatsApp_" . $res['phone'])) {
                         $this->writeJson(-101, [], "没有手机号");
@@ -36,7 +45,6 @@ class WhatsAppController extends Base
                     }
                     $redis->set("WhatsApp_" . $res['phone'], "status");
                     WhatsAppModel::create()->where(['id' => $res['id']])->update(['status' => 3, 'nickname' => $nickname]);
-
                     $this->writeJson(200, [], $res['phone']);
                     return false;
                 }
@@ -102,6 +110,33 @@ class WhatsAppController extends Base
                 $task->async(new SetWhatsAppPhoneTask(['data' => $data]));
 
                 $this->writeJson(200, [], "上传完毕");
+
+            }
+
+
+            if ($action == "check1") {
+                $username = $this->request()->getQueryParam('username');
+                $id = $this->request()->getQueryParam('id');
+                $status = $this->request()->getQueryParam('status');  //2审核未使用  4 无效
+                if (!isset($username)) {
+                    $this->writeJson(-101, [], "缺少参数");
+                    return false;
+                }
+
+                $one = WhatsAppModel::create()->get(['status' => 1, 'id' => $id]);
+                if (!$one) {
+                    $this->writeJson(-102, [], "可能被其他人已经审核");
+                    return false;
+                }
+
+                $one = WhatsAppModel::create()->where(['id' => $id])->update(['username' => $username, 'status' => $status]);
+                if (!$one) {
+                    $this->writeJson(-102, [], "可能被其他人已经审核");
+                    return false;
+                }
+
+                $this->writeJson(200, [], "执行成功");
+                return false;
 
             }
 

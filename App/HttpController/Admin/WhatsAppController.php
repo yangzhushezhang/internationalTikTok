@@ -21,7 +21,7 @@ class WhatsAppController extends Base
 
 
     /**
-     * @return bool
+     * @return bool  1 未审核 2审核未使用 3审核已使用 4 无效  5 删除
      */
     function getPhone()
     {
@@ -44,7 +44,7 @@ class WhatsAppController extends Base
                         return false;
                     }
                     $redis->set("WhatsApp_" . $res['phone'], "status");
-                    WhatsAppModel::create()->where(['id' => $res['id']])->update(['status' => 3, 'nickname' => $nickname]);
+                    WhatsAppModel::create()->where(['id' => $res['id']])->update(['status' => 3, 'nickname' => $nickname, 'extract_time' => time()]);
                     $this->writeJson(200, [], $res['phone']);
                     return false;
                 }
@@ -70,11 +70,40 @@ class WhatsAppController extends Base
                 $page = $this->request()->getRequestParam('page');         // 当前页码
                 $limit = $this->request()->getRequestParam('limit');        // 每页多少条数据
                 $status = $this->request()->getRequestParam('status');
+                $country = $this->request()->getQueryParam('country');
+                $username = $this->request()->getQueryParam('username');
+                $nickname = $this->request()->getQueryParam('nickname');
+                #check_time  extract_time
+                $check_timeB = $this->request()->getQueryParam('check_timeB');
+                $check_timeD = $this->request()->getQueryParam('check_timeD');
+                $extract_timeB = $this->request()->getQueryParam('extract_timeB');
+                $extract_timeD = $this->request()->getQueryParam('extract_timeD');
+
+
                 $model = WhatsAppModel::create()->limit($limit * ($page - 1), $limit)->withTotalCount()->order('created', 'ASC');
                 if (isset($country) && !empty($country)) {
                     $model = $model->where(['country' => $country]);
                 }
-                $list = $model->all(['status' => $status]);  //1 是可以使用的cookie  2 cookies 失效
+                if (isset($username) && !empty($username)) {
+                    $model = $model->where(['username' => $username]);
+                }
+
+                if (isset($nickname) && !empty($nickname)) {
+                    $model = $model->where(['nickname' =>$nickname]);
+                }
+                if (isset($check_timeB) && !empty($check_timeB)) {
+                    $model = $model->where(" check_time >= '$check_timeB' AND check_time <=" . $check_timeD);
+                }
+                if (isset($extract_timeB) && !empty($extract_timeB)) {
+                    $model = $model->where('extract_time', $extract_timeB, '>=')->where('extract_time', $extract_timeD, '<=');
+                }
+
+                if (isset($status) && $status == 3) {
+                    $list = $model->where('(status=3 or status=5)')->all();  //1 是可以使用的cookie  2 cookies 失效
+
+                } else {
+                    $list = $model->all(['status' => $status]);  //1 是可以使用的cookie  2 cookies 失效
+                }
                 $result = $model->lastQueryResult();
                 // 总条数
                 $total = $result->getTotalCount();
@@ -129,7 +158,7 @@ class WhatsAppController extends Base
                     return false;
                 }
 
-                $one = WhatsAppModel::create()->where(['id' => $id])->update(['username' => $username, 'status' => $status]);
+                $one = WhatsAppModel::create()->where(['id' => $id])->update(['username' => $username, 'status' => $status, 'check_time' => time()]);
                 if (!$one) {
                     $this->writeJson(-102, [], "可能被其他人已经审核");
                     return false;
@@ -140,6 +169,27 @@ class WhatsAppController extends Base
 
             }
 
+
+            if ($action == "get2") {
+                $username = $this->request()->getQueryParam('username');
+
+
+//                $one = WhatsAppModel::create()->group('nickname')->where()->count();
+                $one = WhatsAppModel::create()->field('count(*) as count, `nickname`')->group('nickname')->all(['username' => $username, 'status' => 3]);
+
+
+                $this->writeJson(200, $one, "获取成功");
+                return false;
+            }
+
+
+            if ($action == "clear") {
+                $username = $this->request()->getQueryParam('username');
+                WhatsAppModel::create()->where(['status' => 3, 'username' => $username])->update(['status' => 5]);
+                $this->writeJson(200, [], "执行成功");
+                return false;
+
+            }
 
         } catch (\Throwable $e) {
             $this->writeJson(-1, [], $e->getMessage());

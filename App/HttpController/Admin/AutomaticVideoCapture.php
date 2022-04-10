@@ -389,8 +389,6 @@ class AutomaticVideoCapture extends Base
                 if (isset($commit_time) && $commit_time != -1) {
                     $mode = $mode->where('comment_time', $commit_time, '>');
                 }
-
-
                 if (isset($face_possibility) && $face_possibility != -1) {  #脸的识别度 大于等于  0.8
                     $mode = $mode->where('face_possibility', $face_possibility, '>=');
                 }
@@ -398,19 +396,15 @@ class AutomaticVideoCapture extends Base
                     $mode = $mode->where('attention_nums', $attention_nums, '>=');
                 }
                 if (isset($fans_nums) && $fans_nums != -1) {  #关注数量  最小 和最大
-
                     $fansNums = explode('-', $fans_nums);
                     if (count($fans_nums) == 2) {
                         $mode = $mode->where('fans_nums', $fansNums[0], '>=');
                         $mode = $mode->where('fans_nums', $fansNums[1], '=<');
                     }
-
-
                 }
                 if (isset($privacy) && $privacy != -1) {  #是否是私密账号
                     $mode = $mode->where('privacy', $privacy, '=');
                 }
-
                 if (isset($sex) && !empty($sex)) {
                     $mode = $mode->where(['sex' => $sex]);
                 }
@@ -419,15 +413,13 @@ class AutomaticVideoCapture extends Base
                     $this->writeJson(-101, [], "粉丝用完了..");
                     return false;
                 }
-
                 $redis = RedisPool::defer('redis');
                 if ($redis->get($one['uid'])) {  #删除这个 链接
                     MonitorFansModel::create()->destroy(['id' => $one['id']]);
                     $this->writeJson(-101, [], "获取失败,重复获取");
                     return false;
                 }
-
-                $redis->set($one['uid'], '11');
+                $redis->set($one['uid'], '11', 30);
                 //更新链接 状态
                 MonitorFansModel::create()->where(['id' => $one['id']])->update(['status' => 1, 'nickname' => $nickname, 'updated' => date("Y-m-d", time()), 'updated_at' => time()]);
                 $this->writeJson(200, [], $one['uid']);

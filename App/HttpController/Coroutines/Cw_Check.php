@@ -20,9 +20,7 @@ class Cw_Check extends AbstractProcess
         $Telegram_token = "";
         $Telegram_chartId = "";
         go(function () use ($Telegram_chartId, $Telegram_token) {
-
             while (true) {
-
                 DbManager::getInstance()->invoke(function ($client) use ($Telegram_token,$Telegram_chartId){
                     $max_time = CwCollectModel::invoke($client)->max('created_at');
                     if (time() - $max_time > 3600) {  # 一个小时没有 数据  发送通知
@@ -30,7 +28,6 @@ class Cw_Check extends AbstractProcess
                         $url = "https://api.telegram.org/bot" . $Telegram_token . "/sendMessage?chat_id=" . $Telegram_chartId . "&text=" . $text;
                         $client = new \EasySwoole\HttpClient\HttpClient($url);//实例化Htpp客户端
                         $response = $client->get();
-
                     }
 
                 });

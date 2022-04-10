@@ -91,13 +91,13 @@ class AutomaticFanCollectionTask implements TaskInterface
 //                                }
 //                                $redis->set("Fans_" . $comment['user']['uid'], "status");
 
-                                #判断 粉丝是否重复
+                                #判断 粉丝是否重复  17000/60
                                 $two = DyUidModel::create()->get(['uid' => $comment['user']['uid']]);
                                 if ($two) {
                                     continue;
                                 }
                                 DyUidModel::create()->data(['uid' => $comment['user']['uid']])->save();
-                                $res = MonitorFansModel::create()->data($add)->save();
+                                $res = MonitorFansModel::create()->data($add)->save(); #添加入库
                                 (new JournalModel())->Add(DEVICE, 2, "采集粉丝入库", $uid = $add['uid']);
                             }
                         } else { #已经没有粉丝了 跳出循环

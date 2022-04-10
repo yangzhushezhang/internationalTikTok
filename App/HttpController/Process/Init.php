@@ -63,6 +63,7 @@ class Init extends AbstractProcess
                 \co::sleep(15 * 60); # 一小时执行一次
             }
         });
+
         go(function () {
             DbManager::getInstance()->invoke(function ($client) {
                 $res = MonitorVideoModel::invoke($client)->where(['status' => 6])->all();
@@ -76,29 +77,6 @@ class Init extends AbstractProcess
             });
         });
 
-
-        go(function () {
-            var_dump("清除Fans * 开始");
-            while (true) {
-                $redis = RedisPool::defer('redis');
-                $cursor = 0;
-                //每次迭代都会设置一次$cursor,为0代表迭代完成
-                $keys = $redis->scan($cursor, 'Fans_*', 1000);
-                if ($keys) {
-                    if ($keys && count($keys) > 0) {
-                        foreach ($keys as $key) {
-                            $data_array = explode("_", $key);
-                            $res = DyUidModel::create()->get(['uid' => $data_array[1]]);
-                            if (!$res) {
-                                DyUidModel::create()->data(['uid' => $data_array[1]])->save();
-                            }
-                            $redis->del($key);
-                        }
-                    }
-                }
-                \co::sleep(0.1); # 一小时执行一次
-            }
-        });
 
     }
 }

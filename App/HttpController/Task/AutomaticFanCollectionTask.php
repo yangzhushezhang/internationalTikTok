@@ -5,6 +5,7 @@ namespace App\HttpController\Task;
 
 
 use App\HttpController\Model\CookiesModel;
+use App\HttpController\Model\DyUidModel;
 use App\HttpController\Model\JournalModel;
 use App\HttpController\Model\MonitorFansModel;
 use App\HttpController\Model\MonitorVideoModel;
@@ -85,10 +86,17 @@ class AutomaticFanCollectionTask implements TaskInterface
                                     'comment_time' => $comment['create_time'],
                                     'country' => $this->data['country']
                                 ];
-                                if ($redis->get("Fans_" . $comment['user']['uid'])) {  #粉丝重复
+//                                if ($redis->get("Fans_" . $comment['user']['uid'])) {  #粉丝重复
+//                                    continue;
+//                                }
+//                                $redis->set("Fans_" . $comment['user']['uid'], "status");
+
+                                #判断 粉丝是否重复
+                                $two = DyUidModel::create()->get(['uid' => $comment['user']['uid']]);
+                                if ($two) {
                                     continue;
                                 }
-                                $redis->set("Fans_" . $comment['user']['uid'], "status");
+                                DyUidModel::create()->data(['uid' => $comment['user']['uid']])->save();
                                 $res = MonitorFansModel::create()->data($add)->save();
                                 (new JournalModel())->Add(DEVICE, 2, "采集粉丝入库", $uid = $add['uid']);
                             }

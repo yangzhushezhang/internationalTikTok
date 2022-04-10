@@ -4,8 +4,10 @@
 namespace App\HttpController\Process;
 
 
+use App\HttpController\Model\DyUidModel;
 use App\HttpController\Model\MonitorFansModel;
 use App\HttpController\Model\MonitorVideoModel;
+use App\HttpController\Task\ClearFansDatasTask;
 use EasySwoole\Component\Process\AbstractProcess;
 use EasySwoole\ORM\DbManager;
 use EasySwoole\RedisPool\RedisPool;
@@ -73,5 +75,30 @@ class Init extends AbstractProcess
                 }
             });
         });
+
+
+        go(function () {
+            var_dump("清除Fans * 开始");
+            while (true) {
+                $redis = RedisPool::defer('redis');
+                $cursor = 0;
+                //每次迭代都会设置一次$cursor,为0代表迭代完成
+                $keys = $redis->scan($cursor, 'Fans_*', 1000);
+                if ($keys) {
+                    if ($keys && count($keys) > 0) {
+                        foreach ($keys as $key) {
+                            $data_array = explode("_", $key);
+                            $res = DyUidModel::create()->get(['uid' => $data_array[1]]);
+                            if (!$res) {
+                                DyUidModel::create()->data(['uid' => $data_array[1]])->save();
+                            }
+                            $redis->del($key);
+                        }
+                    }
+                }
+                \co::sleep(0.1); # 一小时执行一次
+            }
+        });
+
     }
 }

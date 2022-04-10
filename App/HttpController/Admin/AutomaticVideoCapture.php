@@ -11,6 +11,8 @@ use App\HttpController\Model\MonitorFansModel;
 use App\HttpController\Model\MonitoriktokupnameModel;
 use App\HttpController\Model\MonitorVideoModel;
 use App\HttpController\Model\UidTModel;
+use App\HttpController\Task\AutomaticFanCollectionTask;
+use App\HttpController\Task\ClearFansDatasTask;
 use EasySwoole\HttpClient\Exception\InvalidUrl;
 use EasySwoole\ORM\Exception\Exception;
 use EasySwoole\RedisPool\RedisPool;
@@ -697,6 +699,15 @@ class AutomaticVideoCapture extends Base
         } catch (\Throwable $exception) {
             $this->writeJson(-1, [], $exception->getMessage());
         }
+
+    }
+
+
+    function ClearFansRedis()
+    {
+        $task = \EasySwoole\EasySwoole\Task\TaskManager::getInstance();
+        $task->async(new ClearFansDatasTask());
+        $this->writeJson(200, [], "执行成功");
 
     }
 

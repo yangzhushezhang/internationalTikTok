@@ -282,7 +282,8 @@ class Router extends AbstractRouter
         $routeCollector->get('/OneKey', '/Admin/AutomaticVideoCapture/OneKey');
         #Journal
         $routeCollector->get('/Journal', '/Admin/AutomaticVideoCapture/Journal');
-
+        #ClearFansRedis
+        $routeCollector->get('/ClearFansRedis', '/Admin/AutomaticVideoCapture/ClearFansRedis');
 
         /***
          *

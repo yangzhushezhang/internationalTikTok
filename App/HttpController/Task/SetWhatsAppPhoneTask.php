@@ -33,6 +33,8 @@ class SetWhatsAppPhoneTask implements TaskInterface
                             $add['age'] = $value;
                         } else if ($item == 4) {  #都想地址
                             $add['image_url'] = $value;
+                        } else if ($item == 5) {
+                            $add['country'] = $value;
                         }
                     }
 

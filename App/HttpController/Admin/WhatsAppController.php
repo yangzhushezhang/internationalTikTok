@@ -32,11 +32,12 @@ class WhatsAppController extends Base
                 $redis = RedisPool::defer('redis');
                 $nickname = $this->request()->getQueryParam('nickname');
                 $username = $this->request()->getQueryParam('username');
-                if (isset($username) && $nickname != -1) {
+                if (isset($username) && $username != -1) {
                     $res = WhatsAppModel::create()->get(['status' => 2, 'username' => $username]);
                 } else {
                     $res = WhatsAppModel::create()->get(['status' => 2]);
                 }
+
 
                 if ($res) {
                     if ($redis->get("WhatsApp_" . $res['phone'])) {

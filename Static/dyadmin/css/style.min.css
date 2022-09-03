@@ -1,3 +1,9 @@
+/** ----------------------------------
+ * 光年(Light Year Admin By Iframe v4)后台管理系统模板
+ * 基于Bootstrap v4.4.1
+ * http://www.itshubao.com
+ * yinqi<3331653644@qq.com>
+ -------------------------------------- */
 body {
 	font-family: "Microsoft YaHei", sans-serif;
 	color: #4d5259;
@@ -3096,12 +3102,29 @@ button.list-group-item:hover {
     border-radius: 2px;
 }
 .page-link {
-    color: #6c757d;
-    margin: 0 3px;
-    line-height: 1.3;
-    border-radius: 2px;
-    border-color: #ececec;
-    white-space: nowrap!important;
+    /*color: #6c757d;*/
+    /*margin: 0 3px;*/
+    /*line-height: 1.3;*/
+    /*border-radius: 2px;*/
+    /*border-color: #ececec;*/
+    /*white-space: nowrap!important;*/
+    outline: 0;
+    padding: 8px 15px;
+    margin: 0 5px;
+    display: block;
+    color: #909090;
+    font-weight: bold;
+    border-radius: 3px;
+    border: 0px;
+    font-size: 12px;
+    font-weight: normal;
+    background: #EDF1F6;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    -webkit-transition: background ease-in-out .15s;
+    -o-transition: background ease-in-out .15s;
+    transition: background ease-in-out .15s;
 }
 .page-link:hover {
     color: #4d5259;
@@ -3123,7 +3146,24 @@ button.list-group-item:hover {
 }
 .page-item.disabled .page-link {
     color: #6c757d;
-    opacity: 0.6;
+    /*opacity: 0.6;*/
+    outline: 0;
+    padding: 8px 15px;
+    margin: 0 5px;
+    display: block;
+    color: #909090;
+    font-weight: bold;
+    border-radius: 3px;
+    border: 0px;
+    font-size: 12px;
+    font-weight: normal;
+    background: #EDF1F6;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    -webkit-transition: background ease-in-out .15s;
+    -o-transition: background ease-in-out .15s;
+    transition: background ease-in-out .15s;
 }
 .page-item.active .page-link {
     background-color: #33cabb;
@@ -3902,6 +3942,8 @@ button.list-group-item:hover {
 .drop-skin-li .inverse input[type=radio]:checked+label::after {
     color: #4d5259;
 }
+
+
 #header_bg_1+label, #logo_bg_1+label, #sidebar_bg_1+label, #site_theme_1+label {
     background-color: #fff;
 	border: 1px solid #f0f0f0;
@@ -3972,6 +4014,7 @@ button.list-group-item:hover {
     background: -moz-linear-gradient(135deg, #65FDF0 10%, #1D6FA3 100%);
     background: linear-gradient(135deg, #65FDF0 10%, #1D6FA3 100%);
 }
+
 
 /* 颜色搭配 */
 [data-headerbg='color_2'] .lyear-layout-header,

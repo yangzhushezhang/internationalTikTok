@@ -29,14 +29,19 @@
       <div class="lyear-layout-sidebar-info lyear-scroll">
 
         <nav class="sidebar-main">
-          <ul class="nav-drawer">
+          <ul class="nav-drawer" id="menus-1">
             <li class="nav-item active"> <a class="multitabs" href="main.html"><i class="mdi mdi-home"></i> <span>首页</span></a> </li>
             <li class="nav-item nav-item-has-subnav">
               <a href="javascript:void(0)"><i class="mdi mdi-language-javascript"></i> <span>脚本管理</span></a>
               <ul class="nav nav-subnav">
                 <li> <a class="multitabs" href="script_up.html">脚本更新</a> </li>
                 <li> <a class="multitabs" href="pages_error.html">脚本更新记录</a> </li>
-
+              </ul>
+            </li>
+            <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)"><i class="mdi mdi-barcode-scan"></i> <span>激活码管理</span></a>
+              <ul class="nav nav-subnav">
+                <li> <a class="multitabs" href="active_code.html">激活码</a> </li>
               </ul>
             </li>
             <li class="nav-item nav-item-has-subnav">
@@ -45,14 +50,43 @@
                 <li> <a class="multitabs" href="link_no_use.html">未使用</a> </li>
                 <li> <a class="multitabs" href="link_already_use.html">已被使用</a> </li>
                 <li> <a class="multitabs" href="link_use.html">正在使用</a> </li>
+                <li class="nav-item nav-item-has-subnav">
+                  <a  href="#!">手机视频采集链接</a>
+                  <ul class="nav nav-subnav">
+                    <li> <a class="multitabs" href="phone_video.html">未审核</a></li>
+                    <li> <a class="multitabs" href="phone_pass_video_no.html">已审核-未使用</a></li>
+                    <li> <a class="multitabs" href="phone_pass_video_using.html">已审核-正在使用</a></li>
+                    <li> <a class="multitabs" href="phone_pass_video_use.html">已审核-已使用</a></li>
+                  </ul>
+                </li>
               </ul>
             </li>
-
+            <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)"><i class="mdi mdi-send"></i> <span>whatapp管理</span></a>
+              <ul class="nav nav-subnav">
+                <li> <a class="multitabs" href="whatapp_no_use.html">未审核</a> </li>
+                <li> <a class="multitabs" href="whatapp_use.html">审核-未使用</a> </li>
+                <li> <a class="multitabs" href="whatapp_already_use.html">审核-已使用</a> </li>
+              </ul>
+            </li>
             <li class="nav-item nav-item-has-subnav">
               <a href="javascript:void(0)"><i class="mdi mdi-account-group"></i> <span>粉丝管理</span></a>
               <ul class="nav nav-subnav">
+                <li> <a class="multitabs" href="uid_fans_list.html">UID列表</a> </li>
+                <li> <a class="multitabs" href="active_fans_list.html">活粉列表</a> </li>
+                <li> <a class="multitabs" href="dy_cookies.html">cookie值</a> </li>
                 <li> <a class="multitabs" href="fans_list.html">粉丝查看</a> </li>
                 <li> <a class="multitabs" href="fans_count_list.html">粉丝统计</a> </li>
+              </ul>
+            </li>
+            <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)"><i class="mdi mdi-web"></i> <span>web采集管理</span></a>
+              <ul class="nav nav-subnav">
+                <li> <a class="multitabs" href="web_fans_no_use.html">粉丝列表-未使用</a> </li>
+                <li> <a class="multitabs" href="web_fans.html">粉丝列表-已使用</a> </li>
+                <li> <a class="multitabs" href="up_list.html">up主列表</a> </li>
+                <li> <a class="multitabs" href="web_cookies.html">cookie值</a> </li>
+                <li> <a class="multitabs" href="web_set.html">设置</a> </li>
               </ul>
             </li>
             <li class="nav-item nav-item-has-subnav">
@@ -70,15 +104,21 @@
                 <li> <a class="multitabs" href="pages_error.html">私聊数据显示</a> </li>
               </ul>
             </li>
-
+            <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)"><i class="mdi mdi-note-outline"></i> <span>日志管理</span></a>
+              <ul class="nav nav-subnav">
+                <li> <a class="multitabs" href="web_log_video.html">视频链接</a> </li>
+                <li> <a class="multitabs" href="web_log_fans.html">粉丝采集</a> </li>
+              </ul>
+            </li>
 
 
           </ul>
         </nav>
 
-        <div class="sidebar-footer">
-          <p class="copyright">如新版存在问题或需要回旧版,点击这里 -> <a  href="../../dyadminold/index.html">回旧版</a> <- 或点击右上角</p>
-        </div>
+<!--        <div class="sidebar-footer">-->
+<!--          <p class="copyright">如新版存在问题或需要回旧版,点击这里 -> <a  href="../../dyadminold/index.html">回旧版</a> <- 或点击右上角</p>-->
+<!--        </div>-->
       </div>
 
 
@@ -105,8 +145,8 @@
 
 <!--       <i class="mdi mdi-web" id="checkoutOldVeri"></i><span  class="icon-item" style="margin-left:-10px" id="checkoutOldVerSpan">切换旧版</span>-->
 
-          <i class="mdi mdi-web" id="douyinhoutais"></i><span  class="icon-item" style="margin-left:-10px" id="douyinhoutai">打开国内抖音后台</span>
-          <i class="mdi mdi-web" id="weishihoutais"></i><span  class="icon-item" style="margin-left:-10px" id="weishihoutai">打开微视后台</span>
+<!--          <i class="mdi mdi-web" id="douyinhoutais"></i><span  class="icon-item" style="margin-left:-10px" id="douyinhoutai">打开国内抖音后台</span>-->
+<!--          <i class="mdi mdi-web" id="weishihoutais"></i><span  class="icon-item" style="margin-left:-10px" id="weishihoutai">打开微视后台</span>-->
 
           <!--切换主题配色-->
 		  <!-- <li class="dropdown dropdown-skin">
@@ -272,6 +312,8 @@
 
 <script type="text/javascript">
 
+
+
   // var mybck= $.cookie('tokenMyb');
   // //alert(document.cookie);
   // //console.log(mybck)
@@ -287,38 +329,7 @@
   // }
 
 
-  //打开国内抖音
-  $("#douyinhoutai").click(function(){
 
-
-    window.top.location.href="http://"+js_douyin_ip+"/static/ginv2/login.html";
-
-  })
-
-  //打开国内抖音
-  $("#douyinhoutais").click(function(){
-
-
-    window.top.location.href="http://"+js_douyin_ip+"/static/ginv2/login.html";
-
-  })
-
-
-  //打开微视
-  $("#weishihoutai").click(function(){
-
-     window.top.location.href="http://"+js_weishi_ip+"/weishiadmin/index.html";
-
-  })
-
-
-  //打开微视
-  $("#weishihoutais").click(function(){
-
-
-    window.top.location.href="http://"+js_weishi_ip+"/weishiadmin/index.html";
-
-  })
 
 
 </script>

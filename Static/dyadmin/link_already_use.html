@@ -198,9 +198,8 @@ if(mybck == "" || mybck == null){
                     cardView: false,                    //是否显示详细视图
                     detailView: false,                   //是否显示父子表
                     locale: 'zh-CN',                     //设置中文 ,记得引入中文包js
-
                     //得到查询的参数
-                    queryParams : function (params) {
+                    queryParams: function (params) {//
                         //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
                        var temp = {
                            limit: params.limit,                         //页面大小

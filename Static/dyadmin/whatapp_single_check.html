@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>单独审核</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+
+<link rel="stylesheet" href="./loading/css/animate.css">
+<link rel="stylesheet" href="./loading/css/global.css">
+<link rel="stylesheet" href="./loading/css/loading.css">
+
+
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<link href="./css/materialdesignicons.min.css" rel="stylesheet">
+<link href="./js/jquery-confirm/jquery-confirm.min.css" rel="stylesheet">
+<link href="./css/animate.min.css" rel="stylesheet">
+<link href="./css/style.min.css" rel="stylesheet">
+
+<!--引入jquery对话框-->
+<link href="./js/jquery-confirm/jquery-confirm.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="./css/message.css" media="all" />
+<style>
+    .checkAll{
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nicknameClass{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .checkBig{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .phoneTaskList{
+        min-height: 584px;
+        position: relative;
+    }
+
+    .clearDev{
+        /*position: fixed;*/
+        /*bottom: 1px;*/
+        margin-bottom: 10px;
+    }
+
+    .phoneListText{
+        margin-bottom: 0;
+    }
+
+    .phoneListCount{
+        color:red;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .img-rounded{
+        width: 490px;
+        height: 490px;
+        border-radius: 20px;
+        /*width: 310px;*/
+        /*height: 310px;*/
+    }
+
+    #divCheck img{
+        box-shadow: 0 0 8px 2px rgb(0 0 0 / 20%);
+    }
+
+
+    #checkNotUseNum,#checkUseNum,#checkCountryNotUseNum,#countryStr{
+        color:red;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    #checkUseNum{
+        color:#15c377;
+    }
+
+    #checkCountryNotUseNum{
+        color: #faa64b;
+    }
+
+    #countryStr{
+        color: #48b0f7;
+    }
+
+    .btn.half-stroke:after{
+    /*    content: "";*/
+    /*    background: #fff;*/
+    /*    display: block;*/
+    /*    position: absolute;*/
+    /*    width: 100%;*/
+    /*    height: 100%;*/
+    /*    top: 0;*/
+    /*    opacity: 0;*/
+    /*    transition: all 0.75s ease-in-out;*/
+    /*}*/
+
+    /*.btn.left:after {*/
+    /*    left: 0;*/
+    /*}*/
+
+    /*.btn{*/
+    /*    position: relative;*/
+    /*}*/
+
+    /*img{*/
+    /*    cursor: pointer;*/
+    /*    transition: all 0.6s;*/
+    /*}*/
+    /*img:hover{*/
+    /*    transform: scale(1.4);*/
+    /*}*/
+
+</style>
+</head>
+
+<body>
+<div class="container-fluid p-t-15">
+
+  <div class="row" style="display:none" id="rowdiv">
+
+    <div class="col-lg-12">
+
+
+        <div class="callout callout-primary mb-3">
+           <span>该业务员【审核-未使用】</span><span id="checkNotUseNum" > 0 </span> 条
+           <span>【审核-已使用】</span><span id="checkUseNum" > 0 </span> 条
+           <span>【审核国家</span><span id="countryStr">未知</span><span>-未审核】</span><span id="checkCountryNotUseNum" > 0 </span> 条
+        </div>
+
+        <div class="checkBig">
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body phoneTaskList">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-lg-9" id="cardCheck" >
+                <div class="card-body">
+                    <div class="nicknameClass">
+                        <div class="col-xs-4">
+                            <input class="form-control" type="text" placeholder="请在此输入昵称" id="nickname_input">
+                        </div>
+                        <button class="btn btn-purple btn-md half-stroke left" type="button" id="setNickName">设置昵称</button>
+                        <div class="col-xs-4" style="margin-left: 5px">
+                            <input class="form-control" type="text" placeholder="请在此输国家" id="country_input">
+                        </div>
+                        <button class="btn btn-dark btn-md" type="button" id="setCountry">设置国家</button>
+
+                    </div>
+                    <div class="checkAll">
+                        <div id="divCheck">
+                            <img src="./images/check.jpg" class="img-rounded" id="imgCheck">
+                        </div>
+                        <div style="margin-left: 50px">
+                            <div style="margin-bottom: 20px">
+                                <button class="btn btn-success btn-w-xl btn-lg btn-round btn-label" type="button" id="checkSuccess"><label><i class="mdi mdi-checkbox-marked-circle-outline"></i></label>通过审核</button>
+
+                            </div>
+                            <button class="btn btn-danger btn-w-xl btn-lg btn-round btn-label" type="button" id="checkFail"><label><i class="mdi mdi-close-circle-outline"></i></label>不通过审核</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+  </div>
+
+</div>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src='./js/jquery.transit.js'></script>
+<script type="text/javascript" src="./js/popper.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+
+<!-- 这里必须要引用bootstrap table，
+不然会报jquery中没有constrot不存在,
+因为只引用bootstrap不包含bootstrap-table -->
+<!-- 3、bootstrap table组件以及中文包的引用 -->
+<script src="./js/bootstrap-table/bootstrap-table.js"></script>
+<script src="./js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<link href="js/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<!-- <script src="js/bootstrap-table-zh-CN.js"></script> -->
+
+<script type="text/javascript" src="./js/lyear-loading.js"></script>
+<script type="text/javascript" src="./js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="./js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="./js/main.min.js"></script>
+<script type="text/javascript" src="./js/config.url.js"></script>
+<script type="text/javascript" src="./js/jquery.cookie.min.js"></script>
+<!--<script type="text/javascript" src="./js/formateTime.js"></script>-->
+
+<!-- 引入alert弹窗 -->
+<script type="text/javascript" src="./js/sweetalert.min.js"></script>
+
+<!-- 引入消息弹窗 -->
+<script type="text/javascript" src="./js/message.js"></script>
+
+<!-- 引入loading 加载框 -->
+<script src="./loading/js/loading.js"></script>
+
+<!--引入qmsg消息-->
+<script src="./js/qmsg/js/message.js"></script>
+<link href="./js/qmsg/css/message.css" rel="stylesheet" />
+<script type="text/javascript" src="./js/jquery-confirm/jquery-confirm.min.js"></script>
+
+<script type="text/javascript">
+
+$(function(){
+
+
+    let currDataRow = {}
+    // let checkNotUseNum = 0
+    // let checkUseNum = 0
+    //先获取本地username
+    $("#nickname_input").val(localStorage.getItem("checkUserName"))
+
+    // console.log("localStorage.getItem(\"checkUserName\")",localStorage.getItem("checkCountry"))
+
+    if(!localStorage.getItem("checkCountry") || localStorage.getItem("checkCountry") == ""){
+
+        // $("#country_input").val("")
+        $("#countryStr").text("未知")
+
+        $("#checkSuccess").hide()
+        $("#checkFail").hide()
+
+        swal("温馨提示!", "请先设置国家,否则无法进行审核!!", "warning");
+
+    }else{
+        $("#country_input").val(localStorage.getItem("checkCountry"))
+        $("#countryStr").text(localStorage.getItem("checkCountry"))
+
+        $("#checkSuccess").show()
+        $("#checkFail").show()
+
+        //首次页面加载数据
+        initLoadData()
+    }
+
+
+
+
+
+    $("#rowdiv").fadeIn(1000,()=>{
+
+    });
+
+
+    //加载数据函数
+    function initLoadData(){
+
+        $(".phoneTaskList").empty()
+
+        //初次渲染图片
+        initGetCheckImg(localStorage.getItem("checkCountry"))
+
+        //获取审核-未使用总条数
+        ajaxGetCheckNotUse(2)
+
+        //获取审核-未使用总条数
+        ajaxGetCheckNotUse(3)
+
+        //审核国家-未使用总条数
+        ajaxGetCheckNotUse(1,localStorage.getItem("checkCountry"))
+
+        //当前业务员 每个手机已执行添加任务多少次
+        getPhoneAddTask()
+
+    }
+
+    //获取图片函数
+    function initGetCheckImg(countryStr){
+        let moveArr = ['x','y']
+        let moveStr = moveArr[Math.floor((Math.random()*moveArr.length))]
+        // console.log("moveStr",moveStr)
+        $.ajax({
+            url:global_requestDyget_getPhone+"?status=1&action=GET&page=1&limit=1&country="+countryStr,
+            type: "GET",
+            // data: param_first,
+            dataType:'JSON',
+            success: function (resultData) {
+
+                if(resultData.code == 0){
+
+                    if(resultData.data.length === 0){
+
+                        swal("温馨提示!", "当前审核图片无内容,请确定设置的国家是否是存在或者图片库是否已审核完!", "error");
+                        $("#checkSuccess").hide()
+                        $("#checkFail").hide()
+
+                        return false
+                    }
+
+                    $("#checkSuccess").show()
+                    $("#checkFail").show()
+
+                    currDataRow = resultData.data[0]
+                    // console.log("currDataRow",currDataRow)
+                    let currImg = currDataRow.image_url
+                    $("#imgCheck").removeAttr('src');
+                    $("#imgCheck").attr("src",currImg);
+                    if(moveStr == 'x'){
+                        $("#divCheck").transition({x: '0'},1,'linear')
+                        $("#divCheck").transition({x: '-30px'},1000,'linear');
+                    }else{
+                        $("#divCheck").transition({x: '0'},1,'linear')
+                        $("#divCheck").transition({x: '30px'},1000,'linear');
+                    }
+
+                    // console.log("resultData",resultData.data[0].image_url)
+
+                }else{
+
+
+                }
+
+            },
+        });
+    }
+
+    //获取审核-未使用-已使用的函数方法
+    function ajaxGetCheckNotUse(statusNum,countryS=''){
+
+        let requestUrl = ''
+        //先获取本地username
+        let currUserNameStr = localStorage.getItem("checkUserName")
+
+        if(currUserNameStr == "" || currUserNameStr == null){
+
+
+            return false
+        }
+
+        if(countryS == ""){
+            requestUrl = global_requestDyget_getPhone+"?status="+statusNum+"&action=GET&page=1&limit=1&username="+currUserNameStr
+        }else{
+            // requestUrl = global_requestDyget_getPhone+"?status="+statusNum+
+            //     "&action=GET&page=1&limit=1&username="+currUserNameStr+
+            //     "&country="+countryS
+
+            requestUrl = global_requestDyget_getPhone+"?status="+statusNum+
+                "&action=GET&page=1&limit=1"+
+                "&country="+countryS
+        }
+
+        $.ajax({
+            url:requestUrl,
+            type: "GET",
+            // data: param_first,
+            dataType:'JSON',
+            success: function (resultData) {
+
+                if(resultData.code == 0){
+
+
+
+                    if(countryS == ""){
+                        if(statusNum === 2){
+                            $("#checkNotUseNum").text(resultData.count)
+                        }else if(statusNum === 3){
+                            $("#checkUseNum").text(resultData.count)
+                        }
+                    }else{
+                        $("#checkCountryNotUseNum").text(resultData.count)
+                    }
+
+
+
+
+                }else{
+
+                }
+
+            },
+        });
+    }
+
+    //获取已执行添加任务多少次
+    function getPhoneAddTask(){
+
+        if(!localStorage.getItem("checkUserName") || localStorage.getItem("checkUserName") == ''){
+
+            return false
+        }
+
+        $.ajax({
+            url:global_requestDyget_getPhone+"?status=1&action=get2&username="+localStorage.getItem("checkUserName"),
+            type: "GET",
+            // data: param_first,
+            dataType:'JSON',
+            success: function (resultData) {
+
+                if(resultData.code === 200){
+
+                    // console.log("resultData",resultData.result)
+
+                    if (resultData.result.length === 0){
+
+
+
+                        return false
+                    }
+                    let el_button = '<button class="btn btn-dark btn-md clearDev" type="button" id="setClearDev">设备计数清0</button>'
+                    $('.phoneTaskList').append(el_button);
+
+                    let currPhoneList = resultData.result
+                    currPhoneList.forEach((item,index)=>{
+
+                        if(item.nickname){
+                            let el = '<p class="phoneListText">设备名:'+item.nickname+'【'+'<span class="phoneListCount">'+item.count+'</span>'+'】条'+'</p>';
+                            $('.phoneTaskList').append(el);
+                        }
+
+                    })
+
+
+
+                }else{
+
+
+                }
+
+            },
+        });
+    }
+
+
+    //设置用户名
+    $("#setNickName").click(function () {
+
+        if($("#nickname_input").val() == "" || $("#nickname_input").val() == null){
+
+            $.message({
+                message:'用户名不允许为空!',
+                type: 'error',
+                showClose: true
+            });
+
+            return false
+        }
+
+        localStorage.setItem("checkUserName",$("#nickname_input").val());
+
+        $.message({
+            message:"设置成功!" ,
+            type: 'success',
+            showClose: true
+        });
+
+        return false
+    })
+
+    //设置国家
+    $("#setCountry").click(function () {
+
+        if($("#country_input").val() == "" || $("#country_input").val() == null){
+
+            $.message({
+                message:'国家不允许为空!',
+                type: 'error',
+                showClose: true
+            });
+
+            $("#checkSuccess").hide()
+            $("#checkFail").hide()
+
+            return false
+        }
+
+        localStorage.setItem("checkCountry",$("#country_input").val());
+        $("#countryStr").text(localStorage.setItem("checkCountry",$("#country_input").val()))
+
+        $.message({
+            message:"设置成功!" ,
+            type: 'success',
+            showClose: true
+        });
+
+
+
+        initLoadData()
+
+        // initGetCheckImg(localStorage.getItem("checkCountry"))
+
+        $("#checkSuccess").show()
+        $("#checkFail").show()
+
+
+        return false
+    })
+
+
+    //审核通过方法
+    $("#checkSuccess").click(function () {
+        //先获取本地username
+        let currUserNameStr = localStorage.getItem("checkUserName")
+
+        if(currUserNameStr == "" || currUserNameStr == null){
+
+            $.message({
+                message:'请先设置用户名!!',
+                type: 'error',
+                showClose: true
+            });
+
+            return false
+        }
+
+
+        let l = $('body').lyearloading({
+            opacity: 0.2,
+            spinnerSize: 'lg',
+            spinnerText: '系统处理中，请稍后...',
+            textColorClass: 'text-pink',
+            spinnerColorClass: 'text-pink'
+        });
+
+
+        $.ajax({
+            url:global_requestDyget_getPhone+"?id="+currDataRow.id+
+                "&status=2&action=check1&username="+currUserNameStr+
+                "&country="+localStorage.getItem("checkCountry")
+            ,
+            type: "GET",
+            dataType:'JSON',
+            success: function (resultData) {
+
+                l.destroy();
+                if(resultData.code == 200){
+
+                    $.message({
+                        message:resultData.msg ,
+                        type: 'success',
+                        showClose: true
+                    });
+
+                    // Qmsg.success(resultData.msg,{
+                    //     // showClose:true,
+                    //     position:'center',
+                    //     onClose:function(){
+                    //
+                    //     }
+                    // })
+                    initLoadData()
+                    // initGetCheckImg(localStorage.getItem("checkCountry"))
+                }else if(resultData.code == -102){
+
+                    $.message({
+                        message:resultData.msg ,
+                        type: 'warning',
+                        showClose: true
+                    });
+
+                    // Qmsg.warning(resultData.msg,{
+                    //     // showClose:true,
+                    //     position:'center',
+                    //     onClose:function(){
+                    //
+                    //     }
+                    // })
+                    initLoadData()
+                    // initGetCheckImg(localStorage.getItem("checkCountry"))
+
+                }else{
+
+                    $.message({
+                        message:resultData.msg ,
+                        type: 'error',
+                        showClose: true
+                    });
+
+                }
+
+            },
+        });
+
+        return false
+    })
+
+
+    //审核不通过方法
+    $("#checkFail").click(function () {
+
+
+        //先获取本地username
+        let currUserNameStr = localStorage.getItem("checkUserName")
+
+        if(currUserNameStr == "" || currUserNameStr == null){
+
+            $.message({
+                message:'请先设置用户名!!',
+                type: 'error',
+                showClose: true
+            });
+
+            return false
+        }
+
+        let l = $('body').lyearloading({
+            opacity: 0.2,
+            spinnerSize: 'lg',
+            spinnerText: '系统处理中，请稍后...',
+            textColorClass: 'text-pink',
+            spinnerColorClass: 'text-pink'
+        });
+
+        $.ajax({
+            url:global_requestDyget_getPhone+"?id="+currDataRow.id+
+                "&status=4&action=check1&username="+currUserNameStr+
+                "&country="+localStorage.getItem("checkCountry")
+            ,
+            type: "GET",
+            dataType:'JSON',
+            success: function (resultData) {
+                l.destroy();
+                if(resultData.code == 200){
+
+                    $.message({
+                        message:resultData.msg ,
+                        type: 'success',
+                        showClose: true
+                    });
+
+                    // initGetCheckImg(localStorage.getItem("checkCountry"))
+                    initLoadData()
+                }else if(resultData.code == -102){
+
+                    $.message({
+                        message:resultData.msg ,
+                        type: 'warning',
+                        showClose: true
+                    });
+
+                    // initGetCheckImg(localStorage.getItem("checkCountry"))
+                    initLoadData()
+                }else{
+
+                    $.message({
+                        message:resultData.msg ,
+                        type: 'error',
+                        showClose: true
+                    });
+
+                }
+
+            },
+        });
+
+        return false
+    })
+
+    //记住动态添加的要用on方式
+    $('body').on('click', '#setClearDev', function () {
+
+        //先获取本地username
+        let currUserNameStr = localStorage.getItem("checkUserName")
+
+        if(!currUserNameStr || currUserNameStr == ""){
+
+            swal("温馨提示!", "未设置用户名,无法使用该功能!!", "error");
+
+            return false
+        }
+        
+        //必须输入密码才能确认下去
+        $.confirm({
+            title: '提醒',
+            content: '<div class="form-group p-1 mb-0">' +
+                '  <label class="control-label">密码</label>' +
+                '  <input autofocus="" type="text" id="input-name" placeholder="请输入密码" class="form-control">' +
+                '</div>',
+            buttons: {
+                sayMyName: {
+                    text: '确认',
+                    btnClass: 'btn-orange',
+                    action: function() {
+                        var input = this.$content.find('input#input-name');
+                        var errorText = this.$content.find('.text-danger');
+                        if (!$.trim(input.val())) {
+                            $.message({
+                                message:"密码不能为空!!",
+                                type: 'error',
+                                showClose: true
+                            });
+
+                            // swal("温馨提示!", "密码不能为空!!", "error");
+
+                            return false;
+                        } else {
+
+                            if($.trim(input.val()) === "password"){
+
+                                $.ajax({
+                                    url:global_requestDyget_getPhone+"?action=clear&username="+currUserNameStr,
+                                    type: "GET",
+                                    dataType:'JSON',
+                                    success: function (resultData) {
+
+                                        if(resultData.code == 200){
+
+                                            $.message({
+                                                message:resultData.msg ,
+                                                type: 'success',
+                                                showClose: true
+                                            });
+
+                                            // initGetCheckImg(localStorage.getItem("checkCountry"))
+                                            initLoadData()
+                                        }else if(resultData.code == -102){
+
+                                            $.message({
+                                                message:resultData.msg ,
+                                                type: 'warning',
+                                                showClose: true
+                                            });
+
+                                            // initGetCheckImg(localStorage.getItem("checkCountry"))
+                                            initLoadData()
+                                        }else{
+
+                                            $.message({
+                                                message:resultData.msg ,
+                                                type: 'error',
+                                                showClose: true
+                                            });
+
+                                        }
+
+                                    },
+                                });
+                            }else{
+                                $.message({
+                                    message:"密码输入错误!!",
+                                    type: 'error',
+                                    showClose: true
+                                });
+
+
+                            }
+
+
+                        }
+                    }
+                },
+                '取消': function() {}
+            }
+        });
+
+
+
+        return false
+    })
+
+});
+
+
+</script>
+</body>
+</html>

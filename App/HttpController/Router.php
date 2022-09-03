@@ -294,6 +294,20 @@ class Router extends AbstractRouter
         $routeCollector->get('/getPhone', '/Admin/WhatsAppController/getPhone');
         $routeCollector->post('/getPhone', '/Admin/WhatsAppController/getPhone');
 
+
+        /**
+         * PhoneCode.php
+         */
+        #发送验证码
+        $routeCollector->get('/getPhoneCode', '/Admin/PhoneCode/getPhoneCode');
+        #验证
+        $routeCollector->get('/checkPhoneCode', '/Admin/PhoneCode/checkPhoneCode');
+
+        #importActivationCode
+        $routeCollector->post('/importActivationCode', '/Admin/PhoneCode/importActivationCode');
+        $routeCollector->get('/importActivationCode', '/Admin/PhoneCode/importActivationCode');
+
+
         /*
          * eg path : /closure/index.html  ; /closure/ ;  /closure
          */

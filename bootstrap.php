@@ -14,3 +14,10 @@ define("client_secret", "FGONKQ4YcRWeX7nIBMPgWukBcDXlG2ao");
 define("DEVICE", 1);
 define("AutomaticFanCollectionProcessNum", 5);   #采集粉丝的进程数量
 define("FaceRecognitionProcessNum", 2);#  人脸识别的并发
+define("Account", "wangyi");#
+//Password
+define("Password", "wy011620.");#
+
+
+define("appkey", "wy011620.");#
+define("secretkey", "wy011620.");#

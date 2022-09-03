@@ -14,7 +14,7 @@ class Heartbeat extends AbstractProcess
     protected function run($arg)
     {
         go(function () {
-
+   
             while (true) {
                 DbManager::getInstance()->invoke(function ($client) {
                     $RES = ConfigModel::invoke($client)->all(['status' => 1]);

@@ -55,8 +55,41 @@ global_requestDyget_total_list="/get_total_list";
 //批量添加UID模板数据接口
 global_requestDyget_dy_addUserId="/dy/addUserId";
 
+//批量添加UID模板数据接口(新)
+global_requestDyget_set_uid="/set_uid";
 
+//获取活粉接口(新)
+global_requestDyget_set_fans="/set_fans";
 
+//获取Ck接口(新)
+global_requestDyget_setCookies="/setCookies";
+
+//监听up主(新)
+global_requestDyget_setmonitortiktokupname="/setmonitortiktokupname";
+
+//web_cookie(新)
+global_requestDyget_SetCookiesForCollectionVideoFans="/SetCookiesForCollectionVideoFans";
+
+//web获取粉丝
+global_requestDyget_GetFasFormVideo="/GetFasFormVideo";
+
+//获取视频
+global_requestDyget_GetVideoUrl="/GetVideoUrl";
+
+//获取配置
+global_requestDyget_Config="/Config";
+
+//一键重置
+global_requestDyget_OneKey="/OneKey";
+
+//获取日志
+global_requestDyget_Journal="/Journal";
+
+//whatapp获取手机接口
+global_requestDyget_getPhone="/getPhone";
+
+//激活码
+global_requestDyget_importActivationCode="/importActivationCode";
 
 
 var getRootPath_webStr = getRootPath_web();
@@ -103,4 +136,16 @@ function formatDateTime(inputTime) {
 	minute = minute < 10 ? ('0' + minute) : minute;
 	second = second < 10 ? ('0' + second) : second;
 	return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+}
+
+
+//时间日期型转时间戳
+function strToTime(strtime) {
+	let date = strtime.substring(0,19);
+	date = new Date(date.replace(/-/g, '/'));
+	let time1 = date.getTime();
+	let time2 = date.valueOf();
+	let time3 = Date.parse(date)/1000;
+
+	return time3
 }
